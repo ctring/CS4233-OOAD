@@ -92,5 +92,17 @@ public class HantoCoordinateImpl implements HantoCoordinate
 		return true;
 	}
 
+	/**
+	 * Get an adjacent coordinate with respect to the current coordinate. Adjacent
+	 * coordinates are numbered from 0 to 5, starting from the one right above the current
+	 * hex and going clockwise.
+	 * @param num Number of the adjacent coordinate.
+	 * @return A new coordinate adjacent to the current coordinate.
+	 */
+	public HantoCoordinateImpl getAdjacentCoord(int num) 
+	{
+		final int adjDiff[][] = {{0, 1}, {1, 0}, {1, -1}, {0, -1}, {-1, 0}, {-1, 1}};
+		return new HantoCoordinateImpl(x + adjDiff[num][0], y + adjDiff[num][1]);
+	}
 
 }

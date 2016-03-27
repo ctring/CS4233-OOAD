@@ -12,7 +12,20 @@
 
 package hanto.studentctnguyendinh.beta;
 
-import hanto.common.*;
+import static hanto.common.MoveResult.*;
+import static hanto.common.HantoPlayerColor.*;
+
+import java.util.HashMap;
+
+import hanto.common.HantoCoordinate;
+import hanto.common.HantoException;
+import hanto.common.HantoGame;
+import hanto.common.HantoPiece;
+import hanto.common.HantoPieceType;
+import hanto.common.HantoPlayerColor;
+import hanto.common.MoveResult;
+import hanto.studentctnguyendinh.common.HantoCoordinateImpl;
+import hanto.studentctnguyendinh.common.HantoPieceImpl;
 
 /**
  * <<Fill this in>>
@@ -20,7 +33,10 @@ import hanto.common.*;
  */
 public class BetaHantoGame implements HantoGame
 {
-
+	private HashMap<HantoCoordinate, HantoPiece> board = new HashMap<>();
+	
+	private int moveCount = 0; 
+	
 	/*
 	 * @see hanto.common.HantoGame#makeMove(hanto.common.HantoPieceType, hanto.common.HantoCoordinate, hanto.common.HantoCoordinate)
 	 */
@@ -28,18 +44,58 @@ public class BetaHantoGame implements HantoGame
 	public MoveResult makeMove(HantoPieceType pieceType, HantoCoordinate from,
 			HantoCoordinate to) throws HantoException
 	{
-		// TODO Auto-generated method stub
-		return null;
+		moveCount++;
+		
+		if (moveCount == 1) {
+			if (to.getX() != 0 || to.getY() != 0) {
+				throw new HantoException("First move must be the origin");
+			}
+			board.put(new HantoCoordinateImpl(to), new HantoPieceImpl(BLUE, pieceType));
+		}
+		else {
+			// If moveCount is odd, it's the First Player (BLUE by default)'s turn
+			HantoPlayerColor currentPlayer = moveCount % 2 == 1 ? BLUE : RED;
+			HantoCoordinateImpl hexCoord = new HantoCoordinateImpl(to);
+			
+			if (board.containsKey(hexCoord)) {
+				throw new HantoException("Cannot place a piece on an occupied hex");
+			}
+
+			if (!isAdjacentToAny(hexCoord)) {
+				throw new HantoException("The new piece must be ajacent to some pieces on the board");
+			}
+			
+			board.put(hexCoord, new HantoPieceImpl(currentPlayer, pieceType));
+		}
+		
+		return OK;
 	}
 
+
+	/**
+	 * Check if a hex coordinate is adjacent to some pieces on the board.
+	 * @param coord Coordinate to be checked
+	 * @return True if the given coordinate is adjacent to some pieces on the board. 
+	 * False otherwise.
+	 */
+	private boolean isAdjacentToAny(HantoCoordinateImpl coord) {
+		boolean isAdjacentToAny = false;
+		for (int i = 0; i < 6; i++) {
+			if (board.containsKey(coord.getAdjacentCoord(i))) {
+				isAdjacentToAny = true;
+				break;
+			}
+		}
+		return isAdjacentToAny;
+	}
+	
 	/*
 	 * @see hanto.common.HantoGame#getPieceAt(hanto.common.HantoCoordinate)
 	 */
 	@Override
 	public HantoPiece getPieceAt(HantoCoordinate where)
 	{
-		// TODO Auto-generated method stub
-		return null;
+		return board.get(new HantoCoordinateImpl(where));
 	}
 
 	/*

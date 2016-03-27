@@ -65,7 +65,7 @@ public class HantoGameFactory
 				game = new AlphaHantoGame();
 				break;
 			case BETA_HANTO:
-				// TBD: create the instance of a BetaHantoGame
+				game = new BetaHantoGame();
 				break;
 		}
 		return game;
