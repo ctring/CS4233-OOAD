@@ -14,6 +14,7 @@ package hanto.studentctnguyendinh.beta;
 
 import static hanto.common.MoveResult.*;
 import static hanto.common.HantoPlayerColor.*;
+import static hanto.common.HantoPieceType.*;
 
 import java.util.HashMap;
 
@@ -36,6 +37,8 @@ public class BetaHantoGame implements HantoGame
 	private HashMap<HantoCoordinate, HantoPiece> board = new HashMap<>();
 	
 	private int moveCount = 0; 
+	private boolean bluePlacedButterfly = false;
+	private boolean redPlacedButterfly = false;
 	
 	/*
 	 * @see hanto.common.HantoGame#makeMove(hanto.common.HantoPieceType, hanto.common.HantoCoordinate, hanto.common.HantoCoordinate)
@@ -46,15 +49,27 @@ public class BetaHantoGame implements HantoGame
 	{
 		moveCount++;
 		
+		// If moveCount is odd, it's the First Player (BLUE by default)'s turn
+		HantoPlayerColor currentPlayer = moveCount % 2 == 1 ? BLUE : RED;
+	
 		if (moveCount == 1) {
 			if (to.getX() != 0 || to.getY() != 0) {
 				throw new HantoException("First move must be the origin");
 			}
-			board.put(new HantoCoordinateImpl(to), new HantoPieceImpl(BLUE, pieceType));
+			board.put(new HantoCoordinateImpl(to), new HantoPieceImpl(currentPlayer, pieceType));
 		}
 		else {
-			// If moveCount is odd, it's the First Player (BLUE by default)'s turn
-			HantoPlayerColor currentPlayer = moveCount % 2 == 1 ? BLUE : RED;
+			int moveOfCurrentPlayer = (moveCount + 1) / 2;
+			if (moveOfCurrentPlayer == 4) {
+				boolean placedButterfly = currentPlayer == BLUE ? 
+						bluePlacedButterfly : redPlacedButterfly;
+				
+				if (!placedButterfly && pieceType != BUTTERFLY) {
+					throw new HantoException(currentPlayer.toString() + 
+							"must place butterfly on the fourth turn");
+				}
+			}
+			
 			HantoCoordinateImpl hexCoord = new HantoCoordinateImpl(to);
 			
 			if (board.containsKey(hexCoord)) {
@@ -68,6 +83,14 @@ public class BetaHantoGame implements HantoGame
 			board.put(hexCoord, new HantoPieceImpl(currentPlayer, pieceType));
 		}
 		
+		if (pieceType == BUTTERFLY) {
+			if (currentPlayer == BLUE) {
+				bluePlacedButterfly = true;
+			}
+			else {
+				redPlacedButterfly = true;
+			}
+		}
 		return OK;
 	}
 
