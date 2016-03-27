@@ -1,0 +1,11 @@
+Blue makes first legal move at (0, 0)
+Red places adjacent to some pieces
+Blue does not place adjacent to some pieces --> exception
+Blue does not place butterfly on fourth move when required to --> exception
+Red places butterfly on fourth move when required to 
+Game ends when a butterfly is surrounded 
+Blue tries to place a non-butterfly or non-sparrow piece --> exception
+Red tries to place a non-butterfly or non-sparrow piece --> exception
+Red tries to place the second butterfly --> exception
+Blue tries to place the second butterfly --> exception
+Tries to make move after the game ended --> exception
