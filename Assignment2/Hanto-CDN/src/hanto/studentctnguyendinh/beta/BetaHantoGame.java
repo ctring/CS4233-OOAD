@@ -12,27 +12,15 @@
 
 package hanto.studentctnguyendinh.beta;
 
-import static hanto.common.HantoPieceType.BUTTERFLY;
-import static hanto.common.HantoPieceType.SPARROW;
-import static hanto.common.HantoPlayerColor.BLUE;
-import static hanto.common.HantoPlayerColor.RED;
-import static hanto.common.MoveResult.BLUE_WINS;
-import static hanto.common.MoveResult.DRAW;
-import static hanto.common.MoveResult.OK;
-import static hanto.common.MoveResult.RED_WINS;
+import static hanto.common.HantoPieceType.*;
+import static hanto.common.HantoPlayerColor.*;
+import static hanto.common.MoveResult.*;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import hanto.common.HantoCoordinate;
-import hanto.common.HantoException;
-import hanto.common.HantoGame;
-import hanto.common.HantoPiece;
-import hanto.common.HantoPieceType;
-import hanto.common.HantoPlayerColor;
-import hanto.common.MoveResult;
-import hanto.studentctnguyendinh.common.HantoCoordinateImpl;
-import hanto.studentctnguyendinh.common.HantoPieceImpl;
+import hanto.common.*;
+import hanto.studentctnguyendinh.common.*;
 
 /**
  * <<Fill this in>>
@@ -218,8 +206,63 @@ public class BetaHantoGame implements HantoGame
 	@Override
 	public String getPrintableBoard()
 	{
-		// TODO Auto-generated method stub
-		return null;
+		int maxR = Integer.MIN_VALUE, minR = Integer.MAX_VALUE;
+		int maxC = Integer.MIN_VALUE, minC = Integer.MAX_VALUE;
+		for (HantoCoordinate coord : board.keySet()) {
+			maxR = Math.max(maxR, -(coord.getX() + 2 * coord.getY()));
+			minR = Math.min(minR, -(coord.getX() + 2 * coord.getY()));
+			maxC = Math.max(maxC, coord.getX());
+			minC = Math.min(minC, coord.getX());
+		}
+		
+		String hexes = "";
+		
+		for (int r = minR - 1; r <= maxR + 1; r++) {
+			if ((r - minR) % 2 == 0) {
+				hexes += "< ";
+			} else {
+				hexes += " >--< ";
+			}
+			for (int c = minC - 1; c <= maxC; c++) {
+				if ((-r-c) % 2 == 0) {
+					int coordX = c;
+					int coordY = (-r - c) / 2;
+					HantoPiece pc = board.get(new HantoCoordinateImpl(coordX, coordY));
+					String pcString = "  ";
+					if (pc != null) {
+						pcString = getPieceString(pc);
+						if (coordX == 0 && coordY == 0) {
+							pcString = pcString.toUpperCase();
+						}
+					} 					
+					hexes += pcString;
+					hexes += " >--< ";
+				}
+			}
+			hexes += "\n";
+		}
+		
+		return hexes;
 	}
 
+	
+	private String getPieceString(HantoPiece pc) {
+		String pcstr = pc.getColor() == BLUE ? "b" : "r";
+		switch (pc.getType()) {
+			case BUTTERFLY: pcstr += "B";
+			break;
+			case SPARROW: pcstr += "S";
+			break;
+			case HORSE: pcstr += "H";
+			break;
+			case DOVE: pcstr += "D";
+			break;
+			case CRANE: pcstr += "R";
+			break;
+			case CRAB: pcstr += "C";
+			break;
+		}
+		return pcstr;
+	}
+	
 }

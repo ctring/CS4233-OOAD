@@ -19,4 +19,4 @@
 +Blue and red are draw
 +Game ends when all players run out of moves
 +Tries to make move after the game ended --> exception
-First player is red
++First player is red
