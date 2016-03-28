@@ -10,10 +10,10 @@
 +Red does not place butterfly on fourth move when required to --> exception
 +Blue places butterfly on fourth move when required to
 +Red places butterfly on fourth move when required to 
--Red tries to place the second butterfly --> exception
--Blue tries to place the second butterfly --> exception
-Blue tries to place a non-butterfly or non-sparrow piece --> exception
-Red tries to place a non-butterfly or non-sparrow piece --> exception
++Red tries to place the second butterfly --> exception
++Blue tries to place the second butterfly --> exception
++Blue tries to place a non-butterfly or non-sparrow piece --> exception
++Red tries to place a non-butterfly or non-sparrow piece --> exception
 Blue wins by surrounding red butterfly
 Red wins by surrounding blue butterfly
 Game ends when all players run out of moves

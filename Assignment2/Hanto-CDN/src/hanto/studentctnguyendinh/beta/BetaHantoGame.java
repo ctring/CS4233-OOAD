@@ -49,6 +49,10 @@ public class BetaHantoGame implements HantoGame
 	{
 		moveCount++;
 		
+		if (pieceType != BUTTERFLY && pieceType != SPARROW) {
+			throw new HantoException("Only Butterflies and Sparrows are valid in Beta Hanto");
+		}
+		
 		// If moveCount is odd, it's the First Player (BLUE by default)'s turn
 		HantoPlayerColor currentPlayer = moveCount % 2 == 1 ? BLUE : RED;
 	
@@ -60,17 +64,13 @@ public class BetaHantoGame implements HantoGame
 		}
 		else {
 			int moveOfCurrentPlayer = (moveCount + 1) / 2;
-			if (moveOfCurrentPlayer == 4) {
-				boolean placedButterfly = currentPlayer == BLUE ? 
-						bluePlacedButterfly : redPlacedButterfly;
-				
-				if (!placedButterfly && pieceType != BUTTERFLY) {
-					throw new HantoException(currentPlayer.toString() + 
-							"must place butterfly on the fourth turn");
-				}
-			}
-			
+			boolean placedButterfly = currentPlayer == BLUE ? 
+					bluePlacedButterfly : redPlacedButterfly;
 			HantoCoordinateImpl hexCoord = new HantoCoordinateImpl(to);
+			
+			if (moveOfCurrentPlayer == 4 && !placedButterfly && pieceType != BUTTERFLY) {
+				throw new HantoException("A butterfly must be placed in the first four turn");
+			}
 			
 			if (board.containsKey(hexCoord)) {
 				throw new HantoException("Cannot place a piece on an occupied hex");
@@ -78,6 +78,10 @@ public class BetaHantoGame implements HantoGame
 
 			if (!isAdjacentToAny(hexCoord)) {
 				throw new HantoException("The new piece must be ajacent to some pieces on the board");
+			}
+			
+			if (placedButterfly && pieceType == BUTTERFLY) {
+				throw new HantoException("Cannot place the second butterfly"); 
 			}
 			
 			board.put(hexCoord, new HantoPieceImpl(currentPlayer, pieceType));

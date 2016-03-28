@@ -207,7 +207,38 @@ public class BetaHantoMasterTest
 		assertEquals(RED, pc.getColor());
 	}
 	
+	@Test(expected = HantoException.class)	// 13
+	public void blueTriesToPlaceTheSecondButterfly() throws HantoException
+	{
+		game.makeMove(BUTTERFLY, null, makeCoordinate(0, 0));
+		game.makeMove(BUTTERFLY, null, makeCoordinate(1, 0));
+		game.makeMove(BUTTERFLY, null, makeCoordinate(0, -1));
+	}
 	
+	@Test(expected = HantoException.class)	// 14
+	public void redTriesToPlaceTheSecondButterfly() throws HantoException
+	{
+		game.makeMove(BUTTERFLY, null, makeCoordinate(0, 0));	// blue 1
+		game.makeMove(BUTTERFLY, null, makeCoordinate(1, 0));	// red 1
+		game.makeMove(SPARROW, null, makeCoordinate(0, -1));	// blue 2
+		game.makeMove(SPARROW, null, makeCoordinate(1, -1));	// red 2
+		game.makeMove(SPARROW, null, makeCoordinate(0, 1));		// blue 3
+		game.makeMove(BUTTERFLY, null, makeCoordinate(1, 1));		// red 3
+	}
+	
+	@Test(expected = HantoException.class)
+	public void blueTriesToPlaceADove() throws HantoException 
+	{	
+		game.makeMove(DOVE, null, makeCoordinate(0, 0));
+	}
+	
+	@Test(expected = HantoException.class)
+	public void redTriesToPlaceADove() throws HantoException 
+	{	
+		game.makeMove(BUTTERFLY, null, makeCoordinate(0, 0));
+		game.makeMove(DOVE, null, makeCoordinate(1, 0));
+	}
+
 	
 	// Helper methods
 	private HantoCoordinate makeCoordinate(int x, int y)
