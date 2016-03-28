@@ -39,6 +39,7 @@ public class BetaHantoGame implements HantoGame
 	private int moveCount = 0; 
 	private boolean bluePlacedButterfly = false;
 	private boolean redPlacedButterfly = false;
+	private boolean gameOver = false;
 	
 	private HantoCoordinateImpl blueButterflyCoord;
 	private HantoCoordinateImpl redButterflyCoord;
@@ -51,6 +52,10 @@ public class BetaHantoGame implements HantoGame
 	public MoveResult makeMove(HantoPieceType pieceType, HantoCoordinate from,
 			HantoCoordinate to) throws HantoException
 	{
+		if (gameOver) {
+			throw new HantoException("Cannot make more moves after the game is finished");
+		}
+		
 		moveCount++;
 		
 		// If moveCount is odd, it's the First Player (BLUE by default)'s turn
@@ -105,19 +110,27 @@ public class BetaHantoGame implements HantoGame
 		boolean blueWins = checkBlueWin();
 		boolean redWins = checkRedWin();
 		
+		MoveResult moveResult;
+		
 		if (blueWins && redWins || 
 				(currentPlayerMoves == 6 && otherPlayerMoves == 6)) {
-			return DRAW;
+			moveResult = DRAW;
 		}
 		else if (blueWins) {
-			return BLUE_WINS;
+			moveResult = BLUE_WINS;
 		}
 		else if (redWins) {
-			return RED_WINS;
+			moveResult = RED_WINS;
 		}
 		else {
-			return OK;
+			moveResult = OK;
 		}
+		
+		if (moveResult != OK) {
+			gameOver = true;
+		}
+		
+		return moveResult;
 	}
 	
 	
