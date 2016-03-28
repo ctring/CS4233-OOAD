@@ -14,8 +14,9 @@
 +Blue tries to place the second butterfly --> exception
 +Blue tries to place a non-butterfly or non-sparrow piece --> exception
 +Red tries to place a non-butterfly or non-sparrow piece --> exception
-Blue wins by surrounding red butterfly
-Red wins by surrounding blue butterfly
-Game ends when all players run out of moves
++Blue wins by surrounding red butterfly
++Red wins by surrounding blue butterfly
++Blue and red are draw
++Game ends when all players run out of moves
 Tries to make move after the game ended --> exception
 First player is red
