@@ -218,12 +218,7 @@ public class BetaHantoGame implements HantoGame
 		String hexes = "";
 		
 		for (int r = minR - 1; r <= maxR + 1; r++) {
-			if ((r - minR) % 2 == 0) {
-				hexes += "< ";
-			} else {
-				hexes += " >--< ";
-			}
-			for (int c = minC - 1; c <= maxC; c++) {
+			for (int c = minC - 1; c <= maxC + 1; c++) {
 				if ((-r-c) % 2 == 0) {
 					int coordX = c;
 					int coordY = (-r - c) / 2;
@@ -235,8 +230,10 @@ public class BetaHantoGame implements HantoGame
 							pcString = pcString.toUpperCase();
 						}
 					} 					
-					hexes += pcString;
-					hexes += " >--< ";
+					hexes += " " + pcString + " ";
+				}
+				else {
+					hexes += ">--<";
 				}
 			}
 			hexes += "\n";
