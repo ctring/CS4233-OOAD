@@ -101,7 +101,7 @@ public class HantoCoordinateImpl implements HantoCoordinate
 	 */
 	public HantoCoordinateImpl getAdjacentCoord(int num) 
 	{
-		final int adjDiff[][] = {{0, 1}, {1, 0}, {1, -1}, {0, -1}, {-1, 0}, {-1, 1}};
+		final int[][] adjDiff = {{0, 1}, {1, 0}, {1, -1}, {0, -1}, {-1, 0}, {-1, 1}};
 		return new HantoCoordinateImpl(x + adjDiff[num][0], y + adjDiff[num][1]);
 	}
 

@@ -12,11 +12,17 @@
 
 package hanto.studentctnguyendinh.beta;
 
-import static hanto.common.MoveResult.*;
-import static hanto.common.HantoPlayerColor.*;
-import static hanto.common.HantoPieceType.*;
+import static hanto.common.HantoPieceType.BUTTERFLY;
+import static hanto.common.HantoPieceType.SPARROW;
+import static hanto.common.HantoPlayerColor.BLUE;
+import static hanto.common.HantoPlayerColor.RED;
+import static hanto.common.MoveResult.BLUE_WINS;
+import static hanto.common.MoveResult.DRAW;
+import static hanto.common.MoveResult.OK;
+import static hanto.common.MoveResult.RED_WINS;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import hanto.common.HantoCoordinate;
 import hanto.common.HantoException;
@@ -34,16 +40,27 @@ import hanto.studentctnguyendinh.common.HantoPieceImpl;
  */
 public class BetaHantoGame implements HantoGame
 {
-	private HashMap<HantoCoordinate, HantoPiece> board = new HashMap<>();
+	private HantoPlayerColor movesFirst;
+	private HantoPlayerColor movesSecond;
+	private Map<HantoCoordinate, HantoPiece> board = new HashMap<>();
 	
 	private int moveCount = 0; 
 	private boolean bluePlacedButterfly = false;
 	private boolean redPlacedButterfly = false;
 	private boolean gameOver = false;
 	
+	
 	private HantoCoordinateImpl blueButterflyCoord;
 	private HantoCoordinateImpl redButterflyCoord;
 	
+	public BetaHantoGame() {
+		this(BLUE);
+	}
+
+	public BetaHantoGame(HantoPlayerColor movesFirst) {
+		this.movesFirst = movesFirst;
+		this.movesSecond = movesFirst == BLUE ? RED : BLUE;
+	}	
 	
 	/*
 	 * @see hanto.common.HantoGame#makeMove(hanto.common.HantoPieceType, hanto.common.HantoCoordinate, hanto.common.HantoCoordinate)
@@ -59,7 +76,7 @@ public class BetaHantoGame implements HantoGame
 		moveCount++;
 		
 		// If moveCount is odd, it's the First Player (BLUE by default)'s turn
-		HantoPlayerColor currentPlayer = moveCount % 2 == 1 ? BLUE : RED;
+		HantoPlayerColor currentPlayer = moveCount % 2 == 1 ? movesFirst : movesSecond;
 		HantoCoordinateImpl hexCoord = new HantoCoordinateImpl(to);
 		int currentPlayerMoves = (moveCount + 1) / 2;
 		int otherPlayerMoves = moveCount / 2;
