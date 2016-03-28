@@ -226,20 +226,20 @@ public class BetaHantoMasterTest
 		game.makeMove(BUTTERFLY, null, makeCoordinate(1, 1));		// red 3
 	}
 	
-	@Test(expected = HantoException.class)
+	@Test(expected = HantoException.class)	// 15
 	public void blueTriesToPlaceADove() throws HantoException 
 	{	
 		game.makeMove(DOVE, null, makeCoordinate(0, 0));
 	}
 	
-	@Test(expected = HantoException.class)
+	@Test(expected = HantoException.class)	// 16
 	public void redTriesToPlaceADove() throws HantoException 
 	{	
 		game.makeMove(BUTTERFLY, null, makeCoordinate(0, 0));
 		game.makeMove(DOVE, null, makeCoordinate(1, 0));
 	}
 
-	@Test
+	@Test	// 17
 	public void blueWinsBySurroundingRedButterfly() throws HantoException
 	{
 		game.makeMove(SPARROW, null, makeCoordinate(0, 0)); 	// blue	1
@@ -252,7 +252,7 @@ public class BetaHantoMasterTest
 		assertEquals(BLUE_WINS, mr);
 	}
 	
-	@Test
+	@Test	// 18
 	public void redWinsBySurroundingBlueButterfly() throws HantoException
 	{
 		game.makeMove(BUTTERFLY, null, makeCoordinate(0, 0)); 	// blue	1
@@ -265,7 +265,7 @@ public class BetaHantoMasterTest
 		assertEquals(RED_WINS, mr);
 	}
 	
-	@Test
+	@Test	// 19
 	public void bothPlayersAreDraw() throws HantoException 
 	{
 		game.makeMove(BUTTERFLY, null, makeCoordinate(0, 0)); 	// blue	1
@@ -281,7 +281,7 @@ public class BetaHantoMasterTest
 		assertEquals(DRAW, mr);
 	}
 	
-	@Test
+	@Test	// 20
 	public void allPlayersRunOutOfMove() throws HantoException
 	{
 		game.makeMove(BUTTERFLY, null, makeCoordinate(0, 0)); 	// blue	1
@@ -299,7 +299,7 @@ public class BetaHantoMasterTest
 		assertEquals(DRAW, mr);
 	}
 	
-	@Test(expected = HantoException.class)
+	@Test(expected = HantoException.class)	// 21
 	public void tryToMakeAMoveAfterAGameEnded() throws HantoException
 	{
 		game.makeMove(BUTTERFLY, null, makeCoordinate(0, 0)); 	// blue	1
