@@ -324,6 +324,21 @@ public class BetaHantoMasterTest
 		game.makeMove(SPARROW, null, makeCoordinate(12, 0));	// blue 7
 	}
 	
+	@Test	// 23
+	public void getPrintableBoardShouldReturnAString() throws HantoException {
+		game.makeMove(BUTTERFLY, null, makeCoordinate(0, 0));
+		game.makeMove(SPARROW, null, makeCoordinate(1, 0));
+		assertNotNull(game.getPrintableBoard());
+	}
+	
+	@Test(expected = HantoException.class)	// 24
+	public void blueTriesToMoveAPiece() throws HantoException {
+		game.makeMove(BUTTERFLY, null, makeCoordinate(0, 0));
+		game.makeMove(BUTTERFLY, null, makeCoordinate(1, 0));
+		game.makeMove(SPARROW, null, makeCoordinate(0, 1));
+		game.makeMove(BUTTERFLY, makeCoordinate(0, 0), makeCoordinate(1, 1));
+	}
+	
 	// Helper methods
 	private HantoCoordinate makeCoordinate(int x, int y)
 	{

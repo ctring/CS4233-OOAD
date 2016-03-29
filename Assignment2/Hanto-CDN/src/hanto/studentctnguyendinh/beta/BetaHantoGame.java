@@ -65,6 +65,10 @@ public class BetaHantoGame implements HantoGame
 			throw new HantoException("Cannot make more moves after the game is finished");
 		}
 		
+		if (from != null) {
+			throw new HantoException("Moving pieces is not supported in Beta Hanto");
+		}
+		
 		moveCount++;
 		
 		// If moveCount is odd, it's the First Player (BLUE by default)'s turn
@@ -254,14 +258,14 @@ public class BetaHantoGame implements HantoGame
 			break;
 			case SPARROW: pcstr += "S";
 			break;
-			case HORSE: pcstr += "H";
+			/*case HORSE: pcstr += "H";
 			break;
 			case DOVE: pcstr += "D";
 			break;
 			case CRANE: pcstr += "R";
 			break;
 			case CRAB: pcstr += "C";
-			break;
+			break;*/
 		}
 		return pcstr;
 	}
