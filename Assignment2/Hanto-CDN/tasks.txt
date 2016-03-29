@@ -1,4 +1,5 @@
 +Blue makes first legal move at (0, 0)
+Blue does not make first move at (0, 0) --> exception
 +Red makes a valid move
 +Blue makes a valid move
 +Red places first piece on an occupied hex --> exception

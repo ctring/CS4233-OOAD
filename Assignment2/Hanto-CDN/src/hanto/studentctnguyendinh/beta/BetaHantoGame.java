@@ -45,9 +45,13 @@ public class BetaHantoGame implements HantoGame
 		this(BLUE);
 	}
 
+	/**
+	 * Construct a BetaHantoGame instance with the player who moves first being specified.
+	 * @param movesFirst Color of the player who moves first.
+	 */
 	public BetaHantoGame(HantoPlayerColor movesFirst) {
 		this.movesFirst = movesFirst;
-		this.movesSecond = movesFirst == BLUE ? RED : BLUE;
+		movesSecond = movesFirst == BLUE ? RED : BLUE;
 	}	
 	
 	/*

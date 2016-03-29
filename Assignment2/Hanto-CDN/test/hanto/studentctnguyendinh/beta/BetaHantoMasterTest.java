@@ -85,6 +85,12 @@ public class BetaHantoMasterTest
 		assertEquals(BUTTERFLY, p.getType());
 	}
 	
+	@Test(expected = HantoException.class)	// 22
+	public void blueDoesNotPlaceInitialButterflyAtOrigin() throws HantoException
+	{
+		game.makeMove(BUTTERFLY, null, makeCoordinate(1, 1));
+	}
+	
 	@Test	// 2
 	public void redMakesAValidMove() throws HantoException
 	{
