@@ -75,9 +75,8 @@ public class BetaHantoGame implements HantoGame
 		HantoPlayerColor currentPlayer = moveCount % 2 == 1 ? movesFirst : movesSecond;
 		HantoCoordinateImpl hexCoord = new HantoCoordinateImpl(to);
 		int currentPlayerMoves = (moveCount + 1) / 2;
-		int otherPlayerMoves = moveCount / 2;
 		
-		if (pieceType != BUTTERFLY && pieceType != SPARROW) {
+		if (!pieceTypeAvailable(pieceType)) {
 			throw new HantoException("Only Butterflies and Sparrows are valid in Beta Hanto");
 		}
 		
@@ -120,29 +119,7 @@ public class BetaHantoGame implements HantoGame
 			}
 		}
 		
-		boolean blueWins = checkBlueWin();
-		boolean redWins = checkRedWin();
-		
-		MoveResult moveResult;
-		
-		if (blueWins && redWins || 
-				(currentPlayerMoves == 6 && otherPlayerMoves == 6)) {
-			moveResult = DRAW;
-		}
-		else if (blueWins) {
-			moveResult = BLUE_WINS;
-		}
-		else if (redWins) {
-			moveResult = RED_WINS;
-		}
-		else {
-			moveResult = OK;
-		}
-		
-		if (moveResult != OK) {
-			gameOver = true;
-		}
-		
+		MoveResult moveResult = checkMoveResult();
 		return moveResult;
 	}
 	
@@ -162,6 +139,42 @@ public class BetaHantoGame implements HantoGame
 			}
 		}
 		return isAdjacentToAny;
+	}
+	
+	
+	/**
+	 * Check the current board configuration after the latest move to
+	 * decide the result of that move.
+	 * @return Result of the latest move
+	 */
+	private MoveResult checkMoveResult() {
+		int currentPlayerMoves = (moveCount + 1) / 2;
+		int otherPlayerMoves = moveCount / 2;
+		boolean blueWins = checkBlueWin();
+		boolean redWins = checkRedWin();
+		MoveResult moveResult;
+		
+		if (blueWins && redWins) {
+			moveResult = DRAW;
+		}
+		else if (blueWins) {
+			moveResult = BLUE_WINS;
+		}
+		else if (redWins) {
+			moveResult = RED_WINS;
+		}
+		else if	(currentPlayerMoves == 6 && otherPlayerMoves == 6) {
+			moveResult = DRAW;
+		}
+		else {
+			moveResult = OK;
+		}
+		
+		if (moveResult != OK) {
+			gameOver = true;
+		}
+		
+		return moveResult;
 	}
 	
 	
@@ -194,6 +207,14 @@ public class BetaHantoGame implements HantoGame
 			if (!board.containsKey(blueButterflyCoord.getAdjacentCoord(i))) {
 				return false;
 			}
+		}
+		return true;
+	}
+	
+	
+	private boolean pieceTypeAvailable(HantoPieceType pieceType) {
+		if (pieceType != BUTTERFLY && pieceType != SPARROW) {
+			return false;
 		}
 		return true;
 	}
