@@ -339,6 +339,47 @@ public class BetaHantoMasterTest
 		game.makeMove(BUTTERFLY, makeCoordinate(0, 0), makeCoordinate(1, 1));
 	}
 	
+	@Test	// 25
+	public void redSelfLosesBeforeLastTurn() throws HantoException
+	{
+		game.makeMove(BUTTERFLY, null, makeCoordinate(0, 0));	// Move 1
+		game.makeMove(BUTTERFLY, null, makeCoordinate(0, 1));
+		game.makeMove(SPARROW, null, makeCoordinate(1, 0));		// Move 2
+		game.makeMove(SPARROW, null, makeCoordinate(1, 1));
+		game.makeMove(SPARROW, null, makeCoordinate(0, 2));		// Move 3
+		game.makeMove(SPARROW, null, makeCoordinate(-1, 2));
+		game.makeMove(SPARROW, null, makeCoordinate(0, -1));	// Move 4
+		assertEquals(BLUE_WINS, game.makeMove(SPARROW, null, makeCoordinate(-1,1)));
+	}
+	
+	@Test	// 26
+	public void redWinsOnLastTurn() throws HantoException
+	{
+		game.makeMove(SPARROW, null, makeCoordinate(0, 0));		// Move 1
+		game.makeMove(BUTTERFLY, null, makeCoordinate(1, 0));
+		game.makeMove(BUTTERFLY, null, makeCoordinate(0, 1));	// Move 2
+		game.makeMove(SPARROW, null, makeCoordinate(1, 1));
+		game.makeMove(SPARROW, null, makeCoordinate(0, 2));		// Move 3
+		game.makeMove(SPARROW, null, makeCoordinate(-1, 2));
+		game.makeMove(SPARROW, null, makeCoordinate(0, 3));		// Move 4
+		game.makeMove(SPARROW, null, makeCoordinate(0, 4));
+		game.makeMove(SPARROW, null, makeCoordinate(0, 5));		// Move 5
+		game.makeMove(SPARROW, null, makeCoordinate(0, 6));
+		game.makeMove(SPARROW, null, makeCoordinate(0, 7));		// Move 6
+		assertEquals(RED_WINS, game.makeMove(SPARROW, null, makeCoordinate(-1,1)));
+	}
+	
+	@Test	// 27
+	public void redPlacesInitialSparrowAtOrigin() throws HantoException
+	{
+		game = factory.makeHantoGame(HantoGameID.BETA_HANTO, RED);	// RedFirst
+		final MoveResult mr = game.makeMove(SPARROW, null, makeCoordinate(0, 0));
+		assertEquals(OK, mr);
+		final HantoPiece p = game.getPieceAt(makeCoordinate(0, 0));
+		assertEquals(RED, p.getColor());
+		assertEquals(SPARROW, p.getType());
+	}
+	
 	// Helper methods
 	private HantoCoordinate makeCoordinate(int x, int y)
 	{
