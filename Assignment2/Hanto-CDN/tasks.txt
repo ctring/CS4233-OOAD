@@ -1,3 +1,5 @@
+BetaHanto
+
 +Blue makes first legal move at (0, 0)
 +Blue does not make first move at (0, 0) --> exception
 +Red makes a valid move
@@ -21,3 +23,22 @@
 +Game ends when all players run out of moves
 +Tries to make move after the game ended --> exception
 +First player is red
+
+GammaHanto
+Eliminate obsolete tests
+Blue adds a piece next to a red piece --> exception
+Red adds a piece next to a blue piece --> exception
+Blue does not add a piece next to a red piece
+Red does not add a piece next to a blue piece
+Blue makes a valid walk
+Red makes a valid walk
+Blue attempts to walk two hexes --> exception
+Red attemps to walk two hexes --> exception
+Blue attempts to walk a blocked hex --> exception
+Red attemps to walk a blocked hex --> exception
+Someone attempts to make a move after the game ended --> exception
+Blue wins by walking
+Red wins by walking
+Blue wins on last move 
+Red wins on last move
+...
