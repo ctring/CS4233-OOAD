@@ -472,6 +472,17 @@ public class GammaHantoMasterTest
 			game.makeMove(SPARROW, makeCoordinate(0, -1), makeCoordinate(-1, 0));		// red 3
 		}
 		
+		@Test(expected = HantoException.class)	// 34
+		public void blueAttemptsToMakeANonAdjacentWalk() throws HantoException
+		{
+			game.makeMove(BUTTERFLY, null, makeCoordinate(0, 0));		// blue 1
+			game.makeMove(BUTTERFLY, null, makeCoordinate(1, 0));		// red 1
+			game.makeMove(SPARROW, null, makeCoordinate(-1, 1));		// blue 2
+			game.makeMove(SPARROW, null, makeCoordinate(1, 1));			// red 2
+			game.makeMove(SPARROW, null, makeCoordinate(0, -1));		// blue 3
+			game.makeMove(SPARROW, null, makeCoordinate(2, -1));		// red 3
+			game.makeMove(SPARROW, makeCoordinate(0, -1), makeCoordinate(0, -2)); // blue 4
+		}
 	}
 
 //	public static class WinningAndDrawingTests {
