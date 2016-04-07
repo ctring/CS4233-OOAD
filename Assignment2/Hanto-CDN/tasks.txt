@@ -25,7 +25,6 @@ BetaHanto
 +First player is red
 
 GammaHanto
-Eliminate obsolete tests
 Blue adds a piece next to a red piece --> exception
 Red adds a piece next to a blue piece --> exception
 Blue does not add a piece next to a red piece
@@ -41,4 +40,6 @@ Blue wins by walking
 Red wins by walking
 Blue wins on last move 
 Red wins on last move
-...
+Blue loses by running out of moves
+Red loses by running out of moves
+All player run out of moves

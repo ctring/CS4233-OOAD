@@ -12,27 +12,15 @@
 
 package hanto.studentctnguyendinh.gamma;
 
-import static hanto.common.HantoPieceType.BUTTERFLY;
-import static hanto.common.HantoPieceType.SPARROW;
-import static hanto.common.HantoPlayerColor.BLUE;
-import static hanto.common.HantoPlayerColor.RED;
-import static hanto.common.MoveResult.BLUE_WINS;
-import static hanto.common.MoveResult.DRAW;
-import static hanto.common.MoveResult.OK;
-import static hanto.common.MoveResult.RED_WINS;
+import static hanto.common.HantoPlayerColor.*;
+import static hanto.common.MoveResult.*;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import hanto.common.HantoCoordinate;
-import hanto.common.HantoException;
-import hanto.common.HantoGame;
-import hanto.common.HantoPiece;
-import hanto.common.HantoPieceType;
-import hanto.common.HantoPlayerColor;
+import hanto.common.*;
 import hanto.common.MoveResult;
 import hanto.studentctnguyendinh.common.HantoCoordinateImpl;
-import hanto.studentctnguyendinh.common.HantoGameState;
 import hanto.studentctnguyendinh.common.piece.HantoPieceImpl;
 import hanto.studentctnguyendinh.common.rule.HantoRuleValidator;
 
@@ -45,11 +33,7 @@ public class GammaHantoGame implements HantoGame
 	private GammaHantoGameState gameState;
 	private HantoRuleValidator ruleValidator;
 	
-	private HantoPlayerColor movesFirst;
-	private HantoPlayerColor movesSecond;
 	private Map<HantoCoordinate, HantoPiece> board = new HashMap<>();
-	
-	private int moveCount = 0; 
 	
 	public GammaHantoGame(HantoRuleValidator ruleValidator, Map<HantoPieceType, Integer> piecesQuota) {
 		this(BLUE, ruleValidator, piecesQuota);
@@ -60,9 +44,7 @@ public class GammaHantoGame implements HantoGame
 	 * @param movesFirst Color of the player who moves first.
 	 */
 	public GammaHantoGame(HantoPlayerColor movesFirst, HantoRuleValidator ruleValidator, Map<HantoPieceType, Integer> piecesQuota) {
-		this.movesFirst = movesFirst;
 		this.ruleValidator = ruleValidator;
-		movesSecond = movesFirst == BLUE ? RED : BLUE;
 		gameState = new GammaHantoGameState(movesFirst, piecesQuota);
 	}	
 	
@@ -74,72 +56,17 @@ public class GammaHantoGame implements HantoGame
 			HantoCoordinate to) throws HantoException
 	{
 		ruleValidator.validateRules(gameState, pieceType, from, to);
-		
-		moveCount++;
 						
 		HantoPiece newPiece = new HantoPieceImpl(gameState.getCurrentPlayer(), pieceType);
 		gameState.putPieceAt(to, newPiece);
 		gameState.advanceMove();
 		
-		MoveResult moveResult = checkMoveResult();
-		return moveResult;
-	}
-	
-	
-	/**
-	 * Check the current board configuration after the latest move to
-	 * decide the result of that move.
-	 * @return Result of the latest move
-	 */
-	private MoveResult checkMoveResult() {
-		int currentPlayerMoves = (moveCount + 1) / 2;
-		int otherPlayerMoves = moveCount / 2;
-		boolean blueWins = checkWin(BLUE);
-		boolean redWins = checkWin(RED);
-		MoveResult moveResult;
-		
-		if (blueWins && redWins) {
-			moveResult = DRAW;
-		}
-		else if (blueWins) {
-			moveResult = BLUE_WINS;
-		}
-		else if (redWins) {
-			moveResult = RED_WINS;
-		}
-		else if	(currentPlayerMoves == 6 && otherPlayerMoves == 6) {
-			moveResult = DRAW;
-		}
-		else {
-			moveResult = OK;
-		}
-		
+		MoveResult moveResult = ruleValidator.validateEndRules(gameState);
 		if (moveResult != OK) {
 			gameState.setGameOver();
 		}
 		
 		return moveResult;
-	}
-	
-	
-	/**
-	 * Check to see if a player win.
-	 */
-	private boolean checkWin(HantoPlayerColor player) {
-		HantoPlayerColor otherPlayer = player == BLUE ? RED : BLUE;
-		if (gameState.getPlayerState(otherPlayer).getButterflyCoordinate() == null) {
-			return false;
-		}
-		HantoCoordinateImpl butterflyCoord = new HantoCoordinateImpl(
-				gameState.getPlayerState(otherPlayer).getButterflyCoordinate());
-		
-		HantoCoordinateImpl[] adjCoords = butterflyCoord.getAdjacentCoordsSet();
-		for (int i = 0; i < 6; i++) {
-			if (gameState.getPieceAt(adjCoords[i]) == null) {
-				return false;
-			}
-		}
-		return true;
 	}
 	
 	

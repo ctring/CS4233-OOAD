@@ -276,24 +276,7 @@ public class GammaHantoMasterTest
 		MoveResult mr = game.makeMove(SPARROW, null, makeCoordinate(1, -1));	// red	5
 		assertEquals(DRAW, mr);
 	}
-	
-	@Test	// 20
-	public void allPlayersRunOutOfMove() throws HantoException
-	{
-		game.makeMove(BUTTERFLY, null, makeCoordinate(0, 0)); 	// blue	1
-		game.makeMove(BUTTERFLY, null, makeCoordinate(1, 0));	// red	1
-		game.makeMove(SPARROW, null, makeCoordinate(2, 0));		// blue	2
-		game.makeMove(SPARROW, null, makeCoordinate(3, 0));		// red	2
-		game.makeMove(SPARROW, null, makeCoordinate(4, 0));		// blue	3
-		game.makeMove(SPARROW, null, makeCoordinate(5, 0));		// red	3
-		game.makeMove(SPARROW, null, makeCoordinate(6, 0));		// blue	4
-		game.makeMove(SPARROW, null, makeCoordinate(7, 0));		// red	4
-		game.makeMove(SPARROW, null, makeCoordinate(8, 0));		// blue	5
-		game.makeMove(SPARROW, null, makeCoordinate(9, 0));		// red	5
-		game.makeMove(SPARROW, null, makeCoordinate(10, 0));	// blue	6
-		MoveResult mr = game.makeMove(SPARROW, null, makeCoordinate(11, 0));	// red	6
-		assertEquals(DRAW, mr);
-	}
+
 	
 	@Test	// 21
 	public void getPrintableBoardShouldReturnAString() throws HantoException {

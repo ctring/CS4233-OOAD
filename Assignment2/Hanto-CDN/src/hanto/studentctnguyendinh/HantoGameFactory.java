@@ -96,7 +96,10 @@ public class HantoGameFactory
 				new HantoRuleButterflyInFourMoves()
 		};
 		
-		HantoEndRule[] endRules = {};
+		HantoEndRule[] endRules = {
+				new HantoEndButterflyIsSurrounded(),
+				new HantoEndRuleMaxNumberOfMoves()
+		};
 		HantoRuleValidator gammaRuleValidator = new HantoRuleValidatorImpl(
 				new ArrayList<HantoRule>(Arrays.asList(rules)),
 				new ArrayList<HantoEndRule>(Arrays.asList(endRules)));
