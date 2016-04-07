@@ -1,0 +1,56 @@
+GammaHanto
+
+PLACING PIECES
++Blue makes first legal placing at (0, 0)
++Blue does not make first placing at (0, 0) --> exception
++Red places first piece on an occupied hex --> exception
++Red places on an occupied hex --> exception
++Blue places on an occupied hex --> exception
++Blue does not place adjacent to some pieces --> exception
++Red does not place adjacent to some pieces --> exception
++Blue does not place butterfly on fourth move when required to --> exception
++Red does not place butterfly on fourth move when required to --> exception
++Blue and Red places butterfly on fourth move when required to
++Red tries to place the second butterfly --> exception
++Blue tries to place the second butterfly --> exception
++Red places initial sparrow at origin
++Blue adds a piece next to a red piece --> exception
++Red adds a piece next to a blue piece --> exception
+Blue tries to place the seventh butterfly --> exception (gamma)
+Red tries to place the seventh butterfly --> exception (gamma)
+Blue does not add a piece next to a red piece
+Red does not add a piece next to a blue piece
+
+
+MOVING PIECES
+Blue makes a valid walk
+Red makes a valid walk
+Blue attempts to walk two hexes --> exception (gamma)
+Red attempts to walk two hexes --> exception (gamma)
+Blue attempts to walk a blocked hex --> exception
+Red attempts to walk a blocked hex --> exception
+Blue attempts to walk to an occupied hex --> exception
+Red attempts to walk to an occupied hex --> exception
+Blue attempts to make a disconnecting walk --> exception
+Red attempts to make a disconnecting walk --> exception
+
+
+WIN CONDITION
+Blue wins by walking
+Red wins by walking
+Blue wins on last move (gamma)
+Red wins on last move (gamma)
+Blue loses by running out of moves 
+Red loses by running out of moves 
+
+DRAW CONDITION
+All player run out of moves
+
+
+OTHER
+First player is red
+Someone attempts to make a move after the game ended --> exception
+
+
+
+
