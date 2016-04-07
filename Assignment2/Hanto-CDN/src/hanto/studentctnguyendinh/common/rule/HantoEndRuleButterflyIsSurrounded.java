@@ -35,7 +35,7 @@ public class HantoEndRuleButterflyIsSurrounded implements HantoEndRule {
 		
 		HantoCoordinateImpl[] adjCoords = butterflyCoord.getAdjacentCoordsSet();
 		for (int i = 0; i < 6; i++) {
-			if (gameState.getBoard().getPieceAt(adjCoords[i]) == null) {
+			if (gameState.getPieceAt(adjCoords[i]) == null) {
 				return false;
 			}
 		}

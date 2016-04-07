@@ -16,7 +16,7 @@ public class HantoRuleAdjacentSameColor implements HantoRule {
 			HantoPlayerColor currentPlayer = gameState.getCurrentPlayer();
 			HantoCoordinateImpl[] adjCoords = new HantoCoordinateImpl(to).getAdjacentCoordsSet();
 			for (HantoCoordinateImpl coord : adjCoords) {
-				HantoPiece piece = gameState.getBoard().getPieceAt(coord);
+				HantoPiece piece = gameState.getPieceAt(coord);
 				if (piece != null) {
 					if (piece.getColor() != currentPlayer) {
 						return "Cannot place next to an opponent piece";

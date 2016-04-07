@@ -9,7 +9,7 @@ public class HantoRuleOccupiedHex implements HantoRule {
 	@Override
 	public String validate(HantoGameState gameState, HantoPieceType pieceType, HantoCoordinate from,
 			HantoCoordinate to) {
-		return gameState.getBoard().getPieceAt(to) != null ? 
+		return gameState.getPieceAt(to) != null ? 
 				"Cannot place a piece on an occupied hex" : null;
 	}
 

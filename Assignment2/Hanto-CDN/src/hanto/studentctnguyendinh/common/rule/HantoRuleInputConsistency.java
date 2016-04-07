@@ -12,7 +12,7 @@ public class HantoRuleInputConsistency implements HantoRule {
 	public String validate(HantoGameState gameState, HantoPieceType pieceType, HantoCoordinate from,
 			HantoCoordinate to) {
 		if (from != null) {
-			HantoPiece piece = gameState.getBoard().getPieceAt(from);
+			HantoPiece piece = gameState.getPieceAt(from);
 			HantoPlayerColor currentPlayer = gameState.getCurrentPlayer();
 			if (piece == null || piece.getType() != pieceType 
 					|| piece.getColor() != currentPlayer) {

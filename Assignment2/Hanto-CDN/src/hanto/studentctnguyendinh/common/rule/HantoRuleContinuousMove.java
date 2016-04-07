@@ -1,6 +1,7 @@
 package hanto.studentctnguyendinh.common.rule;
 
 import hanto.common.HantoCoordinate;
+import hanto.common.HantoPiece;
 import hanto.common.HantoPieceType;
 import hanto.studentctnguyendinh.common.HantoCoordinateImpl;
 import hanto.studentctnguyendinh.common.HantoGameState;
@@ -13,12 +14,14 @@ public class HantoRuleContinuousMove implements HantoRule {
 		if (from != null) {
 			HantoCoordinateImpl oldc = new HantoCoordinateImpl(from);
 			HantoCoordinateImpl newc = new HantoCoordinateImpl(to);
+			
+			
 			HantoCoordinateImpl[] adjOld = oldc.getAdjacentCoordsSet();
 			int numOfAdjacentHexes = HantoCoordinateImpl.NUMBER_OF_ADJACENT_HEXES;
 			boolean[] occupied = new boolean[numOfAdjacentHexes];
 			
 			for (int i = 0; i < numOfAdjacentHexes; i++) {
-				occupied[i] = gameState.getBoard().getPieceAt(adjOld[i]) != null || 
+				occupied[i] = gameState.getPieceAt(adjOld[i]) != null || 
 						newc.equals(adjOld[i]);
 			}
 			
