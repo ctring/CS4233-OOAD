@@ -92,6 +92,7 @@ public class HantoGameFactory
 				new HantoRuleFirstMoveAtOrigin(), 
 				new HantoRuleOccupiedHex(),
 				new HantoRuleNotAdjacent(),
+				new HantoRulePiecesQuota(),
 				new HantoRuleButterflyInFourMoves()
 		};
 		

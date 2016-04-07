@@ -50,13 +50,6 @@ public class GammaHantoGame implements HantoGame
 	private Map<HantoCoordinate, HantoPiece> board = new HashMap<>();
 	
 	private int moveCount = 0; 
-	private boolean bluePlacedButterfly = false;
-	private boolean redPlacedButterfly = false;
-	private boolean gameOver = false;
-	
-	
-	private HantoCoordinateImpl blueButterflyCoord;
-	private HantoCoordinateImpl redButterflyCoord;
 	
 	public GammaHantoGame(HantoRuleValidator ruleValidator, Map<HantoPieceType, Integer> piecesQuota) {
 		this(BLUE, ruleValidator, piecesQuota);
@@ -80,41 +73,13 @@ public class GammaHantoGame implements HantoGame
 	public MoveResult makeMove(HantoPieceType pieceType, HantoCoordinate from,
 			HantoCoordinate to) throws HantoException
 	{
-		
 		ruleValidator.validateRules(gameState, pieceType, from, to);
 		
 		moveCount++;
-		
-		// If moveCount is odd, it's the First Player (BLUE by default)'s turn
-		HantoPlayerColor currentPlayer = moveCount % 2 == 1 ? movesFirst : movesSecond;
-		
-		if (!pieceTypeAvailable(pieceType)) {
-			throw new HantoException("Only Butterflies and Sparrows are valid in Gamma Hanto");
-		}
-		
-		if (moveCount > 1) {
-			boolean placedButterfly = currentPlayer == BLUE ? 
-					bluePlacedButterfly : redPlacedButterfly;
-					
-			if (placedButterfly && pieceType == BUTTERFLY) {
-				throw new HantoException("Cannot place the second butterfly"); 
-			}
-		}
-		
-		HantoPiece newPiece = new HantoPieceImpl(currentPlayer, pieceType);
+						
+		HantoPiece newPiece = new HantoPieceImpl(gameState.getCurrentPlayer(), pieceType);
 		gameState.putPieceAt(to, newPiece);
 		gameState.advanceMove();
-		
-		if (pieceType == BUTTERFLY) {
-			if (currentPlayer == BLUE) {
-				bluePlacedButterfly = true;
-				blueButterflyCoord = new HantoCoordinateImpl(to);
-			}
-			else {
-				redPlacedButterfly = true;
-				redButterflyCoord = new HantoCoordinateImpl(to);
-			}
-		}
 		
 		MoveResult moveResult = checkMoveResult();
 		return moveResult;
@@ -129,8 +94,8 @@ public class GammaHantoGame implements HantoGame
 	private MoveResult checkMoveResult() {
 		int currentPlayerMoves = (moveCount + 1) / 2;
 		int otherPlayerMoves = moveCount / 2;
-		boolean blueWins = checkBlueWin();
-		boolean redWins = checkRedWin();
+		boolean blueWins = checkWin(BLUE);
+		boolean redWins = checkWin(RED);
 		MoveResult moveResult;
 		
 		if (blueWins && redWins) {
@@ -150,7 +115,7 @@ public class GammaHantoGame implements HantoGame
 		}
 		
 		if (moveResult != OK) {
-			gameOver = true;
+			gameState.setGameOver();
 		}
 		
 		return moveResult;
@@ -158,44 +123,21 @@ public class GammaHantoGame implements HantoGame
 	
 	
 	/**
-	 * Check to see if blue wins.
-	 * @return True if blue wins. False otherwise.
+	 * Check to see if a player win.
 	 */
-	private boolean checkBlueWin() {
-		if (redButterflyCoord == null) {
+	private boolean checkWin(HantoPlayerColor player) {
+		HantoPlayerColor otherPlayer = player == BLUE ? RED : BLUE;
+		if (gameState.getPlayerState(otherPlayer).getButterflyCoordinate() == null) {
 			return false;
 		}
-		HantoCoordinateImpl[] adjCoords = redButterflyCoord.getAdjacentCoordsSet();
+		HantoCoordinateImpl butterflyCoord = new HantoCoordinateImpl(
+				gameState.getPlayerState(otherPlayer).getButterflyCoordinate());
+		
+		HantoCoordinateImpl[] adjCoords = butterflyCoord.getAdjacentCoordsSet();
 		for (int i = 0; i < 6; i++) {
 			if (gameState.getPieceAt(adjCoords[i]) == null) {
 				return false;
 			}
-		}
-		return true;
-	}
-	
-	
-	/**
-	 * Check to see if red wins.
-	 * @return True if red wins. False otherwise.
-	 */	
-	private boolean checkRedWin() {
-		if (blueButterflyCoord == null) {
-			return false;
-		}
-		HantoCoordinateImpl[] adjCoords = blueButterflyCoord.getAdjacentCoordsSet();
-		for (int i = 0; i < 6; i++) {
-			if (gameState.getPieceAt(adjCoords[i]) == null) {
-				return false;
-			}
-		}
-		return true;
-	}
-	
-	
-	private boolean pieceTypeAvailable(HantoPieceType pieceType) {
-		if (pieceType != BUTTERFLY && pieceType != SPARROW) {
-			return false;
 		}
 		return true;
 	}

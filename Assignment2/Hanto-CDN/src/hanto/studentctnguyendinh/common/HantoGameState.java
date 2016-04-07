@@ -42,12 +42,7 @@ public interface HantoGameState {
 	/**
 	 * @return object representing state of the blue player. Null if it is not placed yet.
 	 */
-	HantoPlayerState getBluePlayerState();
-	
-	/**
-	 * @return object representing state of the red player. Null if it is not placed yet.
-	 */
-	HantoPlayerState getRedPlayerState();
+	HantoPlayerState getPlayerState(HantoPlayerColor player);
 	
 	public interface HantoPlayerState {
 		/**

@@ -12,9 +12,7 @@ public class HantoRuleButterflyInFourMoves implements HantoRule {
 	
 	@Override
 	public String validateRule(HantoGameState gameState, HantoPieceType pieceType, HantoCoordinate from, HantoCoordinate to) {
-		HantoPlayerColor currentPlayer = gameState.getCurrentPlayer();
-		HantoGameState.HantoPlayerState currentPlayerState = 
-				currentPlayer == BLUE ? gameState.getBluePlayerState() : gameState.getRedPlayerState();
+		HantoGameState.HantoPlayerState currentPlayerState = gameState.getPlayerState(gameState.getCurrentPlayer());
 		boolean placedButterfly = currentPlayerState.getButterflyCoordinate() != null;
 				
 		int currentPlayerMoves = gameState.getNumberOfPlayedMoves() / 2 + 1;

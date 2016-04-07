@@ -32,8 +32,8 @@ public class GammaHantoGameState implements HantoGameState {
 	protected GammaHantoGameState(HantoPlayerColor movesFirst, Map<HantoPieceType, Integer> piecesQuota) {
 		this.movesFirst = movesFirst;
 		this.movesSecond = movesFirst == BLUE ? RED : BLUE;
-		bluePlayerState = new GammaHantoPlayerState(piecesQuota);
-		redPlayerState = new GammaHantoPlayerState(piecesQuota);
+		bluePlayerState = new GammaHantoPlayerState(new HashMap<HantoPieceType, Integer>(piecesQuota));
+		redPlayerState = new GammaHantoPlayerState(new HashMap<HantoPieceType, Integer>(piecesQuota));
 	}
 	
 	protected void advanceMove() {
@@ -45,20 +45,29 @@ public class GammaHantoGameState implements HantoGameState {
 		gameOver = true;
 	}
 	
-	protected void removePieceAt(HantoCoordinate coord) {
-		board.remove(new HantoCoordinateImpl(coord));
+	protected void movePiece(HantoCoordinate from, HantoCoordinate to) {
+		HantoPiece piece = getPieceAt(from);
+		board.remove(new HantoCoordinateImpl(from));
+		board.put(new HantoCoordinateImpl(to), piece);
 	}
 	
 	protected void putPieceAt(HantoCoordinate coord, HantoPiece piece) {
 		HantoCoordinateImpl innerCoord = new HantoCoordinateImpl(coord);
+		HantoPieceType pieceType = piece.getType();
 		board.put(innerCoord, piece);
-		if (piece.getType() == BUTTERFLY) {
-			if (piece.getColor() == BLUE) {
+		if (piece.getColor() == BLUE) {
+			int rem = bluePlayerState.getNumberOfRemainingPieces(pieceType);
+			bluePlayerState.setNumberOfRemainingPieces(pieceType, rem - 1);
+			if (piece.getType() == BUTTERFLY) {
 				bluePlayerState.setButterflyCoordinate(innerCoord); 
 			}
-			else {
+		}
+		else {
+			int rem = redPlayerState.getNumberOfRemainingPieces(pieceType);
+			redPlayerState.setNumberOfRemainingPieces(pieceType, rem - 1);
+			if (piece.getType() == BUTTERFLY) {
 				redPlayerState.setButterflyCoordinate(innerCoord);
-			}
+			}	
 		}
 	}
 	
@@ -78,13 +87,8 @@ public class GammaHantoGameState implements HantoGameState {
 	}
 
 	@Override 
-	public HantoPlayerState getBluePlayerState() {
-		return bluePlayerState;
-	}
-	
-	@Override
-	public HantoPlayerState getRedPlayerState() {
-		return redPlayerState;
+	public HantoPlayerState getPlayerState(HantoPlayerColor player) {
+		return player == BLUE ? bluePlayerState : redPlayerState;
 	}
 	
 	@Override
@@ -127,7 +131,8 @@ public class GammaHantoGameState implements HantoGameState {
 		 * @return number of remaining pieces of the given type.
 		 */
 		public int getNumberOfRemainingPieces(HantoPieceType pieceType) {
-			return remaining.get(pieceType);
+			Integer rem = remaining.get(pieceType);	
+			return rem == null ? 0 : rem.intValue();
 		}
 		
 		protected void setNumberOfRemainingPieces(HantoPieceType pieceType, int newVal) {
