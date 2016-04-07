@@ -28,12 +28,9 @@ MOVING PIECES
 +Red attempts to walk four hexes --> exception (gamma)
 +Blue attempts to walk a blocked piece --> exception
 +Red attempts to walk a blocked piece --> exception
-Blue attempts to walk a piece that is wrongly specified --> exception
-Red attempts to walk a piece that is wrongly specified --> exception
-Blue attempts to walk a non-existent piece --> exception
-Red attempts to walk a non-existent piece --> exception
-Blue attempts to walk to an occupied hex --> exception
-Red attempts to walk to an occupied hex --> exception
++Blue attempts to walk a piece that is wrongly specified --> exception
++Red attempts to walk a non-existent piece --> exception
++Blue attempts to walk to an occupied hex --> exception
 Blue attempts to make a disconnecting walk --> exception
 Red attempts to make a disconnecting walk --> exception
 Blue attempts to walk a red piece --> exception
@@ -50,6 +47,7 @@ Red loses by running out of moves
 
 DRAW CONDITION
 All player run out of moves
+Both butterfly are surrounded
 
 
 OTHER

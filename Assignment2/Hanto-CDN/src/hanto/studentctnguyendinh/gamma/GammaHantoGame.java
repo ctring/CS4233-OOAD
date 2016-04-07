@@ -60,7 +60,6 @@ public class GammaHantoGame implements HantoGame
 			HantoCoordinate to) throws HantoException
 	{
 		ruleValidator.validateRules(gameState, pieceType, from, to);
-
 		
 		if (from == null) {
 			HantoPiece newPiece = pieceFactory.makeHantoPiece(gameState.getCurrentPlayer(), pieceType);

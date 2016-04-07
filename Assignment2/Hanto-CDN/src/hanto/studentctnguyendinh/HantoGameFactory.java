@@ -89,7 +89,8 @@ public class HantoGameFactory
 	private HantoGame makeGammaHantoGame(HantoPlayerColor movesFirst) {
 		HantoRule[] rules = {
 				new HantoRuleGameOver(), 
-				new HantoRuleFirstMoveAtOrigin(), 
+				new HantoRuleFirstMoveAtOrigin(),
+				new HantoRuleInputConsistency(),
 				new HantoRuleOccupiedHex(),
 				new HantoRuleNotAdjacent(),
 				new HantoRulePiecesQuota(),
