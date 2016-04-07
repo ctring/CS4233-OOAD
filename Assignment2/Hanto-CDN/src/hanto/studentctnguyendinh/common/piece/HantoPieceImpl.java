@@ -10,26 +10,43 @@
 
 package hanto.studentctnguyendinh.common.piece;
 
-import hanto.common.*;
+import java.util.List;
+
+import hanto.common.HantoCoordinate;
+import hanto.common.HantoException;
+import hanto.common.HantoPieceType;
+import hanto.common.HantoPlayerColor;
+import hanto.studentctnguyendinh.common.HantoGameState;
 
 /**
  * Implementation of the HantoPiece.
  * @version Mar 2,2016
  */
-public class HantoPieceImpl implements HantoPiece
+public class HantoPieceImpl extends HantoPieceAbstract
 {
 	private final HantoPlayerColor color;
 	private final HantoPieceType type;
 	
 	/**
-	 * Deafault constructor
+	 * Default constructor
 	 * @param color the piece color
 	 * @param type the piece type
 	 */
 	public HantoPieceImpl(HantoPlayerColor color, HantoPieceType type)
 	{
+		this(color, type, null);
+	}
+	
+	/**
+	 * Default constructor
+	 * @param color the piece color
+	 * @param type the piece type
+	 */
+	public HantoPieceImpl(HantoPlayerColor color, HantoPieceType type, List<HantoMoveValidator> validators)
+	{
 		this.color = color;
 		this.type = type;
+		this.validators = validators;
 	}
 	/*
 	 * @see hanto.common.HantoPiece#getColor()
@@ -47,5 +64,18 @@ public class HantoPieceImpl implements HantoPiece
 	public HantoPieceType getType()
 	{
 		return type;
+	}
+	
+	@Override
+	public void validateMove(HantoGameState gameState, 
+			HantoCoordinate from, HantoCoordinate to) throws HantoException {
+		if (validators != null) {
+			for (HantoMoveValidator validator : validators) {
+				String error = validator.validate(gameState, from, to);
+				if (error != null) {
+					throw new HantoException(error);
+				}
+			}
+		}
 	}
 }

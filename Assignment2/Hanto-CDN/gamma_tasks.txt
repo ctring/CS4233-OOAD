@@ -24,8 +24,8 @@ PLACING PIECES
 MOVING PIECES
 +Blue makes a valid walk
 +Red makes a valid walk
-Blue attempts to walk two hexes --> exception (gamma)
-Red attempts to walk two hexes --> exception (gamma)
++Blue attempts to walk two hexes --> exception (gamma)
++Red attempts to walk four hexes --> exception (gamma)
 Blue attempts to walk a blocked hex --> exception
 Red attempts to walk a blocked hex --> exception
 Blue attempts to walk to an occupied hex --> exception

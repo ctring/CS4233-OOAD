@@ -6,7 +6,7 @@ import hanto.studentctnguyendinh.common.HantoGameState;
 
 public class HantoRulePiecesQuota implements HantoRule {
 	@Override
-	public String validateRule(HantoGameState gameState, HantoPieceType pieceType, HantoCoordinate from, HantoCoordinate to) {
+	public String validate(HantoGameState gameState, HantoPieceType pieceType, HantoCoordinate from, HantoCoordinate to) {
 		if (from == null) {
 			HantoGameState.HantoPlayerState currentPlayerState = gameState.getPlayerState(gameState.getCurrentPlayer());
 			if (currentPlayerState.getNumberOfRemainingPieces(pieceType) <= 0) {

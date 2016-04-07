@@ -108,5 +108,11 @@ public class HantoCoordinateImpl implements HantoCoordinate
 		}
 		return adj;
 	}
+	
+	public int getMinimumDistanceTo(HantoCoordinate coord) {
+		int x2 = coord.getX();
+		int y2 = coord.getY();
+		return Math.abs(x - x2) + Math.min(Math.abs(y - y2), Math.abs(y2 - (y + (x - x2))));
+	}
 
 }

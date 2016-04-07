@@ -7,7 +7,7 @@ import hanto.studentctnguyendinh.common.HantoGameState;
 public class HantoRuleGameOver implements HantoRule {
 	
 	@Override
-	public String validateRule(HantoGameState gameState, HantoPieceType pieceType, HantoCoordinate from, HantoCoordinate to) {
+	public String validate(HantoGameState gameState, HantoPieceType pieceType, HantoCoordinate from, HantoCoordinate to) {
 		return gameState.isGameOver() ? "Cannot make more moves after the game is finished" : null;
 	}
 }

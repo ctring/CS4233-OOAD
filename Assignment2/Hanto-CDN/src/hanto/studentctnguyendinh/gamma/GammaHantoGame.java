@@ -12,16 +12,20 @@
 
 package hanto.studentctnguyendinh.gamma;
 
-import static hanto.common.HantoPlayerColor.*;
-import static hanto.common.MoveResult.*;
+import static hanto.common.HantoPlayerColor.BLUE;
+import static hanto.common.MoveResult.OK;
 
-import java.util.HashMap;
 import java.util.Map;
 
-import hanto.common.*;
+import hanto.common.HantoCoordinate;
+import hanto.common.HantoException;
+import hanto.common.HantoGame;
+import hanto.common.HantoPiece;
+import hanto.common.HantoPieceType;
+import hanto.common.HantoPlayerColor;
 import hanto.common.MoveResult;
-import hanto.studentctnguyendinh.common.HantoCoordinateImpl;
-import hanto.studentctnguyendinh.common.piece.HantoPieceImpl;
+import hanto.studentctnguyendinh.HantoPieceFactory;
+import hanto.studentctnguyendinh.common.piece.HantoPieceAbstract;
 import hanto.studentctnguyendinh.common.rule.HantoRuleValidator;
 
 /**
@@ -32,8 +36,7 @@ public class GammaHantoGame implements HantoGame
 {
 	private GammaHantoGameState gameState;
 	private HantoRuleValidator ruleValidator;
-	
-	private Map<HantoCoordinate, HantoPiece> board = new HashMap<>();
+	private HantoPieceFactory pieceFactory;
 	
 	public GammaHantoGame(HantoRuleValidator ruleValidator, Map<HantoPieceType, Integer> piecesQuota) {
 		this(BLUE, ruleValidator, piecesQuota);
@@ -46,6 +49,7 @@ public class GammaHantoGame implements HantoGame
 	public GammaHantoGame(HantoPlayerColor movesFirst, HantoRuleValidator ruleValidator, Map<HantoPieceType, Integer> piecesQuota) {
 		this.ruleValidator = ruleValidator;
 		gameState = new GammaHantoGameState(movesFirst, piecesQuota);
+		pieceFactory = HantoPieceFactory.getInstance();
 	}	
 	
 	/*
@@ -56,13 +60,15 @@ public class GammaHantoGame implements HantoGame
 			HantoCoordinate to) throws HantoException
 	{
 		ruleValidator.validateRules(gameState, pieceType, from, to);
-						
-		HantoPiece newPiece = new HantoPieceImpl(gameState.getCurrentPlayer(), pieceType);
+
 		
 		if (from == null) {
+			HantoPiece newPiece = pieceFactory.makeHantoPiece(gameState.getCurrentPlayer(), pieceType);
 			gameState.putPieceAt(to, newPiece);
 		}
 		else {
+			HantoPieceAbstract piece = (HantoPieceAbstract)gameState.getPieceAt(from);
+			piece.validateMove(gameState, from, to);
 			gameState.movePiece(from, to);
 		}
 		

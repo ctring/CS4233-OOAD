@@ -10,7 +10,7 @@ public class HantoEndRuleMaxNumberOfMoves implements HantoEndRule {
 	private final int MAX_NUMBER_OF_MOVE = 40;
 	
 	@Override
-	public MoveResult validateRule(HantoGameState gameState) {
+	public MoveResult checkResult(HantoGameState gameState) {
 		if (gameState.getNumberOfPlayedMoves() >= MAX_NUMBER_OF_MOVE) {
 			return DRAW;
 		}

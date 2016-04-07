@@ -1,7 +1,8 @@
 package hanto.studentctnguyendinh.common.piece;
 
 import hanto.common.HantoCoordinate;
+import hanto.studentctnguyendinh.common.HantoGameState;
 
 public interface HantoMoveValidator {
-	boolean canMove(HantoCoordinate from, HantoCoordinate to);
+	String validate(HantoGameState gameState, HantoCoordinate from, HantoCoordinate to);
 }

@@ -11,7 +11,7 @@ import hanto.studentctnguyendinh.common.HantoGameState;
 public class HantoEndButterflyIsSurrounded implements HantoEndRule {
 
 	@Override
-	public MoveResult validateRule(HantoGameState state) {
+	public MoveResult checkResult(HantoGameState state) {
 		boolean redButterflySurrounded = checkButterflySurrounded(state, RED);
 		boolean blueButterflySurrounded = checkButterflySurrounded(state, BLUE);
 		if (redButterflySurrounded && blueButterflySurrounded) {

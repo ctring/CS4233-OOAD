@@ -7,7 +7,7 @@ import hanto.studentctnguyendinh.common.HantoGameState;
 public class HantoRuleFirstMoveAtOrigin implements HantoRule {
 	
 	@Override
-	public String validateRule(HantoGameState gameState, HantoPieceType pieceType, HantoCoordinate from, HantoCoordinate to) {
+	public String validate(HantoGameState gameState, HantoPieceType pieceType, HantoCoordinate from, HantoCoordinate to) {
 		if (gameState.getNumberOfPlayedMoves() == 0 && (to.getX() != 0 || to.getY() != 0)) {
 			return "First move must be the origin";
 		}

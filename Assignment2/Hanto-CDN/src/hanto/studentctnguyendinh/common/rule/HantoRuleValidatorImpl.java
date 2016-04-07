@@ -24,7 +24,7 @@ public class HantoRuleValidatorImpl implements HantoRuleValidator {
 	@Override
 	public void validateRules(HantoGameState gameState, HantoPieceType pieceType, HantoCoordinate from,	HantoCoordinate to) throws HantoException {
 		for (HantoRule rule : ruleList) {
-			String error = rule.validateRule(gameState, pieceType, from, to);
+			String error = rule.validate(gameState, pieceType, from, to);
 			if (error != null) {
 				throw new HantoException(error);
 			}
@@ -34,7 +34,7 @@ public class HantoRuleValidatorImpl implements HantoRuleValidator {
 	@Override
 	public MoveResult validateEndRules(HantoGameState gameState) {
 		for (HantoEndRule rule : endRuleList) {
-			MoveResult result = rule.validateRule(gameState);
+			MoveResult result = rule.checkResult(gameState);
 			if (result != OK) {
 				return result; 
 			}

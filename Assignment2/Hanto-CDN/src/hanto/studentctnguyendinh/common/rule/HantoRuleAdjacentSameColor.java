@@ -10,7 +10,7 @@ import hanto.studentctnguyendinh.common.HantoGameState;
 public class HantoRuleAdjacentSameColor implements HantoRule {
 
 	@Override
-	public String validateRule(HantoGameState gameState, HantoPieceType pieceType, HantoCoordinate from,
+	public String validate(HantoGameState gameState, HantoPieceType pieceType, HantoCoordinate from,
 			HantoCoordinate to) {
 		if (from == null && gameState.getNumberOfPlayedMoves() >= 2) {
 			HantoPlayerColor currentPlayer = gameState.getCurrentPlayer();

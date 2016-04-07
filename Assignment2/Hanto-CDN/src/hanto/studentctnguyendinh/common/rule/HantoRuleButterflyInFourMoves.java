@@ -1,17 +1,15 @@
 package hanto.studentctnguyendinh.common.rule;
 
 import static hanto.common.HantoPieceType.BUTTERFLY;
-import static hanto.common.HantoPlayerColor.BLUE;
 
 import hanto.common.HantoCoordinate;
 import hanto.common.HantoPieceType;
-import hanto.common.HantoPlayerColor;
 import hanto.studentctnguyendinh.common.HantoGameState;
 
 public class HantoRuleButterflyInFourMoves implements HantoRule {
 	
 	@Override
-	public String validateRule(HantoGameState gameState, HantoPieceType pieceType, HantoCoordinate from, HantoCoordinate to) {
+	public String validate(HantoGameState gameState, HantoPieceType pieceType, HantoCoordinate from, HantoCoordinate to) {
 		HantoGameState.HantoPlayerState currentPlayerState = gameState.getPlayerState(gameState.getCurrentPlayer());
 		boolean placedButterfly = currentPlayerState.getButterflyCoordinate() != null;
 				

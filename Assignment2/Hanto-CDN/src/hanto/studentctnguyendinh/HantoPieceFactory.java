@@ -1,9 +1,14 @@
 package hanto.studentctnguyendinh;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import hanto.common.HantoPiece;
 import hanto.common.HantoPieceType;
 import hanto.common.HantoPlayerColor;
+import hanto.studentctnguyendinh.common.piece.HantoMoveValidator;
 import hanto.studentctnguyendinh.common.piece.HantoPieceImpl;
+import hanto.studentctnguyendinh.common.piece.MVWalkOneHex;
 
 public class HantoPieceFactory {
 	private static final HantoPieceFactory instance = new HantoPieceFactory();
@@ -31,7 +36,15 @@ public class HantoPieceFactory {
 	 */
 	public HantoPiece makeHantoPiece(HantoPlayerColor color, HantoPieceType pieceType)
 	{
-		return new HantoPieceImpl(color, pieceType);
+		ArrayList<HantoMoveValidator> validators = new ArrayList<>();
+		switch (pieceType) {
+			case BUTTERFLY:
+			case SPARROW:
+				validators.add(new MVWalkOneHex());
+				break;
+		}
+
+		return new HantoPieceImpl(color, pieceType, validators);
 	}
 
 }
