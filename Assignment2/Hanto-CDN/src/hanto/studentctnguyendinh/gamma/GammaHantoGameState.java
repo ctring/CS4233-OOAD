@@ -139,4 +139,62 @@ public class GammaHantoGameState implements HantoGameState {
 			remaining.put(pieceType, newVal);
 		}
 	}
+	
+	protected String getPrintableBoard()
+	{
+		int maxR = Integer.MIN_VALUE, minR = Integer.MAX_VALUE;
+		int maxC = Integer.MIN_VALUE, minC = Integer.MAX_VALUE;
+		for (HantoCoordinate coord : board.keySet()) {
+			maxR = Math.max(maxR, -(coord.getX() + 2 * coord.getY()));
+			minR = Math.min(minR, -(coord.getX() + 2 * coord.getY()));
+			maxC = Math.max(maxC, coord.getX());
+			minC = Math.min(minC, coord.getX());
+		}
+		
+		String hexes = "";
+		
+		for (int r = minR - 1; r <= maxR + 1; r++) {
+			for (int c = minC - 1; c <= maxC + 1; c++) {
+				if ((-r-c) % 2 == 0) {
+					int coordX = c;
+					int coordY = (-r - c) / 2;
+					HantoPiece pc = board.get(new HantoCoordinateImpl(coordX, coordY));
+					String pcString = "  ";
+					if (pc != null) {
+						pcString = getPieceString(pc);
+						if (coordX == 0 && coordY == 0) {
+							pcString = pcString.toUpperCase();
+						}
+					} 					
+					hexes += " " + pcString + " ";
+				}
+				else {
+					hexes += ">--<";
+				}
+			}
+			hexes += "\n";
+		}
+		
+		return hexes;
+	}
+	
+	private String getPieceString(HantoPiece pc) {
+		String pcstr = pc.getColor() == BLUE ? "b" : "r";
+		switch (pc.getType()) {
+			case BUTTERFLY: pcstr += "B";
+			break;
+			case SPARROW: pcstr += "S";
+			break;
+			/*case HORSE: pcstr += "H";
+			break;
+			case DOVE: pcstr += "D";
+			break;
+			case CRANE: pcstr += "R";
+			break;
+			case CRAB: pcstr += "C";
+			break;*/
+		}
+		return pcstr;
+	}
+	
 }
