@@ -10,15 +10,20 @@
 
 package hanto.studentctnguyendinh;
 
+import static hanto.common.HantoPieceType.*;
+
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 import hanto.common.HantoGame;
 import hanto.common.HantoGameID;
+import hanto.common.HantoPieceType;
 import hanto.common.HantoPlayerColor;
+import hanto.studentctnguyendinh.common.rule.*;
 import hanto.studentctnguyendinh.alpha.AlphaHantoGame;
 import hanto.studentctnguyendinh.beta.BetaHantoGame;
-import hanto.studentctnguyendinh.common.rule.*;
 import hanto.studentctnguyendinh.gamma.GammaHantoGame;
 
 /**
@@ -94,6 +99,11 @@ public class HantoGameFactory
 		HantoRuleValidator gammaRuleValidator = new HantoRuleValidatorImpl(
 				new ArrayList<HantoRule>(Arrays.asList(rules)),
 				new ArrayList<HantoEndRule>(Arrays.asList(endRules)));
-		return new GammaHantoGame(movesFirst, gammaRuleValidator);
+		
+		Map<HantoPieceType, Integer> gammaPiecesQuota = new HashMap<>();
+		gammaPiecesQuota.put(BUTTERFLY, 1);
+		gammaPiecesQuota.put(SPARROW, 5);
+		
+		return new GammaHantoGame(movesFirst, gammaRuleValidator, gammaPiecesQuota);
 	}
 }

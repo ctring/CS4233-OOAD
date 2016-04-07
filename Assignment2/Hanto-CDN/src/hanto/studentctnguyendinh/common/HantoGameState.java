@@ -2,6 +2,7 @@ package hanto.studentctnguyendinh.common;
 
 import hanto.common.HantoCoordinate;
 import hanto.common.HantoPiece;
+import hanto.common.HantoPieceType;
 import hanto.common.HantoPlayerColor;
 
 public interface HantoGameState {
@@ -24,16 +25,6 @@ public interface HantoGameState {
 	boolean isGameOver();
 	
 	/**
-	 * @return coordinate of the blue butterfly. Null if it is not placed yet.
-	 */
-	HantoCoordinate getBlueButterflyCoord();
-	
-	/**
-	 * @return coordinate of the red butterfly. Null if it is not placed yet.
-	 */
-	HantoCoordinate getRedButterflyCoord();
-	
-	/**
 	 * @return color of the player who moves first.
 	 */
 	HantoPlayerColor getMoveFirstPlayer();
@@ -48,4 +39,25 @@ public interface HantoGameState {
 	 */
 	HantoPlayerColor getCurrentPlayer();
 	
+	/**
+	 * @return object representing state of the blue player. Null if it is not placed yet.
+	 */
+	HantoPlayerState getBluePlayerState();
+	
+	/**
+	 * @return object representing state of the red player. Null if it is not placed yet.
+	 */
+	HantoPlayerState getRedPlayerState();
+	
+	public interface HantoPlayerState {
+		/**
+		 * @return coordinate of the butterfly of this player. 
+		 */
+		public HantoCoordinate getButterflyCoordinate();
+		/**
+		 * @param pieceType type of piece in question. 
+		 * @return number of remaining pieces of the given type.
+		 */
+		public int getNumberOfRemainingPieces(HantoPieceType pieceType);
+	}
 }

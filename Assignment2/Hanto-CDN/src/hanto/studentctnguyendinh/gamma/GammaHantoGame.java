@@ -58,19 +58,19 @@ public class GammaHantoGame implements HantoGame
 	private HantoCoordinateImpl blueButterflyCoord;
 	private HantoCoordinateImpl redButterflyCoord;
 	
-	public GammaHantoGame(HantoRuleValidator ruleValidator) {
-		this(BLUE, ruleValidator);
+	public GammaHantoGame(HantoRuleValidator ruleValidator, Map<HantoPieceType, Integer> piecesQuota) {
+		this(BLUE, ruleValidator, piecesQuota);
 	}
 
 	/**
 	 * Construct a BetaHantoGame instance with the player who moves first being specified.
 	 * @param movesFirst Color of the player who moves first.
 	 */
-	public GammaHantoGame(HantoPlayerColor movesFirst, HantoRuleValidator ruleValidator) {
+	public GammaHantoGame(HantoPlayerColor movesFirst, HantoRuleValidator ruleValidator, Map<HantoPieceType, Integer> piecesQuota) {
 		this.movesFirst = movesFirst;
 		this.ruleValidator = ruleValidator;
 		movesSecond = movesFirst == BLUE ? RED : BLUE;
-		gameState = new GammaHantoGameState(movesFirst);
+		gameState = new GammaHantoGameState(movesFirst, piecesQuota);
 	}	
 	
 	/*

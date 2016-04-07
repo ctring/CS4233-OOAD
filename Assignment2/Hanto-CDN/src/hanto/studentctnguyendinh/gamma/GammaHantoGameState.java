@@ -1,13 +1,15 @@
 package hanto.studentctnguyendinh.gamma;
 
 import static hanto.common.HantoPieceType.BUTTERFLY;
-import static hanto.common.HantoPlayerColor.*;
+import static hanto.common.HantoPlayerColor.BLUE;
+import static hanto.common.HantoPlayerColor.RED;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import hanto.common.HantoCoordinate;
 import hanto.common.HantoPiece;
+import hanto.common.HantoPieceType;
 import hanto.common.HantoPlayerColor;
 import hanto.studentctnguyendinh.common.HantoCoordinateImpl;
 import hanto.studentctnguyendinh.common.HantoGameState;
@@ -24,12 +26,14 @@ public class GammaHantoGameState implements HantoGameState {
 	private int moveCount = 0; 
 	private boolean gameOver = false;
 	
-	private HantoCoordinateImpl blueButterflyCoord;
-	private HantoCoordinateImpl redButterflyCoord;
+	private GammaHantoPlayerState bluePlayerState;
+	private GammaHantoPlayerState redPlayerState;
 	
-	protected GammaHantoGameState(HantoPlayerColor movesFirst) {
+	protected GammaHantoGameState(HantoPlayerColor movesFirst, Map<HantoPieceType, Integer> piecesQuota) {
 		this.movesFirst = movesFirst;
 		this.movesSecond = movesFirst == BLUE ? RED : BLUE;
+		bluePlayerState = new GammaHantoPlayerState(piecesQuota);
+		redPlayerState = new GammaHantoPlayerState(piecesQuota);
 	}
 	
 	protected void advanceMove() {
@@ -50,10 +54,10 @@ public class GammaHantoGameState implements HantoGameState {
 		board.put(innerCoord, piece);
 		if (piece.getType() == BUTTERFLY) {
 			if (piece.getColor() == BLUE) {
-				blueButterflyCoord = innerCoord;
+				bluePlayerState.setButterflyCoordinate(innerCoord); 
 			}
 			else {
-				redButterflyCoord = innerCoord;
+				redPlayerState.setButterflyCoordinate(innerCoord);
 			}
 		}
 	}
@@ -74,13 +78,13 @@ public class GammaHantoGameState implements HantoGameState {
 	}
 
 	@Override 
-	public HantoCoordinate getBlueButterflyCoord() {
-		return blueButterflyCoord;
+	public HantoPlayerState getBluePlayerState() {
+		return bluePlayerState;
 	}
 	
 	@Override
-	public HantoCoordinate getRedButterflyCoord() {
-		return redButterflyCoord;
+	public HantoPlayerState getRedPlayerState() {
+		return redPlayerState;
 	}
 	
 	@Override
@@ -96,5 +100,38 @@ public class GammaHantoGameState implements HantoGameState {
 	@Override
 	public HantoPlayerColor getCurrentPlayer() {
 		return currentPlayer == 0 ? movesFirst : movesSecond;
+	}
+	
+	protected class GammaHantoPlayerState implements HantoGameState.HantoPlayerState {
+
+		HantoCoordinate butterflyCoord = null;
+		Map<HantoPieceType, Integer> remaining = new HashMap<>();
+		
+		GammaHantoPlayerState(Map<HantoPieceType, Integer> initialVal) {
+			remaining = initialVal;
+		}
+		
+		/**
+		 * @return coordinate of the butterfly of this player. 
+		 */
+		public HantoCoordinate getButterflyCoordinate() {
+			return butterflyCoord;
+		}
+		
+		protected void setButterflyCoordinate(HantoCoordinate coord) {
+			butterflyCoord = coord;
+		}
+		
+		/**
+		 * @param pieceType type of piece in question. 
+		 * @return number of remaining pieces of the given type.
+		 */
+		public int getNumberOfRemainingPieces(HantoPieceType pieceType) {
+			return remaining.get(pieceType);
+		}
+		
+		protected void setNumberOfRemainingPieces(HantoPieceType pieceType, int newVal) {
+			remaining.put(pieceType, newVal);
+		}
 	}
 }
