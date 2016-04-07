@@ -58,7 +58,15 @@ public class GammaHantoGame implements HantoGame
 		ruleValidator.validateRules(gameState, pieceType, from, to);
 						
 		HantoPiece newPiece = new HantoPieceImpl(gameState.getCurrentPlayer(), pieceType);
-		gameState.putPieceAt(to, newPiece);
+		
+		if (from == null) {
+			gameState.putPieceAt(to, newPiece);
+		}
+		else {
+			gameState.movePiece(from, to);
+		}
+		
+		
 		gameState.advanceMove();
 		
 		MoveResult moveResult = ruleValidator.validateEndRules(gameState);

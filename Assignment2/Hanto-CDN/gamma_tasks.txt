@@ -16,15 +16,14 @@ PLACING PIECES
 +Red places initial sparrow at origin
 +Blue adds a piece next to a red piece --> exception
 +Red adds a piece next to a blue piece --> exception
-Blue tries to place the seventh butterfly --> exception (gamma)
-Red tries to place the seventh butterfly --> exception (gamma)
-Blue does not add a piece next to a red piece
-Red does not add a piece next to a blue piece
++Blue makes valid placing
++Blue tries to place the seventh butterfly --> exception (gamma)
++Red tries to place the seventh butterfly --> exception (gamma)
 
 
 MOVING PIECES
-Blue makes a valid walk
-Red makes a valid walk
++Blue makes a valid walk
++Red makes a valid walk
 Blue attempts to walk two hexes --> exception (gamma)
 Red attempts to walk two hexes --> exception (gamma)
 Blue attempts to walk a blocked hex --> exception
@@ -33,6 +32,10 @@ Blue attempts to walk to an occupied hex --> exception
 Red attempts to walk to an occupied hex --> exception
 Blue attempts to make a disconnecting walk --> exception
 Red attempts to make a disconnecting walk --> exception
+Blue attempts to walk a red piece --> exception
+Red attempts to walk a blue piece --> exception
+Blue attempts to walk a piece that is wrongly specified --> exception
+Red attempts to walk a piece that is wrongly specified --> exception
 
 
 WIN CONDITION
