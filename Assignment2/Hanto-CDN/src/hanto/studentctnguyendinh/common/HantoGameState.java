@@ -45,6 +45,11 @@ public interface HantoGameState {
 	HantoPlayerState getPlayerState(HantoPlayerColor player);
 
 	
+	/**
+	 * @return Return a duplicate of the board of this game.
+	 */
+	HantoBoard cloneBoard();
+	
 	public interface HantoPlayerState {
 		/**
 		 * @return coordinate of the butterfly of this player. 

@@ -15,6 +15,18 @@ public class GammaHantoBoard implements HantoBoard {
 	
 	private Map<HantoCoordinateImpl, HantoPiece> board = new HashMap<>();
 	
+	GammaHantoBoard() {
+		
+	}
+	
+	private GammaHantoBoard(Map<HantoCoordinateImpl, HantoPiece> board) {
+		this.board = new HashMap<HantoCoordinateImpl, HantoPiece>(board);
+	}
+	
+	protected HantoBoard clone() {
+		return new GammaHantoBoard(board);
+	}
+	
 	@Override
 	public HantoPiece getPieceAt(HantoCoordinate coord) {
 		return board.get(new HantoCoordinateImpl(coord));
@@ -119,4 +131,6 @@ public class GammaHantoBoard implements HantoBoard {
 		}
 		return pcstr;
 	}
+	
+	
 }

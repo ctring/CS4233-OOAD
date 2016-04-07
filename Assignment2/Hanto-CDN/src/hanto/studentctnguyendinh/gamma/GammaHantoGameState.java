@@ -17,7 +17,7 @@ import hanto.studentctnguyendinh.common.HantoGameState;
 
 public class GammaHantoGameState implements HantoGameState {
 	
-	private HantoBoard board = new GammaHantoBoard();
+	private GammaHantoBoard board = new GammaHantoBoard();
 	
 	private HantoPlayerColor movesFirst;
 	private HantoPlayerColor movesSecond;
@@ -109,6 +109,11 @@ public class GammaHantoGameState implements HantoGameState {
 	@Override
 	public HantoPlayerColor getCurrentPlayer() {
 		return currentPlayer == 0 ? movesFirst : movesSecond;
+	}
+	
+	@Override 
+	public HantoBoard cloneBoard() {
+		return board.clone();
 	}
 	
 	protected class GammaHantoPlayerState implements HantoGameState.HantoPlayerState {
