@@ -1,3 +1,4 @@
+package hanto.studentctnguyendinh;
 /*package hanto.studentctnguyendinh;
 
 import static hanto.common.HantoPieceType.*;
