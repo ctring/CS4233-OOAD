@@ -1,9 +1,8 @@
 package hanto.studentctnguyendinh.common;
 
-import java.util.Map;
-
 import hanto.common.HantoCoordinate;
 import hanto.common.HantoPiece;
+import hanto.common.HantoPlayerColor;
 
 public interface HantoGameState {
 	
@@ -33,4 +32,20 @@ public interface HantoGameState {
 	 * @return coordinate of the red butterfly. Null if it is not placed yet.
 	 */
 	HantoCoordinate getRedButterflyCoord();
+	
+	/**
+	 * @return color of the player who moves first.
+	 */
+	HantoPlayerColor getMoveFirstPlayer();
+	
+	/**
+	 * @return color of the player who moves second.
+	 */
+	HantoPlayerColor getMoveSecondPlayer();
+	
+	/**
+	 * @return get color of current player.
+	 */
+	HantoPlayerColor getCurrentPlayer();
+	
 }

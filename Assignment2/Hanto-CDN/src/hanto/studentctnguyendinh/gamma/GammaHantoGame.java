@@ -42,7 +42,7 @@ import hanto.studentctnguyendinh.common.rule.HantoRuleValidator;
  */
 public class GammaHantoGame implements HantoGame
 {
-	private GammaHantoGameState gameState = new GammaHantoGameState();
+	private GammaHantoGameState gameState;
 	private HantoRuleValidator ruleValidator;
 	
 	private HantoPlayerColor movesFirst;
@@ -68,7 +68,9 @@ public class GammaHantoGame implements HantoGame
 	 */
 	public GammaHantoGame(HantoPlayerColor movesFirst, HantoRuleValidator ruleValidator) {
 		this.movesFirst = movesFirst;
+		this.ruleValidator = ruleValidator;
 		movesSecond = movesFirst == BLUE ? RED : BLUE;
+		gameState = new GammaHantoGameState(movesFirst);
 	}	
 	
 	/*
@@ -85,41 +87,23 @@ public class GammaHantoGame implements HantoGame
 		
 		// If moveCount is odd, it's the First Player (BLUE by default)'s turn
 		HantoPlayerColor currentPlayer = moveCount % 2 == 1 ? movesFirst : movesSecond;
-		HantoCoordinateImpl hexCoord = new HantoCoordinateImpl(to);
-		int currentPlayerMoves = (moveCount + 1) / 2;
 		
 		if (!pieceTypeAvailable(pieceType)) {
-			throw new HantoException("Only Butterflies and Sparrows are valid in Beta Hanto");
+			throw new HantoException("Only Butterflies and Sparrows are valid in Gamma Hanto");
 		}
 		
-		if (moveCount == 1) {
-			if (to.getX() != 0 || to.getY() != 0) {
-				throw new HantoException("First move must be the origin");
-			}
-		}
-		else {
+		if (moveCount > 1) {
 			boolean placedButterfly = currentPlayer == BLUE ? 
 					bluePlacedButterfly : redPlacedButterfly;
 					
-			if (currentPlayerMoves == 4 && !placedButterfly && pieceType != BUTTERFLY) {
-				throw new HantoException("A butterfly must be placed in the first four turn");
-			}
-			
-			if (gameState.getPieceAt(hexCoord) != null) {
-				throw new HantoException("Cannot place a piece on an occupied hex");
-			}
-
-			if (!isAdjacentToAny(hexCoord)) {
-				throw new HantoException("The new piece must be ajacent to some pieces on the board");
-			}
-			
 			if (placedButterfly && pieceType == BUTTERFLY) {
 				throw new HantoException("Cannot place the second butterfly"); 
 			}
 		}
 		
 		HantoPiece newPiece = new HantoPieceImpl(currentPlayer, pieceType);
-		gameState.putPieceAt(newPiece, hexCoord);
+		gameState.putPieceAt(to, newPiece);
+		gameState.advanceMove();
 		
 		if (pieceType == BUTTERFLY) {
 			if (currentPlayer == BLUE) {
@@ -134,24 +118,6 @@ public class GammaHantoGame implements HantoGame
 		
 		MoveResult moveResult = checkMoveResult();
 		return moveResult;
-	}
-	
-	
-	/**
-	 * Check if a hex coordinate is adjacent to some pieces on the board.
-	 * @param coord Coordinate to be checked
-	 * @return True if the given coordinate is adjacent to some pieces on the board. 
-	 * False otherwise.
-	 */
-	private boolean isAdjacentToAny(HantoCoordinateImpl coord) {
-		boolean isAdjacentToAny = false;
-		for (int i = 0; i < 6; i++) {
-			if (gameState.getPieceAt(coord.getAdjacentCoord(i)) != null) {
-				isAdjacentToAny = true;
-				break;
-			}
-		}
-		return isAdjacentToAny;
 	}
 	
 	
@@ -199,8 +165,9 @@ public class GammaHantoGame implements HantoGame
 		if (redButterflyCoord == null) {
 			return false;
 		}
+		HantoCoordinateImpl[] adjCoords = redButterflyCoord.getAdjacentCoordsSet();
 		for (int i = 0; i < 6; i++) {
-			if (gameState.getPieceAt(redButterflyCoord.getAdjacentCoord(i)) == null) {
+			if (gameState.getPieceAt(adjCoords[i]) == null) {
 				return false;
 			}
 		}
@@ -216,8 +183,9 @@ public class GammaHantoGame implements HantoGame
 		if (blueButterflyCoord == null) {
 			return false;
 		}
+		HantoCoordinateImpl[] adjCoords = blueButterflyCoord.getAdjacentCoordsSet();
 		for (int i = 0; i < 6; i++) {
-			if (gameState.getPieceAt(blueButterflyCoord.getAdjacentCoord(i)) == null) {
+			if (gameState.getPieceAt(adjCoords[i]) == null) {
 				return false;
 			}
 		}

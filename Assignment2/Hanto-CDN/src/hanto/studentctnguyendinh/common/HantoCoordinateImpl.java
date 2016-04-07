@@ -99,10 +99,14 @@ public class HantoCoordinateImpl implements HantoCoordinate
 	 * @param num Number of the adjacent coordinate.
 	 * @return A new coordinate adjacent to the current coordinate.
 	 */
-	public HantoCoordinateImpl getAdjacentCoord(int num) 
+	public HantoCoordinateImpl[] getAdjacentCoordsSet() 
 	{
 		final int[][] adjDiff = {{0, 1}, {1, 0}, {1, -1}, {0, -1}, {-1, 0}, {-1, 1}};
-		return new HantoCoordinateImpl(x + adjDiff[num][0], y + adjDiff[num][1]);
+		HantoCoordinateImpl[] adj = new HantoCoordinateImpl[6];// = new HantoCoordinateImpl[6];
+		for (int i = 0; i < 6; i++) {	
+			adj[i] = new HantoCoordinateImpl(x + adjDiff[i][0], y + adjDiff[i][1]);
+		}
+		return adj;
 	}
 
 }

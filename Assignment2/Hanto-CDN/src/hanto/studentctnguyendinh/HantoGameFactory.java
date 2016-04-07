@@ -65,7 +65,7 @@ public class HantoGameFactory
 	 * @param movesFirst the player color that moves first
 	 * @return the game instance
 	 */
-	public  HantoGame makeHantoGame(HantoGameID gameId, HantoPlayerColor movesFirst) {
+	public HantoGame makeHantoGame(HantoGameID gameId, HantoPlayerColor movesFirst) {
 		HantoGame game = null;
 		switch (gameId) {
 			case ALPHA_HANTO:
@@ -75,14 +75,25 @@ public class HantoGameFactory
 				game = new BetaHantoGame(movesFirst);
 				break;
 			case GAMMA_HANTO:
-				HantoRule[] rules = {new HantoRuleGameOver(), new HantoRuleOccupiedHex()};
-				HantoEndRule[] endRules = {};
-				HantoRuleValidator gammaRuleValidator = new HantoRuleValidatorImpl(
-						new ArrayList<HantoRule>(Arrays.asList(rules)),
-						new ArrayList<HantoEndRule>(Arrays.asList(endRules)));
-				game = new GammaHantoGame(movesFirst, gammaRuleValidator);
+				game = makeGammaHantoGame(movesFirst); 
 				break;
 		}
 		return game;
+	}
+	
+	private HantoGame makeGammaHantoGame(HantoPlayerColor movesFirst) {
+		HantoRule[] rules = {
+				new HantoRuleGameOver(), 
+				new HantoRuleFirstMoveAtOrigin(), 
+				new HantoRuleOccupiedHex(),
+				new HantoRuleNotAdjacent(),
+				new HantoRuleButterflyInFourMoves()
+		};
+		
+		HantoEndRule[] endRules = {};
+		HantoRuleValidator gammaRuleValidator = new HantoRuleValidatorImpl(
+				new ArrayList<HantoRule>(Arrays.asList(rules)),
+				new ArrayList<HantoEndRule>(Arrays.asList(endRules)));
+		return new GammaHantoGame(movesFirst, gammaRuleValidator);
 	}
 }

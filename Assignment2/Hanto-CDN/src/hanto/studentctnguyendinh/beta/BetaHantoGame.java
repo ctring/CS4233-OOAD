@@ -133,8 +133,9 @@ public class BetaHantoGame implements HantoGame
 	 */
 	private boolean isAdjacentToAny(HantoCoordinateImpl coord) {
 		boolean isAdjacentToAny = false;
+		HantoCoordinateImpl[] adjCoords = coord.getAdjacentCoordsSet();
 		for (int i = 0; i < 6; i++) {
-			if (board.containsKey(coord.getAdjacentCoord(i))) {
+			if (board.containsKey(adjCoords[i])) {
 				isAdjacentToAny = true;
 				break;
 			}
@@ -187,8 +188,9 @@ public class BetaHantoGame implements HantoGame
 		if (redButterflyCoord == null) {
 			return false;
 		}
+		HantoCoordinateImpl[] adjCoords = redButterflyCoord.getAdjacentCoordsSet();
 		for (int i = 0; i < 6; i++) {
-			if (!board.containsKey(redButterflyCoord.getAdjacentCoord(i))) {
+			if (board.get(adjCoords[i]) == null) {
 				return false;
 			}
 		}
@@ -204,8 +206,9 @@ public class BetaHantoGame implements HantoGame
 		if (blueButterflyCoord == null) {
 			return false;
 		}
+		HantoCoordinateImpl[] adjCoords = blueButterflyCoord.getAdjacentCoordsSet();
 		for (int i = 0; i < 6; i++) {
-			if (!board.containsKey(blueButterflyCoord.getAdjacentCoord(i))) {
+			if (board.get(adjCoords[i]) == null) {
 				return false;
 			}
 		}
