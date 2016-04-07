@@ -19,7 +19,7 @@ public class HantoRuleNotAdjacent implements HantoRule {
 		HantoCoordinateImpl coord = new HantoCoordinateImpl(to);
 		HantoCoordinateImpl[] adjCoords = coord.getAdjacentCoordsSet();
 		for (int i = 0; i < 6; i++) {
-			if (gameState.getPieceAt(adjCoords[i]) != null) {
+			if (gameState.getBoard().getPieceAt(adjCoords[i]) != null) {
 				isAdjacentToAny = true;
 				break;
 			}

@@ -18,7 +18,8 @@ public class HantoRuleContinuousMove implements HantoRule {
 			boolean[] occupied = new boolean[numOfAdjacentHexes];
 			
 			for (int i = 0; i < numOfAdjacentHexes; i++) {
-				occupied[i] = gameState.getPieceAt(adjOld[i]) != null || newc.equals(adjOld[i]);
+				occupied[i] = gameState.getBoard().getPieceAt(adjOld[i]) != null || 
+						newc.equals(adjOld[i]);
 			}
 			
 			int start = -1;

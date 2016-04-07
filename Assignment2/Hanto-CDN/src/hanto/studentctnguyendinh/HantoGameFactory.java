@@ -100,7 +100,7 @@ public class HantoGameFactory
 		};
 		
 		HantoEndRule[] endRules = {
-				new HantoEndButterflyIsSurrounded(),
+				new HantoEndRuleButterflyIsSurrounded(),
 				new HantoEndRuleMaxNumberOfMoves()
 		};
 		HantoRuleValidator gammaRuleValidator = new HantoRuleValidatorImpl(

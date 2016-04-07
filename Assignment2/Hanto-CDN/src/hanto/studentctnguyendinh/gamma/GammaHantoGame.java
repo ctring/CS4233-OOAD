@@ -27,6 +27,7 @@ import hanto.common.MoveResult;
 import hanto.studentctnguyendinh.HantoPieceFactory;
 import hanto.studentctnguyendinh.common.piece.HantoPieceAbstract;
 import hanto.studentctnguyendinh.common.rule.HantoRuleValidator;
+import hanto.studentctnguyendinh.gamma.GammaHantoGameState.GammaHantoBoard;
 
 /**
  * <<Fill this in>>
@@ -61,14 +62,16 @@ public class GammaHantoGame implements HantoGame
 	{
 		ruleValidator.validateRules(gameState, pieceType, from, to);
 		
+		GammaHantoBoard board = (GammaHantoBoard) gameState.getBoard();
+		
 		if (from == null) {
 			HantoPiece newPiece = pieceFactory.makeHantoPiece(gameState.getCurrentPlayer(), pieceType);
-			gameState.putPieceAt(to, newPiece);
+			board.putPieceAt(to, newPiece);
 		}
 		else {
-			HantoPieceAbstract piece = (HantoPieceAbstract)gameState.getPieceAt(from);
+			HantoPieceAbstract piece = (HantoPieceAbstract)board.getPieceAt(from);
 			piece.validateMove(gameState, from, to);
-			gameState.movePiece(from, to);
+			board.movePiece(from, to);
 		}
 		
 		
@@ -89,7 +92,7 @@ public class GammaHantoGame implements HantoGame
 	@Override
 	public HantoPiece getPieceAt(HantoCoordinate where)
 	{
-		return gameState.getPieceAt(where);
+		return gameState.getBoard().getPieceAt(where);
 	}
 
 	/*
@@ -98,7 +101,7 @@ public class GammaHantoGame implements HantoGame
 	@Override
 	public String getPrintableBoard()
 	{
-		return gameState.getPrintableBoard();
+		return gameState.getBoard().getPrintableBoard();
 	}
 
 	

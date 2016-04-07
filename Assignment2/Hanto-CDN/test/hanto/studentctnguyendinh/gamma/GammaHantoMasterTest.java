@@ -485,15 +485,34 @@ public class GammaHantoMasterTest
 		}
 	}
 
-//	public static class WinningAndDrawingTests {
+//	public static class WinningAndDrawTests {
 //		@Before
 //		public void setup()
 //		{
 //			// By default, blue moves first.
 //			game = factory.makeHantoGame(HantoGameID.GAMMA_HANTO, BLUE);
 //		}
+//		
+////		@Test
+////		public void blueWinsByWalking() throws HantoException		// 21 
+////		{
+////			game.makeMove(BUTTERFLY, null, makeCoordinate(0, 0));		// blue 1
+////			game.makeMove(BUTTERFLY, null, makeCoordinate(1, 0));		// red 1
+////			game.makeMove(SPARROW, null, makeCoordinate(-1, 1));		// blue 2
+////			game.makeMove(SPARROW, null, makeCoordinate(2, 0));			// red 2
+////			game.makeMove(SPARROW, null, makeCoordinate(-1, 2));		// blue 3
+////			game.makeMove(SPARROW, null, makeCoordinate(2, -1));		// red 3
+////			game.makeMove(SPARROW, null, makeCoordinate(0, 2));			// blue 4
+////			game.makeMove(SPARROW, null, makeCoordinate(2, -2));		// red 4
+////			game.makeMove(SPARROW, makeCoordinate(0, 2), makeCoordinate(1, 1));	// blue 5
+////			game.makeMove(SPARROW, null, makeCoordinate(2, -2));		// red 5
+////			game.makeMove(SPARROW, makeCoordinate(-1, 2), makeCoordinate(0, 2));	// blue 6
+////			game.makeMove(SPARROW, makeCoordinate(2, -2), makeCoordinate(1, -1));	// red 6
+////			MoveResult mr = game.makeMove(SPARROW, makeCoordinate(0, 2), makeCoordinate(0, 1)); // blue 7
+////			assertEquals(BLUE_WINS, mr);
+////		}
 //	}
-//
+
 //	public static class OtherTests {
 //		@Before
 //		public void setup()

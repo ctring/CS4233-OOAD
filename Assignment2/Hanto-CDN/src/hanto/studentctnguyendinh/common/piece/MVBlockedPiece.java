@@ -19,8 +19,8 @@ public class MVBlockedPiece implements HantoMoveValidator {
 		HantoCoordinateImpl coadjCoord2 = new HantoCoordinateImpl(
 				from.getX() - normY, from.getY() + normX + normY);
 		
-		HantoPiece coadjPiece1 = gameState.getPieceAt(coadjCoord1);
-		HantoPiece coadjPiece2 = gameState.getPieceAt(coadjCoord2);
+		HantoPiece coadjPiece1 = gameState.getBoard().getPieceAt(coadjCoord1);
+		HantoPiece coadjPiece2 = gameState.getBoard().getPieceAt(coadjCoord2);
 		
 		if (coadjPiece1 != null && coadjPiece2 != null) {
 			return "Cannot move a blocked piece";

@@ -8,7 +8,7 @@ import hanto.common.MoveResult;
 import hanto.studentctnguyendinh.common.HantoCoordinateImpl;
 import hanto.studentctnguyendinh.common.HantoGameState;
 
-public class HantoEndButterflyIsSurrounded implements HantoEndRule {
+public class HantoEndRuleButterflyIsSurrounded implements HantoEndRule {
 
 	@Override
 	public MoveResult checkResult(HantoGameState state) {
@@ -35,7 +35,7 @@ public class HantoEndButterflyIsSurrounded implements HantoEndRule {
 		
 		HantoCoordinateImpl[] adjCoords = butterflyCoord.getAdjacentCoordsSet();
 		for (int i = 0; i < 6; i++) {
-			if (gameState.getPieceAt(adjCoords[i]) == null) {
+			if (gameState.getBoard().getPieceAt(adjCoords[i]) == null) {
 				return false;
 			}
 		}

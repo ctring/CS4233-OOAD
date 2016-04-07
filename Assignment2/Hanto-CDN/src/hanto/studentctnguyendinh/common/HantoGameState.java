@@ -8,11 +8,10 @@ import hanto.common.HantoPlayerColor;
 public interface HantoGameState {
 	
 	/**
-	 * Get a piece at the given coordinate.
-	 * @param coord coordinate of the desired piece.
-	 * @return the pieced at the given coordinate. Null if there is none.
+	 * Get the board of the game.
+	 * @return the board of the game.
 	 */
-	HantoPiece getPieceAt(HantoCoordinate coord);
+	HantoBoard getBoard();
 	
 	/**
 	 * @return number of played moves.
@@ -43,6 +42,26 @@ public interface HantoGameState {
 	 * @return object representing state of the blue player. Null if it is not placed yet.
 	 */
 	HantoPlayerState getPlayerState(HantoPlayerColor player);
+
+	public interface HantoBoard {
+		/**
+		 * Get a Hanto piece at a given coordinate.
+		 * @param coord coordinate that needs retrieving a piece.
+		 * @return a Hanto piece at the given coordinate. Null if there is none.
+		 */
+		public HantoPiece getPieceAt(HantoCoordinate coord);
+		
+		/**
+		 * Check if the pieces are connected.
+		 * @return true if every piece is connect, false otherwise.
+		 */
+		public boolean validateConnectivity();
+		
+		/**
+		 * @return a string representing the current state of the board.
+		 */
+		public String getPrintableBoard();
+	}
 	
 	public interface HantoPlayerState {
 		/**
