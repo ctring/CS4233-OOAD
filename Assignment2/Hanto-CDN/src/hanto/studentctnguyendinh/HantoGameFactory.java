@@ -95,7 +95,8 @@ public class HantoGameFactory
 				new HantoRuleNotAdjacent(),
 				new HantoRulePiecesQuota(),
 				new HantoRuleButterflyInFourMoves(),
-				new HantoRuleAdjacentSameColor()
+				new HantoRuleAdjacentSameColor(),
+				new HantoRuleContinuousMove()
 		};
 		
 		HantoEndRule[] endRules = {

@@ -20,6 +20,7 @@ import hanto.common.HantoCoordinate;
  */
 public class HantoCoordinateImpl implements HantoCoordinate
 {
+	public static final int NUMBER_OF_ADJACENT_HEXES = 6;
 	final private int x, y;
 	
 	/**
@@ -103,7 +104,7 @@ public class HantoCoordinateImpl implements HantoCoordinate
 	{
 		final int[][] adjDiff = {{0, 1}, {1, 0}, {1, -1}, {0, -1}, {-1, 0}, {-1, 1}};
 		HantoCoordinateImpl[] adj = new HantoCoordinateImpl[6];// = new HantoCoordinateImpl[6];
-		for (int i = 0; i < 6; i++) {	
+		for (int i = 0; i < NUMBER_OF_ADJACENT_HEXES; i++) {	
 			adj[i] = new HantoCoordinateImpl(x + adjDiff[i][0], y + adjDiff[i][1]);
 		}
 		return adj;
