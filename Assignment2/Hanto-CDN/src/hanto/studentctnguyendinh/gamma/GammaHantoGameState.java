@@ -97,16 +97,6 @@ public class GammaHantoGameState implements HantoGameState {
 	}
 	
 	@Override
-	public HantoPlayerColor getMoveFirstPlayer() {
-		return movesFirst;
-	}
-	
-	@Override
-	public HantoPlayerColor getMoveSecondPlayer() {
-		return movesSecond;
-	}
-
-	@Override
 	public HantoPlayerColor getCurrentPlayer() {
 		return currentPlayer == 0 ? movesFirst : movesSecond;
 	}

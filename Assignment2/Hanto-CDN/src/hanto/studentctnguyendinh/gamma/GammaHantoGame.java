@@ -38,9 +38,9 @@ public class GammaHantoGame implements HantoGame
 	private HantoRuleValidator ruleValidator;
 	private HantoPieceFactory pieceFactory;
 	
-	public GammaHantoGame(HantoRuleValidator ruleValidator, Map<HantoPieceType, Integer> piecesQuota) {
-		this(BLUE, ruleValidator, piecesQuota);
-	}
+//	public GammaHantoGame(HantoRuleValidator ruleValidator, Map<HantoPieceType, Integer> piecesQuota) {
+//		this(BLUE, ruleValidator, piecesQuota);
+//	}
 
 	/**
 	 * Construct a BetaHantoGame instance with the player who moves first being specified.

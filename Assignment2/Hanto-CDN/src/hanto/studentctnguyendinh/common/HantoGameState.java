@@ -25,16 +25,6 @@ public interface HantoGameState {
 	boolean isGameOver();
 	
 	/**
-	 * @return color of the player who moves first.
-	 */
-	HantoPlayerColor getMoveFirstPlayer();
-	
-	/**
-	 * @return color of the player who moves second.
-	 */
-	HantoPlayerColor getMoveSecondPlayer();
-	
-	/**
 	 * @return get color of current player.
 	 */
 	HantoPlayerColor getCurrentPlayer();

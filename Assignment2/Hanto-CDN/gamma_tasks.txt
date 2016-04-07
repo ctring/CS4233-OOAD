@@ -43,19 +43,19 @@ Blue attempts to make a disconnecting walk 2 --> exception
 WIN CONDITION
 +Blue wins by walking
 +Red wins by walking
-Blue wins on last move (gamma)
-Red wins on last move (gamma)
-Blue loses by running out of moves 
-Red loses by running out of moves 
++Blue wins on last move (gamma)
++Red wins on last move (gamma)
+Blue loses by running out of moves ?
+Red loses by running out of moves ?
 
 DRAW CONDITION
-All player run out of moves
-Both butterfly are surrounded
++All player run out of moves
++Both butterfly are surrounded
 
 
 OTHER
-First player is red
-Someone attempts to make a move after the game ended --> exception
++First player is red
++Someone attempts to make a move after the game ended --> exception
 
 
 min distant = |x2 - x1| + min(|y2 - y1|, |y2 - (y1 + (x1 - x2))|)
