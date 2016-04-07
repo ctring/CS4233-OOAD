@@ -78,13 +78,8 @@ public class GammaHantoGame implements HantoGame
 	public MoveResult makeMove(HantoPieceType pieceType, HantoCoordinate from,
 			HantoCoordinate to) throws HantoException
 	{
-		if (gameOver) {
-			throw new HantoException("Cannot make more moves after the game is finished");
-		}
 		
-		if (from != null) {
-			throw new HantoException("Moving pieces is not supported in Beta Hanto");
-		}
+		ruleValidator.validateRules(gameState, pieceType, from, to);
 		
 		moveCount++;
 		

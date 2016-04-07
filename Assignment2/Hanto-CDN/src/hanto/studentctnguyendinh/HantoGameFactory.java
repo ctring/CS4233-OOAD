@@ -18,9 +18,7 @@ import hanto.common.HantoGameID;
 import hanto.common.HantoPlayerColor;
 import hanto.studentctnguyendinh.alpha.AlphaHantoGame;
 import hanto.studentctnguyendinh.beta.BetaHantoGame;
-import hanto.studentctnguyendinh.common.rule.HantoEndRule;
-import hanto.studentctnguyendinh.common.rule.HantoRule;
-import hanto.studentctnguyendinh.common.rule.HantoRuleValidator;
+import hanto.studentctnguyendinh.common.rule.*;
 import hanto.studentctnguyendinh.gamma.GammaHantoGame;
 
 /**
@@ -77,9 +75,9 @@ public class HantoGameFactory
 				game = new BetaHantoGame(movesFirst);
 				break;
 			case GAMMA_HANTO:
-				HantoRule[] rules = {};
+				HantoRule[] rules = {new HantoRuleGameOver(), new HantoRuleOccupiedHex()};
 				HantoEndRule[] endRules = {};
-				HantoRuleValidator gammaRuleValidator = new HantoRuleValidator(
+				HantoRuleValidator gammaRuleValidator = new HantoRuleValidatorImpl(
 						new ArrayList<HantoRule>(Arrays.asList(rules)),
 						new ArrayList<HantoEndRule>(Arrays.asList(endRules)));
 				game = new GammaHantoGame(movesFirst, gammaRuleValidator);
