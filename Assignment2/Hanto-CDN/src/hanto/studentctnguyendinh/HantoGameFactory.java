@@ -93,7 +93,8 @@ public class HantoGameFactory
 				new HantoRuleOccupiedHex(),
 				new HantoRuleNotAdjacent(),
 				new HantoRulePiecesQuota(),
-				new HantoRuleButterflyInFourMoves()
+				new HantoRuleButterflyInFourMoves(),
+				new HantoRuleAdjacentSameColor()
 		};
 		
 		HantoEndRule[] endRules = {

@@ -25,8 +25,8 @@ BetaHanto
 +First player is red
 
 GammaHanto
-Blue adds a piece next to a red piece --> exception
-Red adds a piece next to a blue piece --> exception
++Blue adds a piece next to a red piece --> exception
++Red adds a piece next to a blue piece --> exception
 Blue does not add a piece next to a red piece
 Red does not add a piece next to a blue piece
 Blue makes a valid walk
