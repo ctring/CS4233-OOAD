@@ -14,6 +14,7 @@ package hanto.studentctnguyendinh.alpha;
 
 import hanto.common.*;
 import hanto.studentctnguyendinh.common.*;
+import hanto.studentctnguyendinh.common.piece.HantoPieceImpl;
 
 import static hanto.common.MoveResult.*;
 import static hanto.common.HantoPieceType.*;

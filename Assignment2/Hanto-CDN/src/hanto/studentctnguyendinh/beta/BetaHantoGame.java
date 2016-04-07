@@ -21,6 +21,7 @@ import java.util.Map;
 
 import hanto.common.*;
 import hanto.studentctnguyendinh.common.*;
+import hanto.studentctnguyendinh.common.piece.HantoPieceImpl;
 
 /**
  * <<Fill this in>>

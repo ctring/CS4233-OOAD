@@ -10,9 +10,17 @@
 
 package hanto.studentctnguyendinh;
 
-import hanto.common.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+
+import hanto.common.HantoGame;
+import hanto.common.HantoGameID;
+import hanto.common.HantoPlayerColor;
 import hanto.studentctnguyendinh.alpha.AlphaHantoGame;
 import hanto.studentctnguyendinh.beta.BetaHantoGame;
+import hanto.studentctnguyendinh.common.rule.HantoEndRule;
+import hanto.studentctnguyendinh.common.rule.HantoRule;
+import hanto.studentctnguyendinh.common.rule.HantoRuleValidator;
 import hanto.studentctnguyendinh.gamma.GammaHantoGame;
 
 /**
@@ -69,7 +77,12 @@ public class HantoGameFactory
 				game = new BetaHantoGame(movesFirst);
 				break;
 			case GAMMA_HANTO:
-				game = new GammaHantoGame(movesFirst);
+				HantoRule[] rules = {};
+				HantoEndRule[] endRules = {};
+				HantoRuleValidator gammaRuleValidator = new HantoRuleValidator(
+						new ArrayList<HantoRule>(Arrays.asList(rules)),
+						new ArrayList<HantoEndRule>(Arrays.asList(endRules)));
+				game = new GammaHantoGame(movesFirst, gammaRuleValidator);
 				break;
 		}
 		return game;

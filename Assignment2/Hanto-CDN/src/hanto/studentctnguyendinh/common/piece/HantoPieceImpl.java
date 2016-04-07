@@ -8,7 +8,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *******************************************************************************/
 
-package hanto.studentctnguyendinh.common;
+package hanto.studentctnguyendinh.common.piece;
 
 import hanto.common.*;
 
