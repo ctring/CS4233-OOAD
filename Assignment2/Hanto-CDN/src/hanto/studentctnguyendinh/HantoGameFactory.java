@@ -91,6 +91,7 @@ public class HantoGameFactory
 				new HantoRuleGameOver(), 
 				new HantoRuleFirstMoveAtOrigin(),
 				new HantoRuleInputConsistency(),
+				new HantoRuleMoveBeforeButterfly(),
 				new HantoRuleOccupiedHex(),
 				new HantoRuleNotAdjacent(),
 				new HantoRulePiecesQuota(),

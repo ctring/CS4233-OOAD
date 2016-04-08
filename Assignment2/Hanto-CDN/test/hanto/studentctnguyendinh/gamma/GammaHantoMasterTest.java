@@ -483,6 +483,25 @@ public class GammaHantoMasterTest
 			game.makeMove(SPARROW, null, makeCoordinate(2, -1));		// red 3
 			game.makeMove(SPARROW, makeCoordinate(0, -1), makeCoordinate(0, -2)); // blue 4
 		}
+		
+		@Test(expected = HantoException.class)	// 42
+		public void blueAttemptsToWalkBeforePlacingButterfly() throws HantoException
+		{
+			game.makeMove(SPARROW, null, makeCoordinate(0, 0));
+			game.makeMove(SPARROW, null, makeCoordinate(1, 0));
+			game.makeMove(SPARROW, null, makeCoordinate(0, -1));
+			game.makeMove(SPARROW, null, makeCoordinate(2, 0));
+			game.makeMove(SPARROW, makeCoordinate(0, -1), makeCoordinate(1, -1));
+		}
+		
+		@Test(expected = HantoException.class)	// 43
+		public void redAttemptsToWalkBeforePlacingButterfly() throws HantoException
+		{
+			game.makeMove(SPARROW, null, makeCoordinate(0, 0));
+			game.makeMove(SPARROW, null, makeCoordinate(1, 0));
+			game.makeMove(SPARROW, null, makeCoordinate(0, -1));
+			game.makeMove(SPARROW, makeCoordinate(1, 0), makeCoordinate(0, 1));
+		}
 	}
 
 	public static class WinningAndDrawTests {
