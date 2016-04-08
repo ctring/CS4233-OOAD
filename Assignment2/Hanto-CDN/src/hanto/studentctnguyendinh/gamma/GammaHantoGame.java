@@ -28,8 +28,9 @@ import hanto.studentctnguyendinh.common.piece.HantoPieceAbstract;
 import hanto.studentctnguyendinh.common.rule.HantoRuleValidator;
 
 /**
- * <<Fill this in>>
- * @version Mar 16, 2016
+ * A concerete implementation of the Gamma version of the Hanto game.
+ * @author Cuong Nguyen
+ * @version April 7, 2016
  */
 public class GammaHantoGame implements HantoGame
 {
@@ -43,7 +44,9 @@ public class GammaHantoGame implements HantoGame
 
 	/**
 	 * Construct a BetaHantoGame instance with the player who moves first being specified.
-	 * @param movesFirst Color of the player who moves first.
+	 * @param movesFirst color of the player who moves first
+	 * @param ruleValidator a validators that validates set of rules for this game.
+	 * @param piecesQuota number of available pieces for each piece types.
 	 */
 	public GammaHantoGame(HantoPlayerColor movesFirst, HantoRuleValidator ruleValidator, Map<HantoPieceType, Integer> piecesQuota) {
 		this.ruleValidator = ruleValidator;

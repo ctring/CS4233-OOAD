@@ -18,6 +18,11 @@ import hanto.common.HantoPiece;
 import hanto.studentctnguyendinh.common.HantoBoard;
 import hanto.studentctnguyendinh.common.HantoCoordinateImpl;
 
+/**
+ * This is an implementation of a HantoBoard for the Gamma Hanto version.
+ * @author Cuong Nguyen
+ * @version April 7, 2016
+ */
 public class GammaHantoBoard implements HantoBoard {
 	
 	private Map<HantoCoordinateImpl, HantoPiece> board = new HashMap<>();
@@ -30,6 +35,9 @@ public class GammaHantoBoard implements HantoBoard {
 		this.board = new HashMap<HantoCoordinateImpl, HantoPiece>(board);
 	}
 	
+	/**
+	 * @return a copy of this board.
+	 */
 	protected HantoBoard makeCopy() {
 		return new GammaHantoBoard(board);
 	}

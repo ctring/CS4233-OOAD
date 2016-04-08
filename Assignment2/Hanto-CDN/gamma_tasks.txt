@@ -40,7 +40,6 @@ MOVING PIECES
 +Blue attempts to walk before placing butterfly --> exception
 +Red attempts to walk before placing butterfly --> exception
 
-// need more test on conectivity
 
 WIN CONDITION
 +Blue wins by walking
