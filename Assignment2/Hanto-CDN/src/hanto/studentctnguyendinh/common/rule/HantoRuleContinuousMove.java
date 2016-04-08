@@ -1,3 +1,10 @@
+/*******************************************************************************
+ * This files was developed for CS4233: Object-Oriented Analysis & Design. The course was
+ * taken at Worcester Polytechnic Institute. All rights reserved. This program and the
+ * accompanying materials are made available under the terms of the Eclipse Public License
+ * v1.0 which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *******************************************************************************/
 package hanto.studentctnguyendinh.common.rule;
 
 import hanto.common.HantoCoordinate;
@@ -5,6 +12,12 @@ import hanto.common.HantoPieceType;
 import hanto.studentctnguyendinh.common.HantoBoard;
 import hanto.studentctnguyendinh.common.HantoGameState;
 
+/**
+ * This rules check if pieces on the board remain connected as a whole.
+ * @author Cuong Nguyen
+ * @version April 7, 2016
+ *
+ */
 public class HantoRuleContinuousMove implements HantoRule {
 
 	@Override
@@ -19,30 +32,6 @@ public class HantoRuleContinuousMove implements HantoRule {
 			else {
 				return "Cannot make a discontinuous move"; 
 			}
-			
-//			HantoCoordinateImpl oldc = new HantoCoordinateImpl(from);
-//			HantoCoordinateImpl newc = new HantoCoordinateImpl(to);
-//			HantoCoordinateImpl[] adjOld = oldc.getAdjacentCoordsSet();
-//			int numOfAdjacentHexes = HantoCoordinateImpl.NUMBER_OF_ADJACENT_HEXES;
-//			boolean[] occupied = new boolean[numOfAdjacentHexes];
-//			
-//			for (int i = 0; i < numOfAdjacentHexes; i++) {
-//				occupied[i] = gameState.getPieceAt(adjOld[i]) != null || 
-//						newc.equals(adjOld[i]);
-//			}
-//			
-//			int start = -1;
-//			if (occupied[0] && !occupied[numOfAdjacentHexes - 1]) start = 0;
-//			for (int i = 1; i < numOfAdjacentHexes; i++) {
-//				if (occupied[i] && !occupied[i - 1]) {
-//					if (start != -1) {
-//						return "Cannot make a discontinuous move";
-//					}
-//					else {
-//						start = i;
-//					}
-//				}
-//			}
 		}
 		return null;
 	}

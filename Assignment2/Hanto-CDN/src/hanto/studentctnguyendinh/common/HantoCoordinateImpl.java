@@ -94,11 +94,7 @@ public class HantoCoordinateImpl implements HantoCoordinate
 	}
 
 	/**
-	 * Get an adjacent coordinate with respect to the current coordinate. Adjacent
-	 * coordinates are numbered from 0 to 5, starting from the one right above the current
-	 * hex and going clockwise.
-	 * @param num Number of the adjacent coordinate.
-	 * @return A new coordinate adjacent to the current coordinate.
+	 * @return a set of coordinates that are adjacent to this coordinate.
 	 */
 	public HantoCoordinateImpl[] getAdjacentCoordsSet() 
 	{
@@ -110,6 +106,11 @@ public class HantoCoordinateImpl implements HantoCoordinate
 		return adj;
 	}
 	
+	/**
+	 * Get the minimum distance to another coordinate.
+	 * @param coord another coordinate to calculate distance to.
+	 * @return distance to the given coordinate.
+	 */
 	public int getMinimumDistanceTo(HantoCoordinate coord) {
 		int x2 = coord.getX();
 		int y2 = coord.getY();

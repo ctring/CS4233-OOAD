@@ -12,7 +12,6 @@
 
 package hanto.studentctnguyendinh.gamma;
 
-import static hanto.common.HantoPlayerColor.BLUE;
 import static hanto.common.MoveResult.OK;
 
 import java.util.Map;
@@ -76,7 +75,7 @@ public class GammaHantoGame implements HantoGame
 		
 		MoveResult moveResult = ruleValidator.validateEndRules(gameState);
 		if (moveResult != OK) {
-			gameState.setGameOver();
+			gameState.flagGameOver();
 		}
 		
 		return moveResult;

@@ -41,8 +41,9 @@ public class HantoPieceImpl extends HantoPieceAbstract
 	 * Default constructor
 	 * @param color the piece color
 	 * @param type the piece type
+	 * @param validators set of rule validators for this piece
 	 */
-	public HantoPieceImpl(HantoPlayerColor color, HantoPieceType type, List<HantoMoveValidator> validators)
+	public HantoPieceImpl(HantoPlayerColor color, HantoPieceType type, List<HantoMovementRule> validators)
 	{
 		this.color = color;
 		this.type = type;
@@ -70,7 +71,7 @@ public class HantoPieceImpl extends HantoPieceAbstract
 	public void validateMove(HantoGameState gameState, 
 			HantoCoordinate from, HantoCoordinate to) throws HantoException {
 		if (validators != null) {
-			for (HantoMoveValidator validator : validators) {
+			for (HantoMovementRule validator : validators) {
 				String error = validator.validate(gameState, from, to);
 				if (error != null) {
 					throw new HantoException(error);

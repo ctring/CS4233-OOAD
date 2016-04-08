@@ -33,10 +33,13 @@ MOVING PIECES
 +Blue attempts to walk to an occupied hex --> exception
 +Blue attempts to make a disconnecting walk --> exception
 +Red attempts to make a disconnecting walk --> exception
-Blue attempts to make a disconnecting walk 2 --> exception
 +Blue attempts to walk a red piece --> exception
 +Red attempts to walk a blue piece --> exception
 +Blue attempts make a non-adjacent walk --> exception
+
+Blue attempts to make a disconnecting walk 2 --> exception
+Blue attempts to walk before placing butterfly --> exception
+Red attempts to walk before placing butterfly --> exception
 
 // need more test on conectivity
 

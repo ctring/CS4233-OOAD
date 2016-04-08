@@ -7,32 +7,24 @@
  *******************************************************************************/
 package hanto.studentctnguyendinh.common.piece;
 
-import java.util.List;
-
 import hanto.common.HantoCoordinate;
-import hanto.common.HantoException;
-import hanto.common.HantoPiece;
 import hanto.studentctnguyendinh.common.HantoGameState;
 
 /**
- * This class extends the capability of a Hanto piece such that each piece
- * can perform movement validation by itself.
- * @author nguye_000
+ * HantoMovementRule are strategies for validating movement rules of a Hanto Piece. 
+ * 
+ * @author Cuong Nguyen
+ * @version April 6, 2016
  *
  */
-public abstract class HantoPieceAbstract implements HantoPiece {
-
-	List<HantoMovementRule> validators;
+public interface HantoMovementRule {
 	
 	/**
-	 * Validate movement rules of this piece based on the current game state
-	 * and movement path of this piece.
+	 * Validate a movement rule based on current game state an input.
 	 * @param gameState current game state.
-	 * @param from coordinate where this piece begins.
-	 * @param to coordinate where this piece is after making its move.
-	 * @throws HantoException if the move is illegal.
+	 * @param from coordinate where the piece begins.
+	 * @param to coordinate where the piece is after this move.
+	 * @return an error message if the move is illegal, null otherwise.
 	 */
-	public abstract void validateMove(HantoGameState gameState, 
-			HantoCoordinate from, HantoCoordinate to) throws HantoException;
-
+	String validate(HantoGameState gameState, HantoCoordinate from, HantoCoordinate to);
 }

@@ -725,8 +725,8 @@ public class GammaHantoMasterTest
 			game = factory.makeHantoGame(HantoGameID.GAMMA_HANTO, BLUE);
 		}
 		
-		@Test(expected = HantoException.class)
-		public void attemptToMakeAMoveAfterTheGameEnded() throws HantoException	// 40
+		@Test(expected = HantoException.class)	// 41
+		public void attemptToMakeAMoveAfterTheGameEnded() throws HantoException	
 		{
 			game.makeMove(BUTTERFLY, null, makeCoordinate(0, 0));		// blue 1
 			game.makeMove(BUTTERFLY, null, makeCoordinate(1, -1));		// red 1
@@ -767,6 +767,13 @@ public class GammaHantoMasterTest
 			game.makeMove(SPARROW, makeCoordinate(-1, 2), makeCoordinate(-1, 1));		// blue 19
 			game.makeMove(SPARROW, makeCoordinate(2, 0), makeCoordinate(1, 0));			// red 19
 			game.makeMove(SPARROW, makeCoordinate(1, -2), makeCoordinate(0, -2));
+		}
+		
+		@Test(expected = HantoException.class)
+		public void makeMoveWithTheSameFromAndTo() throws HantoException {
+			game.makeMove(BUTTERFLY, null, makeCoordinate(0, 0));
+			game.makeMove(SPARROW, null, makeCoordinate(1, 0));
+			game.makeMove(BUTTERFLY, makeCoordinate(0, 0), makeCoordinate(0, 0));
 		}
 	}
 	

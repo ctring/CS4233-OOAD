@@ -1,3 +1,10 @@
+/*******************************************************************************
+ * This files was developed for CS4233: Object-Oriented Analysis & Design. The course was
+ * taken at Worcester Polytechnic Institute. All rights reserved. This program and the
+ * accompanying materials are made available under the terms of the Eclipse Public License
+ * v1.0 which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *******************************************************************************/
 package hanto.studentctnguyendinh.gamma;
 
 import static hanto.common.HantoPieceType.BUTTERFLY;
@@ -15,6 +22,13 @@ import hanto.studentctnguyendinh.common.HantoBoard;
 import hanto.studentctnguyendinh.common.HantoCoordinateImpl;
 import hanto.studentctnguyendinh.common.HantoGameState;
 
+/**
+ * The GammaHantoGameState contains the state and methods used to changed the state of 
+ * a Gamma Hanto Game.
+ * 
+ * @author Cuong Nguyen
+ * @version April 7, 2016
+ */
 public class GammaHantoGameState implements HantoGameState {
 	
 	private GammaHantoBoard board = new GammaHantoBoard();
@@ -30,22 +44,38 @@ public class GammaHantoGameState implements HantoGameState {
 	private GammaHantoPlayerState bluePlayerState;
 	private GammaHantoPlayerState redPlayerState;
 	
+	/**
+	 * Create a game state with give first-move player and quota of the pieces.
+	 * @param movesFirst color of the player who moves first.
+	 * @param piecesQuota quota for the pieces.
+	 */
 	protected GammaHantoGameState(HantoPlayerColor movesFirst, Map<HantoPieceType, Integer> piecesQuota) {
 		this.movesFirst = movesFirst;
-		this.movesSecond = movesFirst == BLUE ? RED : BLUE;
+		movesSecond = movesFirst == BLUE ? RED : BLUE;
 		bluePlayerState = new GammaHantoPlayerState(new HashMap<HantoPieceType, Integer>(piecesQuota));
 		redPlayerState = new GammaHantoPlayerState(new HashMap<HantoPieceType, Integer>(piecesQuota));
 	}
 	
+	/**
+	 * Increase the number of moves.
+	 */
 	protected void advanceMove() {
 		moveCount++;
 		currentPlayer = 1 - currentPlayer;
 	}
 	
-	protected void setGameOver() {
+	/**
+	 * Turn on the game over flag.
+	 */
+	protected void flagGameOver() {
 		gameOver = true;
 	}
 	
+	/**
+	 * Put a piece at a specified location on the board.
+	 * @param coord coordinate of the location of the new piece.
+	 * @param piece a new piece to be put on the board.
+	 */
 	protected void putPieceAt(HantoCoordinate coord, HantoPiece piece) {
 		HantoCoordinateImpl innerCoord = new HantoCoordinateImpl(coord);
 		HantoPieceType pieceType = piece.getType();
@@ -68,6 +98,11 @@ public class GammaHantoGameState implements HantoGameState {
 		}
 	}
 	
+	/**
+	 * Move a piece between two coordinates on the board.
+	 * @param from coordinate of the hex containing the piece.
+	 * @param to destination of the piece.
+	 */
 	protected void movePiece(HantoCoordinate from, HantoCoordinate to) {
 		board.movePiece(from, to);
 	}
@@ -103,16 +138,28 @@ public class GammaHantoGameState implements HantoGameState {
 	
 	@Override 
 	public HantoBoard cloneBoard() {
-		return board.clone();
+		return board.makeCopy();
 	}
 	
+	/**
+	 * The GammaHantoPlayerState contains the information of each player at a certain
+	 * moment in the game.
+	 * 
+	 * @author Cuong Nguyen
+	 * @version April 6, 2016
+	 *
+	 */
 	protected class GammaHantoPlayerState implements HantoGameState.HantoPlayerState {
 
 		HantoCoordinate butterflyCoord = null;
 		Map<HantoPieceType, Integer> remaining = new HashMap<>();
 		
-		GammaHantoPlayerState(Map<HantoPieceType, Integer> initialVal) {
-			remaining = initialVal;
+		/**
+		 * Create a new player state with a given piece quota. 
+		 * @param pieceQuota quota of the pieces for each player.
+		 */
+		GammaHantoPlayerState(Map<HantoPieceType, Integer> pieceQuota) {
+			remaining = pieceQuota;
 		}
 		
 		/**
@@ -135,6 +182,11 @@ public class GammaHantoGameState implements HantoGameState {
 			return rem == null ? 0 : rem.intValue();
 		}
 		
+		/**
+		 * Set the number of remaining pieces by a new value.
+		 * @param pieceType type of the piece need to be set.
+		 * @param newVal new value for the number of the remaining piece.
+		 */
 		protected void setNumberOfRemainingPieces(HantoPieceType pieceType, int newVal) {
 			remaining.put(pieceType, newVal);
 		}
