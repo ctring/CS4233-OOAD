@@ -14,11 +14,15 @@ import hanto.studentctnguyendinh.common.piece.HantoPieceAbstract;
 import hanto.studentctnguyendinh.common.rule.HantoRuleValidator;
 
 public abstract class HantoGameBase implements HantoGame {
-	
+
 	protected HantoGameState gameState;
 	protected HantoRuleValidator ruleValidator;
 	protected HantoPieceFactory pieceFactory;
-	
+
+	protected HantoPieceType playedPieceType;
+	protected HantoCoordinate playedFrom;
+	protected HantoCoordinate playedTo;
+
 	/**
 	 * Construct a HantoGameBase instance with the player who moves first being
 	 * specified.
@@ -33,29 +37,34 @@ public abstract class HantoGameBase implements HantoGame {
 	public HantoGameBase(HantoPlayerColor movesFirst) {
 		pieceFactory = HantoPieceFactory.getInstance();
 	}
-	
+
 	@Override
 	public MoveResult makeMove(HantoPieceType pieceType, HantoCoordinate from, HantoCoordinate to)
 			throws HantoException {
-		ruleValidator.validateRules(gameState, pieceType, from, to);
 
-		if (from == null) {
-			HantoPiece newPiece = pieceFactory.makeHantoPiece(gameState.getCurrentPlayer(), pieceType);
-			gameState.putPieceAt(to, newPiece);
-		} else {
-			HantoPieceAbstract piece = (HantoPieceAbstract) gameState.getPieceAt(from);
-			piece.validateMove(gameState, from, to);
-			gameState.movePiece(from, to);
-		}
+		recordMoveInput(pieceType, from, to);
 
-		gameState.advanceMove();
+		doPreMoveCheck();
+		doMove();
+		doPostMoveCheck();
 
-		MoveResult moveResult = ruleValidator.validateEndRules(gameState);
+		MoveResult moveResult = getMoveResult();
 		if (moveResult != OK) {
 			gameState.flagGameOver();
 		}
-
 		return moveResult;
+	}
+
+	/**
+	 * Converts input into internal move data.
+	 * @param pieceType type of the piece being played.
+	 * @param from coordinate where the piece begins.
+	 * @param to coordinate where the piece ends
+	 */
+	private void recordMoveInput(HantoPieceType pieceType, HantoCoordinate from, HantoCoordinate to) {
+		playedPieceType = pieceType;
+		playedFrom = from != null ? new HantoCoordinateImpl(from) : null;
+		playedTo = to != null ? new HantoCoordinateImpl(to) : null;
 	}
 
 	@Override
@@ -66,6 +75,30 @@ public abstract class HantoGameBase implements HantoGame {
 	@Override
 	public String getPrintableBoard() {
 		return gameState.getPrintableBoard();
+	}
+
+	protected void doPreMoveCheck() throws HantoException {
+		ruleValidator.validateRules(gameState, playedPieceType, playedFrom, playedTo);
+	}
+
+	protected void doMove() throws HantoException {
+		if (playedFrom == null) {
+			HantoPiece newPiece = pieceFactory.makeHantoPiece(gameState.getCurrentPlayer(), playedPieceType);
+			gameState.putPieceAt(playedTo, newPiece);
+		} else {
+			HantoPieceAbstract piece = (HantoPieceAbstract) gameState.getPieceAt(playedFrom);
+			piece.validateMove(gameState, playedFrom, playedTo);
+			gameState.movePiece(playedFrom, playedTo);
+		}
+		gameState.advanceMove();
+	}
+
+	protected void doPostMoveCheck() throws HantoException {
+		
+	}
+	
+	protected MoveResult getMoveResult() {
+		return ruleValidator.validateEndRules(gameState);
 	}
 
 }
