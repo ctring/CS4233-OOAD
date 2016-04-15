@@ -1,19 +1,9 @@
 package hanto.studentctnguyendinh.common;
 
-import static hanto.common.HantoPlayerColor.BLUE;
-import static hanto.common.HantoPlayerColor.RED;
-import static hanto.common.MoveResult.BLUE_WINS;
-import static hanto.common.MoveResult.DRAW;
-import static hanto.common.MoveResult.OK;
-import static hanto.common.MoveResult.RED_WINS;
+import static hanto.common.HantoPlayerColor.*;
+import static hanto.common.MoveResult.*;
 
-import hanto.common.HantoCoordinate;
-import hanto.common.HantoException;
-import hanto.common.HantoGame;
-import hanto.common.HantoPiece;
-import hanto.common.HantoPieceType;
-import hanto.common.HantoPlayerColor;
-import hanto.common.MoveResult;
+import hanto.common.*;
 import hanto.studentctnguyendinh.HantoPieceFactory;
 import hanto.studentctnguyendinh.common.piece.HantoPieceAbstract;
 import hanto.studentctnguyendinh.common.rule.HantoRuleValidator;
