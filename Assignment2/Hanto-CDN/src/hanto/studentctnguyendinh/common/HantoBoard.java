@@ -29,17 +29,6 @@ public class HantoBoard {
 
 	}
 	
-	private HantoBoard(Map<HantoCoordinateImpl, HantoPiece> board) {
-		this.board = new HashMap<HantoCoordinateImpl, HantoPiece>(board);
-	}
-	
-	/**
-	 * @return a copy of this board.
-	 */
-	public HantoBoard makeCopy() {
-		return new HantoBoard(board);
-	}
-	
 	/**
 	 * Get a Hanto piece at a given coordinate.
 	 * @param coord coordinate that needs retrieving a piece.
@@ -54,8 +43,7 @@ public class HantoBoard {
 	 * @param coord coordinate of the new piece.
 	 * @param piece piece to be placed.
 	 */
-	// TODO: try to hide this method from public
-	public void putPieceAt(HantoCoordinate coord, HantoPiece piece) {
+	void putPieceAt(HantoCoordinate coord, HantoPiece piece) {
 		board.put(new HantoCoordinateImpl(coord), piece);
 	}
 	
@@ -64,7 +52,7 @@ public class HantoBoard {
 	 * @param from coordinate of the piece to be moved.
 	 * @param to destination coordinate.
 	 */
-	public void movePiece(HantoCoordinate from, HantoCoordinate to) {
+	void movePiece(HantoCoordinate from, HantoCoordinate to) {
 		HantoPiece piece = getPieceAt(from);
 		board.remove(new HantoCoordinateImpl(from));
 		board.put(new HantoCoordinateImpl(to), piece);

@@ -7,15 +7,12 @@
  *******************************************************************************/
 package hanto.studentctnguyendinh.common.rule;
 
-import static hanto.common.MoveResult.*;
-
 import java.util.ArrayList;
 import java.util.List;
 
 import hanto.common.HantoCoordinate;
 import hanto.common.HantoException;
 import hanto.common.HantoPieceType;
-import hanto.common.MoveResult;
 import hanto.studentctnguyendinh.common.HantoGameState;
 
 /**

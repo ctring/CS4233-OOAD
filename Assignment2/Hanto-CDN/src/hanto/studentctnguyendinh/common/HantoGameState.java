@@ -147,10 +147,11 @@ public class HantoGameState {
 	}
 
 	/**
-	 * @return Return a duplicate of the board of this game.
+	 * Check whether connectivity of the pieces on the board is valid.
+	 * @return true if it is valid, false otherwise.
 	 */
-	public HantoBoard cloneBoard() {
-		return board.makeCopy();
+	public boolean validateBoard() {
+		return board.validateConnectivity();
 	}
 	
 	/**

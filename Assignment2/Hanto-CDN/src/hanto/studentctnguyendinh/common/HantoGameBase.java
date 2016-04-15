@@ -101,7 +101,11 @@ public abstract class HantoGameBase implements HantoGame {
 	}
 
 	protected void doPostMoveCheck() throws HantoException {
-		
+		if (playedFrom != null) {
+			if (!gameState.validateBoard()) {
+				throw new HantoException("Cannot make a discontinuous move"); 
+			}
+		}
 	}
 	
 	protected MoveResult getMoveResult() {

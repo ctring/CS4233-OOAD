@@ -14,19 +14,27 @@ package hanto.studentctnguyendinh.gamma;
 
 import static hanto.common.HantoPieceType.BUTTERFLY;
 import static hanto.common.HantoPieceType.SPARROW;
-import static hanto.common.MoveResult.OK;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-import hanto.common.*;
-import hanto.studentctnguyendinh.HantoPieceFactory;
+import hanto.common.HantoPieceType;
+import hanto.common.HantoPlayerColor;
 import hanto.studentctnguyendinh.common.HantoGameBase;
 import hanto.studentctnguyendinh.common.HantoGameState;
-import hanto.studentctnguyendinh.common.piece.HantoPieceAbstract;
-import hanto.studentctnguyendinh.common.rule.*;
+import hanto.studentctnguyendinh.common.rule.HantoRule;
+import hanto.studentctnguyendinh.common.rule.HantoRuleAdjacentSameColor;
+import hanto.studentctnguyendinh.common.rule.HantoRuleButterflyInFourMoves;
+import hanto.studentctnguyendinh.common.rule.HantoRuleFirstMoveAtOrigin;
+import hanto.studentctnguyendinh.common.rule.HantoRuleGameOver;
+import hanto.studentctnguyendinh.common.rule.HantoRuleInputConsistency;
+import hanto.studentctnguyendinh.common.rule.HantoRuleMoveBeforeButterfly;
+import hanto.studentctnguyendinh.common.rule.HantoRuleNotAdjacent;
+import hanto.studentctnguyendinh.common.rule.HantoRuleOccupiedHex;
+import hanto.studentctnguyendinh.common.rule.HantoRulePiecesQuota;
+import hanto.studentctnguyendinh.common.rule.HantoRuleValidatorImpl;
 
 /**
  * A concrete implementation of the Gamma version of the Hanto game.
@@ -52,10 +60,16 @@ public class GammaHantoGame extends HantoGameBase {
 		
 		maxNumberOfMove = 40;
 		
-		HantoRule[] rules = { new HantoRuleGameOver(), new HantoRuleFirstMoveAtOrigin(),
-				new HantoRuleInputConsistency(), new HantoRuleMoveBeforeButterfly(), new HantoRuleOccupiedHex(),
-				new HantoRuleNotAdjacent(), new HantoRulePiecesQuota(), new HantoRuleButterflyInFourMoves(),
-				new HantoRuleAdjacentSameColor(), new HantoRuleContinuousMove() };
+		HantoRule[] rules = { 
+				new HantoRuleGameOver(), 
+				new HantoRuleFirstMoveAtOrigin(),
+				new HantoRuleInputConsistency(), 
+				new HantoRuleMoveBeforeButterfly(), 
+				new HantoRuleOccupiedHex(),
+				new HantoRuleNotAdjacent(), 
+				new HantoRulePiecesQuota(), 
+				new HantoRuleButterflyInFourMoves(),
+				new HantoRuleAdjacentSameColor() };
 
 		ruleValidator = new HantoRuleValidatorImpl(new ArrayList<HantoRule>(Arrays.asList(rules)));
 

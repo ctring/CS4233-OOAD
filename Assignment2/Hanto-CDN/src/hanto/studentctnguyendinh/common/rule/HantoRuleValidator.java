@@ -10,7 +10,6 @@ package hanto.studentctnguyendinh.common.rule;
 import hanto.common.HantoCoordinate;
 import hanto.common.HantoException;
 import hanto.common.HantoPieceType;
-import hanto.common.MoveResult;
 import hanto.studentctnguyendinh.common.HantoGameState;
 
 /**
