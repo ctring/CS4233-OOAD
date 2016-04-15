@@ -18,7 +18,6 @@ import hanto.common.HantoCoordinate;
 import hanto.common.HantoPiece;
 import hanto.common.HantoPieceType;
 import hanto.common.HantoPlayerColor;
-import hanto.studentctnguyendinh.gamma.GammaHantoBoard;
 
 /**
  * HantoGameState is an interface for providing state of a HantoGame during playing.
@@ -27,7 +26,7 @@ import hanto.studentctnguyendinh.gamma.GammaHantoBoard;
  */
 public class HantoGameState {
 	
-	private HantoBoard board;// = new GammaHantoBoard();
+	private HantoBoard board = new HantoBoard();
 	
 	private HantoPlayerColor movesFirst;
 	private HantoPlayerColor movesSecond;
@@ -55,7 +54,7 @@ public class HantoGameState {
 	/**
 	 * Increase the number of moves.
 	 */
-	protected void advanceMove() {
+	void advanceMove() {
 		moveCount++;
 		currentPlayer = 1 - currentPlayer;
 	}
@@ -63,7 +62,7 @@ public class HantoGameState {
 	/**
 	 * Turn on the game over flag.
 	 */
-	protected void flagGameOver() {
+	void flagGameOver() {
 		gameOver = true;
 	}
 	
@@ -72,7 +71,7 @@ public class HantoGameState {
 	 * @param coord coordinate of the location of the new piece.
 	 * @param piece a new piece to be put on the board.
 	 */
-	protected void putPieceAt(HantoCoordinate coord, HantoPiece piece) {
+	void putPieceAt(HantoCoordinate coord, HantoPiece piece) {
 		HantoCoordinateImpl innerCoord = new HantoCoordinateImpl(coord);
 		HantoPieceType pieceType = piece.getType();
 		
@@ -99,7 +98,7 @@ public class HantoGameState {
 	 * @param from coordinate of the hex containing the piece.
 	 * @param to destination of the piece.
 	 */
-	protected void movePiece(HantoCoordinate from, HantoCoordinate to) {
+	void movePiece(HantoCoordinate from, HantoCoordinate to) {
 		board.movePiece(from, to);
 	}
 	
