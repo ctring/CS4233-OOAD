@@ -73,7 +73,6 @@ public class GammaHantoGame implements HantoGame
 			gameState.movePiece(from, to);
 		}
 		
-		
 		gameState.advanceMove();
 		
 		MoveResult moveResult = ruleValidator.validateEndRules(gameState);

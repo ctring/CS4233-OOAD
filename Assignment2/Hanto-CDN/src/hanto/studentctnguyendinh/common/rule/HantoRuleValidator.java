@@ -14,7 +14,7 @@ import hanto.common.MoveResult;
 import hanto.studentctnguyendinh.common.HantoGameState;
 
 /**
- * HantoRuleValidator is an interface for the rule validators that perform rule
+ * HantoRuleValidator is an interface for the rule validators that perform rules
  * checking using a set of strategies.
  *  
  * @author Cuong Nguyen

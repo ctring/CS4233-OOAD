@@ -21,7 +21,7 @@ import hanto.studentctnguyendinh.common.HantoGameState;
 public interface HantoRule {
 	
 	/**
-	 * Validate a rule based on current game state an input.
+	 * Validate a rule based on current game state and input.
 	 * @param gameState current game state.
 	 * @param pieceType type of the piece in the latest move.
 	 * @param from coordinate where the piece begins.
