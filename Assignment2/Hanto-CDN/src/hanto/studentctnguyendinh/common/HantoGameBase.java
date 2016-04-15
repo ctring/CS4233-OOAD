@@ -84,10 +84,19 @@ public abstract class HantoGameBase implements HantoGame {
 		return gameState.getPrintableBoard();
 	}
 
+	/**
+	 * Check for game rules compliance before making the move. 
+	 * 
+	 * @throws HantoException
+	 */
 	protected void doPreMoveCheck() throws HantoException {
 		ruleValidator.validateRules(gameState, playedPieceType, playedFrom, playedTo);
 	}
 
+	/**
+	 * Actually do the move. There can also be move validation in this method.
+	 * @throws HantoException
+	 */
 	protected void doMove() throws HantoException {
 		if (playedFrom == null) {
 			HantoPiece newPiece = pieceFactory.makeHantoPiece(gameState.getCurrentPlayer(), playedPieceType);
@@ -100,6 +109,11 @@ public abstract class HantoGameBase implements HantoGame {
 		gameState.advanceMove();
 	}
 
+	/**
+	 * Check for game rules compliance after making the move. 
+	 * 
+	 * @throws HantoException
+	 */
 	protected void doPostMoveCheck() throws HantoException {
 		if (playedFrom != null) {
 			if (!gameState.validateBoard()) {
@@ -108,6 +122,10 @@ public abstract class HantoGameBase implements HantoGame {
 		}
 	}
 	
+	/**
+	 * Get result of the move based on the game state after making the move.
+	 * @return result of the move.
+	 */
 	protected MoveResult getMoveResult() {
 		final boolean redButterflySurrounded = checkButterflySurrounded(RED);
 		final boolean blueButterflySurrounded = checkButterflySurrounded(BLUE);
@@ -126,6 +144,11 @@ public abstract class HantoGameBase implements HantoGame {
 		return OK;
 	}
 	
+	/**
+	 * Check whether the butterfly of the specified player is surrounded.
+	 * @param player color of the player whose butterfly needs to be checked.
+	 * @return true if the butterfly is surrounded, false otherwise.
+	 */
 	private boolean checkButterflySurrounded(HantoPlayerColor player) {
 		if (gameState.getPlayerState(player).getButterflyCoordinate() == null) {
 			return false;
