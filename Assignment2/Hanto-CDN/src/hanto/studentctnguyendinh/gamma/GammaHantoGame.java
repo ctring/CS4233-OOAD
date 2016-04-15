@@ -23,6 +23,8 @@ import java.util.Map;
 
 import hanto.common.*;
 import hanto.studentctnguyendinh.HantoPieceFactory;
+import hanto.studentctnguyendinh.common.HantoGameBase;
+import hanto.studentctnguyendinh.common.HantoGameState;
 import hanto.studentctnguyendinh.common.piece.HantoPieceAbstract;
 import hanto.studentctnguyendinh.common.rule.*;
 
@@ -32,18 +34,14 @@ import hanto.studentctnguyendinh.common.rule.*;
  * @author Cuong Nguyen
  * @version April 7, 2016
  */
-public class GammaHantoGame implements HantoGame {
-	private GammaHantoGameState gameState;
-	private HantoRuleValidator ruleValidator;
-	private HantoPieceFactory pieceFactory;
-
-	// public GammaHantoGame(HantoRuleValidator ruleValidator,
-	// Map<HantoPieceType, Integer> piecesQuota) {
-	// this(BLUE, ruleValidator, piecesQuota);
-	// }
+public class GammaHantoGame extends HantoGameBase {
+	
+//	private HantoGameState gameState;
+//	private HantoRuleValidator ruleValidator;
+//	private HantoPieceFactory pieceFactory;
 
 	/**
-	 * Construct a BetaHantoGame instance with the player who moves first being
+	 * Construct a GammaHantoGame instance with the player who moves first being
 	 * specified.
 	 * 
 	 * @param movesFirst
@@ -54,7 +52,7 @@ public class GammaHantoGame implements HantoGame {
 	 *            number of available pieces for each piece types.
 	 */
 	public GammaHantoGame(HantoPlayerColor movesFirst) {
-		pieceFactory = HantoPieceFactory.getInstance();
+		super(movesFirst);
 		HantoRule[] rules = { new HantoRuleGameOver(), new HantoRuleFirstMoveAtOrigin(),
 				new HantoRuleInputConsistency(), new HantoRuleMoveBeforeButterfly(), new HantoRuleOccupiedHex(),
 				new HantoRuleNotAdjacent(), new HantoRulePiecesQuota(), new HantoRuleButterflyInFourMoves(),
@@ -68,51 +66,51 @@ public class GammaHantoGame implements HantoGame {
 		gammaPiecesQuota.put(BUTTERFLY, 1);
 		gammaPiecesQuota.put(SPARROW, 5);
 
-		gameState = new GammaHantoGameState(movesFirst, gammaPiecesQuota);
+		gameState = new HantoGameState(movesFirst, gammaPiecesQuota);
 	}
 
-	/*
-	 * @see hanto.common.HantoGame#makeMove(hanto.common.HantoPieceType,
-	 * hanto.common.HantoCoordinate, hanto.common.HantoCoordinate)
-	 */
-	@Override
-	public MoveResult makeMove(HantoPieceType pieceType, HantoCoordinate from, HantoCoordinate to)
-			throws HantoException {
-		ruleValidator.validateRules(gameState, pieceType, from, to);
-
-		if (from == null) {
-			HantoPiece newPiece = pieceFactory.makeHantoPiece(gameState.getCurrentPlayer(), pieceType);
-			gameState.putPieceAt(to, newPiece);
-		} else {
-			HantoPieceAbstract piece = (HantoPieceAbstract) gameState.getPieceAt(from);
-			piece.validateMove(gameState, from, to);
-			gameState.movePiece(from, to);
-		}
-
-		gameState.advanceMove();
-
-		MoveResult moveResult = ruleValidator.validateEndRules(gameState);
-		if (moveResult != OK) {
-			gameState.flagGameOver();
-		}
-
-		return moveResult;
-	}
-
-	/*
-	 * @see hanto.common.HantoGame#getPieceAt(hanto.common.HantoCoordinate)
-	 */
-	@Override
-	public HantoPiece getPieceAt(HantoCoordinate where) {
-		return gameState.getPieceAt(where);
-	}
-
-	/*
-	 * @see hanto.common.HantoGame#getPrintableBoard()
-	 */
-	@Override
-	public String getPrintableBoard() {
-		return gameState.getPrintableBoard();
-	}
+//	/*
+//	 * @see hanto.common.HantoGame#makeMove(hanto.common.HantoPieceType,
+//	 * hanto.common.HantoCoordinate, hanto.common.HantoCoordinate)
+//	 */
+//	@Override
+//	public MoveResult makeMove(HantoPieceType pieceType, HantoCoordinate from, HantoCoordinate to)
+//			throws HantoException {
+//		ruleValidator.validateRules(gameState, pieceType, from, to);
+//
+//		if (from == null) {
+//			HantoPiece newPiece = pieceFactory.makeHantoPiece(gameState.getCurrentPlayer(), pieceType);
+//			gameState.putPieceAt(to, newPiece);
+//		} else {
+//			HantoPieceAbstract piece = (HantoPieceAbstract) gameState.getPieceAt(from);
+//			piece.validateMove(gameState, from, to);
+//			gameState.movePiece(from, to);
+//		}
+//
+//		gameState.advanceMove();
+//
+//		MoveResult moveResult = ruleValidator.validateEndRules(gameState);
+//		if (moveResult != OK) {
+//			gameState.flagGameOver();
+//		}
+//
+//		return moveResult;
+//	}
+//
+//	/*
+//	 * @see hanto.common.HantoGame#getPieceAt(hanto.common.HantoCoordinate)
+//	 */
+//	@Override
+//	public HantoPiece getPieceAt(HantoCoordinate where) {
+//		return gameState.getPieceAt(where);
+//	}
+//
+//	/*
+//	 * @see hanto.common.HantoGame#getPrintableBoard()
+//	 */
+//	@Override
+//	public String getPrintableBoard() {
+//		return gameState.getPrintableBoard();
+//	}
 
 }
