@@ -12,29 +12,22 @@
 
 package hanto.studentctnguyendinh.beta;
 
-import static hanto.common.HantoPieceType.*;
-import static hanto.common.HantoPlayerColor.*;
-import static hanto.common.MoveResult.*;
+import static hanto.common.HantoPieceType.BUTTERFLY;
+import static hanto.common.HantoPieceType.SPARROW;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-import hanto.common.*;
-import hanto.studentctnguyendinh.common.*;
-import hanto.studentctnguyendinh.common.piece.HantoPieceImpl;
-import hanto.studentctnguyendinh.common.rule.HantoEndRule;
-import hanto.studentctnguyendinh.common.rule.HantoEndRuleButterflyIsSurrounded;
-import hanto.studentctnguyendinh.common.rule.HantoEndRuleMaxNumberOfMoves;
+import hanto.common.HantoPieceType;
+import hanto.common.HantoPlayerColor;
+import hanto.studentctnguyendinh.common.HantoGameBase;
+import hanto.studentctnguyendinh.common.HantoGameState;
 import hanto.studentctnguyendinh.common.rule.HantoRule;
-import hanto.studentctnguyendinh.common.rule.HantoRuleAdjacentSameColor;
 import hanto.studentctnguyendinh.common.rule.HantoRuleButterflyInFourMoves;
-import hanto.studentctnguyendinh.common.rule.HantoRuleContinuousMove;
 import hanto.studentctnguyendinh.common.rule.HantoRuleFirstMoveAtOrigin;
 import hanto.studentctnguyendinh.common.rule.HantoRuleGameOver;
-import hanto.studentctnguyendinh.common.rule.HantoRuleInputConsistency;
-import hanto.studentctnguyendinh.common.rule.HantoRuleMoveBeforeButterfly;
 import hanto.studentctnguyendinh.common.rule.HantoRuleNotAdjacent;
 import hanto.studentctnguyendinh.common.rule.HantoRuleOccupiedHex;
 import hanto.studentctnguyendinh.common.rule.HantoRulePiecesQuota;
@@ -69,6 +62,9 @@ public class BetaHantoGame extends HantoGameBase
 	 */
 	public BetaHantoGame(HantoPlayerColor movesFirst) {
 		super(movesFirst);
+		
+		maxNumberOfMove = 12;
+		
 		HantoRule[] rules = { new HantoRuleGameOver(), 
 				new HantoRuleFirstMoveAtOrigin(),
 				new HantoRuleOccupiedHex(),
@@ -77,9 +73,7 @@ public class BetaHantoGame extends HantoGameBase
 				new HantoRuleButterflyInFourMoves(),
 				};
 
-		HantoEndRule[] endRules = { new HantoEndRuleButterflyIsSurrounded(), new HantoEndRuleMaxNumberOfMoves() };
-		ruleValidator = new HantoRuleValidatorImpl(new ArrayList<HantoRule>(Arrays.asList(rules)),
-				new ArrayList<HantoEndRule>(Arrays.asList(endRules)));
+		ruleValidator = new HantoRuleValidatorImpl(new ArrayList<HantoRule>(Arrays.asList(rules)));
 
 		Map<HantoPieceType, Integer> gammaPiecesQuota = new HashMap<>();
 		gammaPiecesQuota.put(BUTTERFLY, 1);

@@ -1,6 +1,11 @@
 package hanto.studentctnguyendinh.common;
 
+import static hanto.common.HantoPlayerColor.BLUE;
+import static hanto.common.HantoPlayerColor.RED;
+import static hanto.common.MoveResult.BLUE_WINS;
+import static hanto.common.MoveResult.DRAW;
 import static hanto.common.MoveResult.OK;
+import static hanto.common.MoveResult.RED_WINS;
 
 import hanto.common.HantoCoordinate;
 import hanto.common.HantoException;
@@ -100,7 +105,37 @@ public abstract class HantoGameBase implements HantoGame {
 	}
 	
 	protected MoveResult getMoveResult() {
-		return ruleValidator.validateEndRules(gameState);
+		final boolean redButterflySurrounded = checkButterflySurrounded(RED);
+		final boolean blueButterflySurrounded = checkButterflySurrounded(BLUE);
+		if (redButterflySurrounded && blueButterflySurrounded) {
+			return DRAW;
+		}
+		else if (redButterflySurrounded) {
+			return BLUE_WINS;
+		}
+		else if (blueButterflySurrounded) {
+			return RED_WINS;
+		}
+		else if (gameState.getNumberOfPlayedMoves() >= maxNumberOfMove) {
+			return DRAW;
+		}
+		return OK;
+	}
+	
+	private boolean checkButterflySurrounded(HantoPlayerColor player) {
+		if (gameState.getPlayerState(player).getButterflyCoordinate() == null) {
+			return false;
+		}
+		final HantoCoordinateImpl butterflyCoord = new HantoCoordinateImpl(
+				gameState.getPlayerState(player).getButterflyCoordinate());
+		
+		final HantoCoordinateImpl[] adjCoords = butterflyCoord.getAdjacentCoordsSet();
+		for (int i = 0; i < 6; i++) {
+			if (gameState.getPieceAt(adjCoords[i]) == null) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 }

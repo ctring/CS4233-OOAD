@@ -27,16 +27,14 @@ import hanto.studentctnguyendinh.common.HantoGameState;
 public class HantoRuleValidatorImpl implements HantoRuleValidator {
 
 	List<HantoRule> ruleList;
-	List<HantoEndRule> endRuleList;
 	
 	/**
 	 * Create a new Hanto rule validator with given rules list and end rules list.
 	 * @param ruleList list of general rules.
 	 * @param endRuleList list of rules for a game end.
 	 */
-	public HantoRuleValidatorImpl(List<HantoRule> ruleList, List<HantoEndRule> endRuleList) {
+	public HantoRuleValidatorImpl(List<HantoRule> ruleList) {
 		this.ruleList = new ArrayList<>(ruleList);
-		this.endRuleList = new ArrayList<>(endRuleList);
 	}
 	
 	@Override
@@ -49,14 +47,4 @@ public class HantoRuleValidatorImpl implements HantoRuleValidator {
 		} 
 	}
 	
-	@Override
-	public MoveResult validateEndRules(HantoGameState gameState) {
-		for (HantoEndRule rule : endRuleList) {
-			MoveResult result = rule.checkResult(gameState);
-			if (result != OK) {
-				return result; 
-			}
-		}
-		return OK;
-	}
 }

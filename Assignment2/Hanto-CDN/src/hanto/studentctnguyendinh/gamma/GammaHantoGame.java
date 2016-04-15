@@ -29,7 +29,7 @@ import hanto.studentctnguyendinh.common.piece.HantoPieceAbstract;
 import hanto.studentctnguyendinh.common.rule.*;
 
 /**
- * A concerete implementation of the Gamma version of the Hanto game.
+ * A concrete implementation of the Gamma version of the Hanto game.
  * 
  * @author Cuong Nguyen
  * @version April 7, 2016
@@ -49,14 +49,15 @@ public class GammaHantoGame extends HantoGameBase {
 	 */
 	public GammaHantoGame(HantoPlayerColor movesFirst) {
 		super(movesFirst);
+		
+		maxNumberOfMove = 40;
+		
 		HantoRule[] rules = { new HantoRuleGameOver(), new HantoRuleFirstMoveAtOrigin(),
 				new HantoRuleInputConsistency(), new HantoRuleMoveBeforeButterfly(), new HantoRuleOccupiedHex(),
 				new HantoRuleNotAdjacent(), new HantoRulePiecesQuota(), new HantoRuleButterflyInFourMoves(),
 				new HantoRuleAdjacentSameColor(), new HantoRuleContinuousMove() };
 
-		HantoEndRule[] endRules = { new HantoEndRuleButterflyIsSurrounded(), new HantoEndRuleMaxNumberOfMoves() };
-		ruleValidator = new HantoRuleValidatorImpl(new ArrayList<HantoRule>(Arrays.asList(rules)),
-				new ArrayList<HantoEndRule>(Arrays.asList(endRules)));
+		ruleValidator = new HantoRuleValidatorImpl(new ArrayList<HantoRule>(Arrays.asList(rules)));
 
 		Map<HantoPieceType, Integer> gammaPiecesQuota = new HashMap<>();
 		gammaPiecesQuota.put(BUTTERFLY, 1);

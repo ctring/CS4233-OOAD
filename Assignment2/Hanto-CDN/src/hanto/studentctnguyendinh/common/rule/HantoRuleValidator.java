@@ -33,11 +33,4 @@ public interface HantoRuleValidator {
 	 */
 	void validateRules(HantoGameState gameState, HantoPieceType pieceType, HantoCoordinate from,	
 			HantoCoordinate to) throws HantoException;
-	
-	/**
-	 * Check for ending condition.
-	 * @param gameState current state of the game.
-	 * @return result from the latest move. 
-	 */
-	MoveResult validateEndRules(HantoGameState gameState); 
 }
