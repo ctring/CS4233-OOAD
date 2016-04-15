@@ -16,283 +16,317 @@ import static hanto.common.HantoPieceType.*;
 import static hanto.common.HantoPlayerColor.*;
 import static hanto.common.MoveResult.*;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
 import hanto.common.*;
 import hanto.studentctnguyendinh.common.*;
 import hanto.studentctnguyendinh.common.piece.HantoPieceImpl;
+import hanto.studentctnguyendinh.common.rule.HantoEndRule;
+import hanto.studentctnguyendinh.common.rule.HantoEndRuleButterflyIsSurrounded;
+import hanto.studentctnguyendinh.common.rule.HantoEndRuleMaxNumberOfMoves;
+import hanto.studentctnguyendinh.common.rule.HantoRule;
+import hanto.studentctnguyendinh.common.rule.HantoRuleAdjacentSameColor;
+import hanto.studentctnguyendinh.common.rule.HantoRuleButterflyInFourMoves;
+import hanto.studentctnguyendinh.common.rule.HantoRuleContinuousMove;
+import hanto.studentctnguyendinh.common.rule.HantoRuleFirstMoveAtOrigin;
+import hanto.studentctnguyendinh.common.rule.HantoRuleGameOver;
+import hanto.studentctnguyendinh.common.rule.HantoRuleInputConsistency;
+import hanto.studentctnguyendinh.common.rule.HantoRuleMoveBeforeButterfly;
+import hanto.studentctnguyendinh.common.rule.HantoRuleNotAdjacent;
+import hanto.studentctnguyendinh.common.rule.HantoRuleOccupiedHex;
+import hanto.studentctnguyendinh.common.rule.HantoRulePiecesQuota;
+import hanto.studentctnguyendinh.common.rule.HantoRuleValidatorImpl;
 
 /**
  * <<Fill this in>>
  * @version Mar 16, 2016
  */
-public class BetaHantoGame implements HantoGame
+public class BetaHantoGame extends HantoGameBase
 {
-	private HantoPlayerColor movesFirst;
-	private HantoPlayerColor movesSecond;
-	private Map<HantoCoordinate, HantoPiece> board = new HashMap<>();
-	
-	private int moveCount = 0; 
-	private boolean bluePlacedButterfly = false;
-	private boolean redPlacedButterfly = false;
-	private boolean gameOver = false;
-	
-	
-	private HantoCoordinateImpl blueButterflyCoord;
-	private HantoCoordinateImpl redButterflyCoord;
-	
-	public BetaHantoGame() {
-		this(BLUE);
-	}
+//	private HantoPlayerColor movesFirst;
+//	private HantoPlayerColor movesSecond;
+//	private Map<HantoCoordinate, HantoPiece> board = new HashMap<>();
+//	
+//	private int moveCount = 0; 
+//	private boolean bluePlacedButterfly = false;
+//	private boolean redPlacedButterfly = false;
+//	private boolean gameOver = false;
+//	
+//	
+//	private HantoCoordinateImpl blueButterflyCoord;
+//	private HantoCoordinateImpl redButterflyCoord;
+//	
+//	public BetaHantoGame() {
+//		this(BLUE);
+//	}
 
 	/**
 	 * Construct a BetaHantoGame instance with the player who moves first being specified.
 	 * @param movesFirst Color of the player who moves first.
 	 */
 	public BetaHantoGame(HantoPlayerColor movesFirst) {
-		this.movesFirst = movesFirst;
-		movesSecond = movesFirst == BLUE ? RED : BLUE;
+		super(movesFirst);
+		HantoRule[] rules = { new HantoRuleGameOver(), 
+				new HantoRuleFirstMoveAtOrigin(),
+				new HantoRuleOccupiedHex(),
+				new HantoRuleNotAdjacent(), 
+				new HantoRulePiecesQuota(), 
+				new HantoRuleButterflyInFourMoves(),
+				};
+
+		HantoEndRule[] endRules = { new HantoEndRuleButterflyIsSurrounded(), new HantoEndRuleMaxNumberOfMoves() };
+		ruleValidator = new HantoRuleValidatorImpl(new ArrayList<HantoRule>(Arrays.asList(rules)),
+				new ArrayList<HantoEndRule>(Arrays.asList(endRules)));
+
+		Map<HantoPieceType, Integer> gammaPiecesQuota = new HashMap<>();
+		gammaPiecesQuota.put(BUTTERFLY, 1);
+		gammaPiecesQuota.put(SPARROW, 5);
+
+		gameState = new HantoGameState(movesFirst, gammaPiecesQuota);
+		
 	}	
 	
 	/*
 	 * @see hanto.common.HantoGame#makeMove(hanto.common.HantoPieceType, hanto.common.HantoCoordinate, hanto.common.HantoCoordinate)
 	 */
-	@Override
-	public MoveResult makeMove(HantoPieceType pieceType, HantoCoordinate from,
-			HantoCoordinate to) throws HantoException
-	{
-		if (gameOver) {
-			throw new HantoException("Cannot make more moves after the game is finished");
-		}
-		
-		if (from != null) {
-			throw new HantoException("Moving pieces is not supported in Beta Hanto");
-		}
-		
-		moveCount++;
-		
-		// If moveCount is odd, it's the First Player (BLUE by default)'s turn
-		HantoPlayerColor currentPlayer = moveCount % 2 == 1 ? movesFirst : movesSecond;
-		HantoCoordinateImpl hexCoord = new HantoCoordinateImpl(to);
-		int currentPlayerMoves = (moveCount + 1) / 2;
-		
-		if (!pieceTypeAvailable(pieceType)) {
-			throw new HantoException("Only Butterflies and Sparrows are valid in Beta Hanto");
-		}
-		
-		if (moveCount == 1) {
-			if (to.getX() != 0 || to.getY() != 0) {
-				throw new HantoException("First move must be the origin");
-			}
-		}
-		else {
-			boolean placedButterfly = currentPlayer == BLUE ? 
-					bluePlacedButterfly : redPlacedButterfly;
-					
-			if (currentPlayerMoves == 4 && !placedButterfly && pieceType != BUTTERFLY) {
-				throw new HantoException("A butterfly must be placed in the first four turn");
-			}
-			
-			if (board.containsKey(hexCoord)) {
-				throw new HantoException("Cannot place a piece on an occupied hex");
-			}
-
-			if (!isAdjacentToAny(hexCoord)) {
-				throw new HantoException("The new piece must be ajacent to some pieces on the board");
-			}
-			
-			if (placedButterfly && pieceType == BUTTERFLY) {
-				throw new HantoException("Cannot place the second butterfly"); 
-			}
-		}
-		
-		board.put(hexCoord, new HantoPieceImpl(currentPlayer, pieceType));
-		
-		if (pieceType == BUTTERFLY) {
-			if (currentPlayer == BLUE) {
-				bluePlacedButterfly = true;
-				blueButterflyCoord = new HantoCoordinateImpl(to);
-			}
-			else {
-				redPlacedButterfly = true;
-				redButterflyCoord = new HantoCoordinateImpl(to);
-			}
-		}
-		
-		MoveResult moveResult = checkMoveResult();
-		return moveResult;
-	}
+//	@Override
+//	public MoveResult makeMove(HantoPieceType pieceType, HantoCoordinate from,
+//			HantoCoordinate to) throws HantoException
+//	{
+//		if (gameOver) {
+//			throw new HantoException("Cannot make more moves after the game is finished");
+//		}
+//		
+//		if (from != null) {
+//			throw new HantoException("Moving pieces is not supported in Beta Hanto");
+//		}
+//		
+//		moveCount++;
+//		
+//		// If moveCount is odd, it's the First Player (BLUE by default)'s turn
+//		HantoPlayerColor currentPlayer = moveCount % 2 == 1 ? movesFirst : movesSecond;
+//		HantoCoordinateImpl hexCoord = new HantoCoordinateImpl(to);
+//		int currentPlayerMoves = (moveCount + 1) / 2;
+//		
+//		if (!pieceTypeAvailable(pieceType)) {
+//			throw new HantoException("Only Butterflies and Sparrows are valid in Beta Hanto");
+//		}
+//		
+//		if (moveCount == 1) {
+//			if (to.getX() != 0 || to.getY() != 0) {
+//				throw new HantoException("First move must be the origin");
+//			}
+//		}
+//		else {
+//			boolean placedButterfly = currentPlayer == BLUE ? 
+//					bluePlacedButterfly : redPlacedButterfly;
+//					
+//			if (currentPlayerMoves == 4 && !placedButterfly && pieceType != BUTTERFLY) {
+//				throw new HantoException("A butterfly must be placed in the first four turn");
+//			}
+//			
+//			if (board.containsKey(hexCoord)) {
+//				throw new HantoException("Cannot place a piece on an occupied hex");
+//			}
+//
+//			if (!isAdjacentToAny(hexCoord)) {
+//				throw new HantoException("The new piece must be ajacent to some pieces on the board");
+//			}
+//			
+//			if (placedButterfly && pieceType == BUTTERFLY) {
+//				throw new HantoException("Cannot place the second butterfly"); 
+//			}
+//		}
+//		
+//		board.put(hexCoord, new HantoPieceImpl(currentPlayer, pieceType));
+//		
+//		if (pieceType == BUTTERFLY) {
+//			if (currentPlayer == BLUE) {
+//				bluePlacedButterfly = true;
+//				blueButterflyCoord = new HantoCoordinateImpl(to);
+//			}
+//			else {
+//				redPlacedButterfly = true;
+//				redButterflyCoord = new HantoCoordinateImpl(to);
+//			}
+//		}
+//		
+//		MoveResult moveResult = checkMoveResult();
+//		return moveResult;
+//	}
+//	
+//	
+//	/**
+//	 * Check if a hex coordinate is adjacent to some pieces on the board.
+//	 * @param coord Coordinate to be checked
+//	 * @return True if the given coordinate is adjacent to some pieces on the board. 
+//	 * False otherwise.
+//	 */
+//	private boolean isAdjacentToAny(HantoCoordinateImpl coord) {
+//		boolean isAdjacentToAny = false;
+//		HantoCoordinateImpl[] adjCoords = coord.getAdjacentCoordsSet();
+//		for (int i = 0; i < 6; i++) {
+//			if (board.containsKey(adjCoords[i])) {
+//				isAdjacentToAny = true;
+//				break;
+//			}
+//		}
+//		return isAdjacentToAny;
+//	}
+//	
 	
-	
-	/**
-	 * Check if a hex coordinate is adjacent to some pieces on the board.
-	 * @param coord Coordinate to be checked
-	 * @return True if the given coordinate is adjacent to some pieces on the board. 
-	 * False otherwise.
-	 */
-	private boolean isAdjacentToAny(HantoCoordinateImpl coord) {
-		boolean isAdjacentToAny = false;
-		HantoCoordinateImpl[] adjCoords = coord.getAdjacentCoordsSet();
-		for (int i = 0; i < 6; i++) {
-			if (board.containsKey(adjCoords[i])) {
-				isAdjacentToAny = true;
-				break;
-			}
-		}
-		return isAdjacentToAny;
-	}
-	
-	
-	/**
-	 * Check the current board configuration after the latest move to
-	 * decide the result of that move.
-	 * @return Result of the latest move
-	 */
-	private MoveResult checkMoveResult() {
-		int currentPlayerMoves = (moveCount + 1) / 2;
-		int otherPlayerMoves = moveCount / 2;
-		boolean blueWins = checkBlueWin();
-		boolean redWins = checkRedWin();
-		MoveResult moveResult;
-		
-		if (blueWins && redWins) {
-			moveResult = DRAW;
-		}
-		else if (blueWins) {
-			moveResult = BLUE_WINS;
-		}
-		else if (redWins) {
-			moveResult = RED_WINS;
-		}
-		else if	(currentPlayerMoves == 6 && otherPlayerMoves == 6) {
-			moveResult = DRAW;
-		}
-		else {
-			moveResult = OK;
-		}
-		
-		if (moveResult != OK) {
-			gameOver = true;
-		}
-		
-		return moveResult;
-	}
-	
-	
-	/**
-	 * Check to see if blue wins.
-	 * @return True if blue wins. False otherwise.
-	 */
-	private boolean checkBlueWin() {
-		if (redButterflyCoord == null) {
-			return false;
-		}
-		HantoCoordinateImpl[] adjCoords = redButterflyCoord.getAdjacentCoordsSet();
-		for (int i = 0; i < 6; i++) {
-			if (board.get(adjCoords[i]) == null) {
-				return false;
-			}
-		}
-		return true;
-	}
-	
-	
-	/**
-	 * Check to see if red wins.
-	 * @return True if red wins. False otherwise.
-	 */	
-	private boolean checkRedWin() {
-		if (blueButterflyCoord == null) {
-			return false;
-		}
-		HantoCoordinateImpl[] adjCoords = blueButterflyCoord.getAdjacentCoordsSet();
-		for (int i = 0; i < 6; i++) {
-			if (board.get(adjCoords[i]) == null) {
-				return false;
-			}
-		}
-		return true;
-	}
-	
-	
-	private boolean pieceTypeAvailable(HantoPieceType pieceType) {
-		if (pieceType != BUTTERFLY && pieceType != SPARROW) {
-			return false;
-		}
-		return true;
-	}
-	
-	
-	/*
-	 * @see hanto.common.HantoGame#getPieceAt(hanto.common.HantoCoordinate)
-	 */
-	@Override
-	public HantoPiece getPieceAt(HantoCoordinate where)
-	{
-		return board.get(new HantoCoordinateImpl(where));
-	}
-
-	/*
-	 * @see hanto.common.HantoGame#getPrintableBoard()
-	 */
-	@Override
-	public String getPrintableBoard()
-	{
-		int maxR = Integer.MIN_VALUE, minR = Integer.MAX_VALUE;
-		int maxC = Integer.MIN_VALUE, minC = Integer.MAX_VALUE;
-		for (HantoCoordinate coord : board.keySet()) {
-			maxR = Math.max(maxR, -(coord.getX() + 2 * coord.getY()));
-			minR = Math.min(minR, -(coord.getX() + 2 * coord.getY()));
-			maxC = Math.max(maxC, coord.getX());
-			minC = Math.min(minC, coord.getX());
-		}
-		
-		String hexes = "";
-		
-		for (int r = minR - 1; r <= maxR + 1; r++) {
-			for (int c = minC - 1; c <= maxC + 1; c++) {
-				if ((-r-c) % 2 == 0) {
-					int coordX = c;
-					int coordY = (-r - c) / 2;
-					HantoPiece pc = board.get(new HantoCoordinateImpl(coordX, coordY));
-					String pcString = "  ";
-					if (pc != null) {
-						pcString = getPieceString(pc);
-						if (coordX == 0 && coordY == 0) {
-							pcString = pcString.toUpperCase();
-						}
-					} 					
-					hexes += " " + pcString + " ";
-				}
-				else {
-					hexes += ">--<";
-				}
-			}
-			hexes += "\n";
-		}
-		
-		return hexes;
-	}
-
-	
-	private String getPieceString(HantoPiece pc) {
-		String pcstr = pc.getColor() == BLUE ? "b" : "r";
-		switch (pc.getType()) {
-			case BUTTERFLY: pcstr += "B";
-			break;
-			case SPARROW: pcstr += "S";
-			break;
-			/*case HORSE: pcstr += "H";
-			break;
-			case DOVE: pcstr += "D";
-			break;
-			case CRANE: pcstr += "R";
-			break;
-			case CRAB: pcstr += "C";
-			break;*/
-		}
-		return pcstr;
-	}
-	
+//	/**
+//	 * Check the current board configuration after the latest move to
+//	 * decide the result of that move.
+//	 * @return Result of the latest move
+//	 */
+//	private MoveResult checkMoveResult() {
+//		int currentPlayerMoves = (moveCount + 1) / 2;
+//		int otherPlayerMoves = moveCount / 2;
+//		boolean blueWins = checkBlueWin();
+//		boolean redWins = checkRedWin();
+//		MoveResult moveResult;
+//		
+//		if (blueWins && redWins) {
+//			moveResult = DRAW;
+//		}
+//		else if (blueWins) {
+//			moveResult = BLUE_WINS;
+//		}
+//		else if (redWins) {
+//			moveResult = RED_WINS;
+//		}
+//		else if	(currentPlayerMoves == 6 && otherPlayerMoves == 6) {
+//			moveResult = DRAW;
+//		}
+//		else {
+//			moveResult = OK;
+//		}
+//		
+//		if (moveResult != OK) {
+//			gameOver = true;
+//		}
+//		
+//		return moveResult;
+//	}
+//	
+//	
+//	/**
+//	 * Check to see if blue wins.
+//	 * @return True if blue wins. False otherwise.
+//	 */
+//	private boolean checkBlueWin() {
+//		if (redButterflyCoord == null) {
+//			return false;
+//		}
+//		HantoCoordinateImpl[] adjCoords = redButterflyCoord.getAdjacentCoordsSet();
+//		for (int i = 0; i < 6; i++) {
+//			if (board.get(adjCoords[i]) == null) {
+//				return false;
+//			}
+//		}
+//		return true;
+//	}
+//	
+//	
+//	/**
+//	 * Check to see if red wins.
+//	 * @return True if red wins. False otherwise.
+//	 */	
+//	private boolean checkRedWin() {
+//		if (blueButterflyCoord == null) {
+//			return false;
+//		}
+//		HantoCoordinateImpl[] adjCoords = blueButterflyCoord.getAdjacentCoordsSet();
+//		for (int i = 0; i < 6; i++) {
+//			if (board.get(adjCoords[i]) == null) {
+//				return false;
+//			}
+//		}
+//		return true;
+//	}
+//	
+//	
+//	private boolean pieceTypeAvailable(HantoPieceType pieceType) {
+//		if (pieceType != BUTTERFLY && pieceType != SPARROW) {
+//			return false;
+//		}
+//		return true;
+//	}
+//	
+//	
+//	/*
+//	 * @see hanto.common.HantoGame#getPieceAt(hanto.common.HantoCoordinate)
+//	 */
+//	@Override
+//	public HantoPiece getPieceAt(HantoCoordinate where)
+//	{
+//		return board.get(new HantoCoordinateImpl(where));
+//	}
+//
+//	/*
+//	 * @see hanto.common.HantoGame#getPrintableBoard()
+//	 */
+//	@Override
+//	public String getPrintableBoard()
+//	{
+//		int maxR = Integer.MIN_VALUE, minR = Integer.MAX_VALUE;
+//		int maxC = Integer.MIN_VALUE, minC = Integer.MAX_VALUE;
+//		for (HantoCoordinate coord : board.keySet()) {
+//			maxR = Math.max(maxR, -(coord.getX() + 2 * coord.getY()));
+//			minR = Math.min(minR, -(coord.getX() + 2 * coord.getY()));
+//			maxC = Math.max(maxC, coord.getX());
+//			minC = Math.min(minC, coord.getX());
+//		}
+//		
+//		String hexes = "";
+//		
+//		for (int r = minR - 1; r <= maxR + 1; r++) {
+//			for (int c = minC - 1; c <= maxC + 1; c++) {
+//				if ((-r-c) % 2 == 0) {
+//					int coordX = c;
+//					int coordY = (-r - c) / 2;
+//					HantoPiece pc = board.get(new HantoCoordinateImpl(coordX, coordY));
+//					String pcString = "  ";
+//					if (pc != null) {
+//						pcString = getPieceString(pc);
+//						if (coordX == 0 && coordY == 0) {
+//							pcString = pcString.toUpperCase();
+//						}
+//					} 					
+//					hexes += " " + pcString + " ";
+//				}
+//				else {
+//					hexes += ">--<";
+//				}
+//			}
+//			hexes += "\n";
+//		}
+//		
+//		return hexes;
+//	}
+//
+//	
+//	private String getPieceString(HantoPiece pc) {
+//		String pcstr = pc.getColor() == BLUE ? "b" : "r";
+//		switch (pc.getType()) {
+//			case BUTTERFLY: pcstr += "B";
+//			break;
+//			case SPARROW: pcstr += "S";
+//			break;
+//			/*case HORSE: pcstr += "H";
+//			break;
+//			case DOVE: pcstr += "D";
+//			break;
+//			case CRANE: pcstr += "R";
+//			break;
+//			case CRAB: pcstr += "C";
+//			break;*/
+//		}
+//		return pcstr;
+//	}
+//	
 }

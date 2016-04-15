@@ -36,10 +36,6 @@ import hanto.studentctnguyendinh.common.rule.*;
  */
 public class GammaHantoGame extends HantoGameBase {
 	
-//	private HantoGameState gameState;
-//	private HantoRuleValidator ruleValidator;
-//	private HantoPieceFactory pieceFactory;
-
 	/**
 	 * Construct a GammaHantoGame instance with the player who moves first being
 	 * specified.
@@ -68,49 +64,4 @@ public class GammaHantoGame extends HantoGameBase {
 
 		gameState = new HantoGameState(movesFirst, gammaPiecesQuota);
 	}
-
-//	/*
-//	 * @see hanto.common.HantoGame#makeMove(hanto.common.HantoPieceType,
-//	 * hanto.common.HantoCoordinate, hanto.common.HantoCoordinate)
-//	 */
-//	@Override
-//	public MoveResult makeMove(HantoPieceType pieceType, HantoCoordinate from, HantoCoordinate to)
-//			throws HantoException {
-//		ruleValidator.validateRules(gameState, pieceType, from, to);
-//
-//		if (from == null) {
-//			HantoPiece newPiece = pieceFactory.makeHantoPiece(gameState.getCurrentPlayer(), pieceType);
-//			gameState.putPieceAt(to, newPiece);
-//		} else {
-//			HantoPieceAbstract piece = (HantoPieceAbstract) gameState.getPieceAt(from);
-//			piece.validateMove(gameState, from, to);
-//			gameState.movePiece(from, to);
-//		}
-//
-//		gameState.advanceMove();
-//
-//		MoveResult moveResult = ruleValidator.validateEndRules(gameState);
-//		if (moveResult != OK) {
-//			gameState.flagGameOver();
-//		}
-//
-//		return moveResult;
-//	}
-//
-//	/*
-//	 * @see hanto.common.HantoGame#getPieceAt(hanto.common.HantoCoordinate)
-//	 */
-//	@Override
-//	public HantoPiece getPieceAt(HantoCoordinate where) {
-//		return gameState.getPieceAt(where);
-//	}
-//
-//	/*
-//	 * @see hanto.common.HantoGame#getPrintableBoard()
-//	 */
-//	@Override
-//	public String getPrintableBoard() {
-//		return gameState.getPrintableBoard();
-//	}
-
 }

@@ -22,6 +22,8 @@ public abstract class HantoGameBase implements HantoGame {
 	protected HantoPieceType playedPieceType;
 	protected HantoCoordinate playedFrom;
 	protected HantoCoordinate playedTo;
+	
+	protected int maxNumberOfMove = Integer.MAX_VALUE;
 
 	/**
 	 * Construct a HantoGameBase instance with the player who moves first being
