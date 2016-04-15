@@ -79,7 +79,35 @@ public abstract class HantoGameBase implements HantoGame {
 	 * 
 	 * @throws HantoException
 	 */
+	// TODO: refactor this method
 	protected void doPreMoveCheck() throws HantoException {
+		if (gameState.isGameOver()) {
+			throw new HantoException("Cannot make more moves after the game is finished");
+		}
+		
+		if (gameState.getNumberOfPlayedMoves() == 0 && 
+				(playedTo.getX() != 0 || playedTo.getY() != 0)) {
+			throw new HantoException("First move must be the origin");
+		}
+
+		if (playedFrom == null) {
+			HantoGameState.HantoPlayerState currentPlayerState = 
+					gameState.getPlayerState(gameState.getCurrentPlayer());
+			
+			if (currentPlayerState.getNumberOfRemainingPieces(playedPieceType) <= 0) {
+				throw new HantoException("Run out of pieces type " + playedPieceType.getPrintableName());
+			}
+		}
+		else {
+			HantoPiece piece = gameState.getPieceAt(playedFrom);
+			HantoPlayerColor currentPlayer = gameState.getCurrentPlayer();
+			if (piece == null || piece.getType() != playedPieceType 
+					|| piece.getColor() != currentPlayer) {
+				throw new HantoException("There is no piece with specified type or color at the given coordinate");
+			}
+		}
+		
+		// Validate rules that varies among different versions of the game.
 		ruleValidator.validateRules(gameState, playedPieceType, playedFrom, playedTo);
 	}
 

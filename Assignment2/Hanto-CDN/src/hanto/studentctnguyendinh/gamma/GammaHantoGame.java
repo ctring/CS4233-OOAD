@@ -27,13 +27,9 @@ import hanto.studentctnguyendinh.common.HantoGameState;
 import hanto.studentctnguyendinh.common.rule.HantoRule;
 import hanto.studentctnguyendinh.common.rule.HantoRuleAdjacentSameColor;
 import hanto.studentctnguyendinh.common.rule.HantoRuleButterflyInFourMoves;
-import hanto.studentctnguyendinh.common.rule.HantoRuleFirstMoveAtOrigin;
-import hanto.studentctnguyendinh.common.rule.HantoRuleGameOver;
-import hanto.studentctnguyendinh.common.rule.HantoRuleInputConsistency;
 import hanto.studentctnguyendinh.common.rule.HantoRuleMoveBeforeButterfly;
 import hanto.studentctnguyendinh.common.rule.HantoRuleNotAdjacent;
 import hanto.studentctnguyendinh.common.rule.HantoRuleOccupiedHex;
-import hanto.studentctnguyendinh.common.rule.HantoRulePiecesQuota;
 import hanto.studentctnguyendinh.common.rule.HantoRuleValidatorImpl;
 
 /**
@@ -61,13 +57,9 @@ public class GammaHantoGame extends HantoGameBase {
 		maxNumberOfMove = 40;
 		
 		HantoRule[] rules = { 
-				new HantoRuleGameOver(), 
-				new HantoRuleFirstMoveAtOrigin(),
-				new HantoRuleInputConsistency(), 
 				new HantoRuleMoveBeforeButterfly(), 
 				new HantoRuleOccupiedHex(),
-				new HantoRuleNotAdjacent(), 
-				new HantoRulePiecesQuota(), 
+				new HantoRuleNotAdjacent(),
 				new HantoRuleButterflyInFourMoves(),
 				new HantoRuleAdjacentSameColor() };
 

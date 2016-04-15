@@ -26,11 +26,8 @@ import hanto.studentctnguyendinh.common.HantoGameBase;
 import hanto.studentctnguyendinh.common.HantoGameState;
 import hanto.studentctnguyendinh.common.rule.HantoRule;
 import hanto.studentctnguyendinh.common.rule.HantoRuleButterflyInFourMoves;
-import hanto.studentctnguyendinh.common.rule.HantoRuleFirstMoveAtOrigin;
-import hanto.studentctnguyendinh.common.rule.HantoRuleGameOver;
 import hanto.studentctnguyendinh.common.rule.HantoRuleNotAdjacent;
 import hanto.studentctnguyendinh.common.rule.HantoRuleOccupiedHex;
-import hanto.studentctnguyendinh.common.rule.HantoRulePiecesQuota;
 import hanto.studentctnguyendinh.common.rule.HantoRuleValidatorImpl;
 
 /**
@@ -48,11 +45,9 @@ public class BetaHantoGame extends HantoGameBase
 		
 		maxNumberOfMove = 12;
 		
-		HantoRule[] rules = { new HantoRuleGameOver(), 
-				new HantoRuleFirstMoveAtOrigin(),
+		HantoRule[] rules = {
 				new HantoRuleOccupiedHex(),
 				new HantoRuleNotAdjacent(), 
-				new HantoRulePiecesQuota(), 
 				new HantoRuleButterflyInFourMoves(),
 				};
 
