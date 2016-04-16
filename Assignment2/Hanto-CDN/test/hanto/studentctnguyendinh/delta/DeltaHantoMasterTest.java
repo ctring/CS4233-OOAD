@@ -236,13 +236,13 @@ public class DeltaHantoMasterTest {
 		}
 
 		@Test
-		public void blueMakesAValidWalk() throws HantoException // 21
+		public void blueMakesAValidButterflyWalk() throws HantoException // 21
 		{
-			game.makeMove(BUTTERFLY, null, makeCoordinate(0, 0));
+			game.makeMove(SPARROW, null, makeCoordinate(0, 0));
 			game.makeMove(BUTTERFLY, null, makeCoordinate(0, -1));
-			game.makeMove(SPARROW, null, makeCoordinate(-1, 1));
+			game.makeMove(BUTTERFLY, null, makeCoordinate(-1, 1));
 			game.makeMove(SPARROW, null, makeCoordinate(-1, -1));
-			MoveResult mr = game.makeMove(SPARROW, makeCoordinate(-1, 1), makeCoordinate(-1, 0)); // blue
+			MoveResult mr = game.makeMove(BUTTERFLY, makeCoordinate(-1, 1), makeCoordinate(-1, 0)); // blue
 																									// 3
 			assertEquals(OK, mr);
 
@@ -252,18 +252,18 @@ public class DeltaHantoMasterTest {
 			pc = game.getPieceAt(makeCoordinate(-1, 0));
 			assertNotNull(pc);
 			assertEquals(BLUE, pc.getColor());
-			assertEquals(SPARROW, pc.getType());
+			assertEquals(BUTTERFLY, pc.getType());
 		}
 
 		@Test
-		public void redMakesAValidWalk() throws HantoException // 22
+		public void redMakesAValidButterflyWalk() throws HantoException // 22
 		{
 			game.makeMove(BUTTERFLY, null, makeCoordinate(0, 0));
-			game.makeMove(BUTTERFLY, null, makeCoordinate(0, -1));
+			game.makeMove(SPARROW, null, makeCoordinate(0, -1));
 			game.makeMove(SPARROW, null, makeCoordinate(-1, 1));
-			game.makeMove(SPARROW, null, makeCoordinate(-1, -1));
+			game.makeMove(BUTTERFLY, null, makeCoordinate(-1, -1));
 			game.makeMove(SPARROW, null, makeCoordinate(0, 1));
-			MoveResult mr = game.makeMove(SPARROW, makeCoordinate(-1, -1), makeCoordinate(0, -2)); // red
+			MoveResult mr = game.makeMove(BUTTERFLY, makeCoordinate(-1, -1), makeCoordinate(0, -2)); // red
 																									// 3
 			assertEquals(OK, mr);
 
@@ -273,7 +273,7 @@ public class DeltaHantoMasterTest {
 			pc = game.getPieceAt(makeCoordinate(0, -2));
 			assertNotNull(pc);
 			assertEquals(RED, pc.getColor());
-			assertEquals(SPARROW, pc.getType());
+			assertEquals(BUTTERFLY, pc.getType());
 		}
 
 		@Test(expected = HantoException.class) // 23
@@ -427,26 +427,6 @@ public class DeltaHantoMasterTest {
 		}
 
 		@Test
-		public void bothPlayerRunOutOfMoves() throws HantoException // 39
-		{
-			MoveResult mr = makeMoves(md(BUTTERFLY, 0, 0), md(BUTTERFLY, 1, -1), md(SPARROW, 0, 1), md(SPARROW, 2, -2),
-					md(SPARROW, -1, 1), md(SPARROW, 2, -1), md(SPARROW, -1, 0), md(SPARROW, 2, 0), md(SPARROW, -2, 0),
-					md(SPARROW, 3, 0), md(SPARROW, 0, 2), md(SPARROW, 1, -2), md(SPARROW, -2, 0, -1, -1),
-					md(SPARROW, 3, 0, 3, -1), md(SPARROW, -1, 1, -1, 2), md(SPARROW, 2, 0, 1, 1),
-					md(SPARROW, 0, 2, 1, 2), md(SPARROW, 1, -2, 0, -1), md(SPARROW, -1, -1, 0, -2),
-					md(SPARROW, 2, -2, 3, -2), md(SPARROW, 1, 2, 0, 2), md(SPARROW, 3, -2, 2, -2),
-					md(SPARROW, 0, -2, 1, -2), md(SPARROW, 1, 1, 2, 0), md(SPARROW, 1, -2, 0, -2),
-					md(SPARROW, 2, 0, 1, 1), md(SPARROW, 0, -2, 1, -2), md(SPARROW, 1, 1, 2, 0),
-					md(SPARROW, 1, -2, 0, -2), md(SPARROW, 2, 0, 1, 1), md(SPARROW, 0, -2, 1, -2),
-					md(SPARROW, 1, 1, 2, 0), md(SPARROW, 1, -2, 0, -2), md(SPARROW, 2, 0, 1, 1),
-					md(SPARROW, 0, -2, 1, -2), md(SPARROW, 1, 1, 2, 0), md(SPARROW, 1, -2, 0, -2),
-					md(SPARROW, 2, 0, 1, 1), md(SPARROW, -1, 2, -1, 1),
-
-					md(SPARROW, 1, 1, 2, 0));
-			assertEquals(DRAW, mr);
-		}
-
-		@Test
 		public void bothButterflyAreSurrounded() throws HantoException // 40
 		{
 			MoveResult mr = makeMoves(md(BUTTERFLY, 0, 0), md(BUTTERFLY, 1, -1), md(SPARROW, 0, 1), md(SPARROW, 2, -2),
@@ -471,22 +451,6 @@ public class DeltaHantoMasterTest {
 		public void setup() {
 			// By default, blue moves first.
 			game = factory.makeHantoGame(HantoGameID.GAMMA_HANTO, BLUE);
-		}
-
-		@Test(expected = HantoException.class) // 41
-		public void attemptToMakeAMoveAfterTheGameEnded() throws HantoException {
-			makeMoves(md(BUTTERFLY, 0, 0), md(BUTTERFLY, 1, -1), md(SPARROW, 0, 1), md(SPARROW, 2, -2),
-					md(SPARROW, -1, 1), md(SPARROW, 2, -1), md(SPARROW, -1, 0), md(SPARROW, 2, 0), md(SPARROW, -2, 0),
-					md(SPARROW, 3, 0), md(SPARROW, 0, 2), md(SPARROW, 1, -2), md(SPARROW, -2, 0, -1, -1),
-					md(SPARROW, 3, 0, 3, -1), md(SPARROW, -1, 1, -1, 2), md(SPARROW, 2, 0, 1, 1),
-					md(SPARROW, 0, 2, 1, 2), md(SPARROW, 1, -2, 0, -1), md(SPARROW, -1, -1, 0, -2),
-					md(SPARROW, 2, -2, 3, -2), md(SPARROW, 1, 2, 0, 2), md(SPARROW, 3, -2, 2, -2),
-					md(SPARROW, 0, -2, 1, -2), md(SPARROW, 1, 1, 2, 0), md(SPARROW, 1, -2, 0, -2),
-					md(SPARROW, 2, 0, 1, 1), md(SPARROW, 0, -2, 1, -2), md(SPARROW, 1, 1, 2, 0),
-					md(SPARROW, 1, -2, 0, -2), md(SPARROW, 2, 0, 1, 1), md(SPARROW, 0, -2, 1, -2),
-					md(SPARROW, 1, 1, 2, 0), md(SPARROW, 1, -2, 0, -2), md(SPARROW, 2, 0, 1, 1),
-					md(SPARROW, 0, -2, 1, -2), md(SPARROW, 1, 1, 2, 0), md(SPARROW, -1, 2, -1, 1),
-					md(SPARROW, 2, 0, 1, 0), md(SPARROW, 1, -2, 0, -2));
 		}
 
 		@Test(expected = HantoException.class)

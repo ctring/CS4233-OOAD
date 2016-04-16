@@ -1,5 +1,9 @@
 DeltaHanto
 
+// TODO
+Change the tests with '-' so that crabs are walked, not sparrows
+Shorten doPreMoveCheck in HantoGameBase
+
 PLACING PIECES
 +Blue makes first legal placing at (0, 0)
 +Blue does not make first placing at (0, 0) --> exception
@@ -17,38 +21,48 @@ PLACING PIECES
 +Blue adds a piece next to a red piece --> exception
 +Red adds a piece next to a blue piece --> exception
 +Blue makes valid placing
+Blue tries to place the fifth Sparrow --> exception (delta)
+Red tries to place the fifth Crab --> exception (delta)
 
 
 MOVING PIECES
-+Blue makes a valid walk
-+Red makes a valid walk
-+Blue attempts to walk a blocked piece --> exception
-+Red attempts to walk a blocked piece --> exception
-+Blue attempts to walk a piece that is wrongly specified --> exception
-+Red attempts to walk a non-existent piece --> exception
-+Blue attempts to walk to an occupied hex --> exception
-+Blue attempts to make a disconnecting walk --> exception
-+Red attempts to make a disconnecting walk --> exception
-+Blue attempts to walk a red piece --> exception
-+Red attempts to walk a blue piece --> exception
-+Blue attempts make a non-adjacent walk --> exception
-
-+Blue attempts to walk before placing butterfly --> exception
-+Red attempts to walk before placing butterfly --> exception
++Blue makes a valid butterfly walk
++Red makes a valid butterfly walk
+-Blue attempts to walk a blocked piece --> exception
+-Red attempts to walk a blocked piece --> exception
+-Blue attempts to walk a piece that is wrongly specified --> exception
+-Red attempts to walk a non-existent piece --> exception
+-Blue attempts to walk to an occupied hex --> exception
+-Blue attempts to make a disconnecting walk --> exception
+-Red attempts to make a disconnecting walk --> exception
+-Blue attempts to walk a red piece --> exception
+-Red attempts to walk a blue piece --> exception
+-Blue attempts make a non-adjacent walk --> exception
+-Blue attempts to walk before placing butterfly --> exception
+-Red attempts to walk before placing butterfly --> exception
+Blue makes a valid crab walk
+Blue makes a valid sparrow fly
+Red makes a valid crab walk
+Blue walks crab 4 hexes away --> exception
+Red walks butterfly 2 hexes away --> exception
+Blue flies sparrow incorrectly --> exception
 
 
 WIN CONDITION
-+Blue wins by walking
-+Red wins by walking
+-Blue wins by walking
+-Red wins by walking
+Blue wins by walking and flying
+Red wins by walking and flying
+Blue resigns
+Red resigns 
 
 DRAW CONDITION
-+All player run out of moves
-+Both butterfly are surrounded
+-Both butterfly are surrounded
 
 
 OTHER
 +First player is red
-+Someone attempts to make a move after the game ended --> exception
+Someone attempts to make a move after the game ended --> exception
 
 
 min distant = |x2 - x1| + min(|y2 - y1|, |y2 - (y1 + (x1 - x2))|)

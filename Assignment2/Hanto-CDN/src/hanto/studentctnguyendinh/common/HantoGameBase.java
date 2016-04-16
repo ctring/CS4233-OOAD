@@ -79,7 +79,6 @@ public abstract class HantoGameBase implements HantoGame {
 	 * 
 	 * @throws HantoException
 	 */
-	// TODO: refactor this method
 	protected void doPreMoveCheck() throws HantoException {
 		if (gameState.isGameOver()) {
 			throw new HantoException("Cannot make more moves after the game is finished");
