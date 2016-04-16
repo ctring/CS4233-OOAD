@@ -295,8 +295,7 @@ public class GammaHantoMasterTestGP
 		return new MoveData(type, null, makeCoordinate(toX, toY));
 	}
 	
-	private MoveData md(HantoPieceType type, int fromX, int fromY, int toX, int toY)
-	{
+	private MoveData md(HantoPieceType type, int fromX, int fromY, int toX, int toY) {
 		return new MoveData(type, makeCoordinate(fromX, fromY), makeCoordinate(toX, toY));
 	}
 	
