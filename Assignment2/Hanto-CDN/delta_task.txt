@@ -1,4 +1,4 @@
-GammaHanto
+DeltaHanto
 
 PLACING PIECES
 +Blue makes first legal placing at (0, 0)
@@ -17,15 +17,11 @@ PLACING PIECES
 +Blue adds a piece next to a red piece --> exception
 +Red adds a piece next to a blue piece --> exception
 +Blue makes valid placing
-+Blue tries to place the seventh butterfly --> exception (gamma)
-+Red tries to place the seventh butterfly --> exception (gamma)
 
 
 MOVING PIECES
 +Blue makes a valid walk
 +Red makes a valid walk
-+Blue attempts to walk two hexes --> exception (gamma)
-+Red attempts to walk four hexes --> exception (gamma)
 +Blue attempts to walk a blocked piece --> exception
 +Red attempts to walk a blocked piece --> exception
 +Blue attempts to walk a piece that is wrongly specified --> exception
@@ -44,8 +40,6 @@ MOVING PIECES
 WIN CONDITION
 +Blue wins by walking
 +Red wins by walking
-+Blue wins on last move (gamma)
-+Red wins on last move (gamma)
 
 DRAW CONDITION
 +All player run out of moves
