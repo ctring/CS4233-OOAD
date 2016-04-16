@@ -155,6 +155,13 @@ public class HantoGameState {
 	}
 	
 	/**
+	 * @return a copy of the Hanto board contained in this game state.
+	 */
+	public HantoBoard cloneBoard() {
+		return new HantoBoard(board);
+	}
+	
+	/**
 	 * HantoPlayerState is an interface for providing state of a player. 
 	 * @author Cuong Nguyen
 	 * @version April 6, 2016
