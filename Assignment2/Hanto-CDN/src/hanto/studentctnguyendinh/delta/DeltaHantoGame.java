@@ -14,6 +14,7 @@ package hanto.studentctnguyendinh.delta;
 
 import static hanto.common.HantoPieceType.BUTTERFLY;
 import static hanto.common.HantoPieceType.SPARROW;
+import static hanto.common.HantoPieceType.CRAB;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -65,10 +66,11 @@ public class DeltaHantoGame extends HantoGameBase {
 
 		ruleValidator = new HantoRuleValidatorImpl(new ArrayList<HantoRule>(Arrays.asList(rules)));
 
-		Map<HantoPieceType, Integer> gammaPiecesQuota = new HashMap<>();
-		gammaPiecesQuota.put(BUTTERFLY, 1);
-		gammaPiecesQuota.put(SPARROW, 5);
+		Map<HantoPieceType, Integer> deltaPiecesQuota = new HashMap<>();
+		deltaPiecesQuota.put(BUTTERFLY, 1);
+		deltaPiecesQuota.put(SPARROW, 4);
+		deltaPiecesQuota.put(CRAB, 4);
 
-		gameState = new HantoGameState(movesFirst, gammaPiecesQuota);
+		gameState = new HantoGameState(movesFirst, deltaPiecesQuota);
 	}
 }
