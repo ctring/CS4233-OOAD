@@ -1,10 +1,19 @@
 package hanto.studentctnguyendinh.common;
 
-import static hanto.common.HantoPlayerColor.*;
-import static hanto.common.MoveResult.*;
+import static hanto.common.HantoPlayerColor.BLUE;
+import static hanto.common.HantoPlayerColor.RED;
+import static hanto.common.MoveResult.BLUE_WINS;
+import static hanto.common.MoveResult.DRAW;
+import static hanto.common.MoveResult.OK;
+import static hanto.common.MoveResult.RED_WINS;
 
-import hanto.common.*;
-import hanto.studentctnguyendinh.HantoPieceFactory;
+import hanto.common.HantoCoordinate;
+import hanto.common.HantoException;
+import hanto.common.HantoGame;
+import hanto.common.HantoPiece;
+import hanto.common.HantoPieceType;
+import hanto.common.HantoPlayerColor;
+import hanto.common.MoveResult;
 import hanto.studentctnguyendinh.common.piece.HantoPieceAbstract;
 import hanto.studentctnguyendinh.common.rule.HantoRuleValidator;
 
@@ -12,7 +21,6 @@ public abstract class HantoGameBase implements HantoGame {
 
 	protected HantoGameState gameState;
 	protected HantoRuleValidator ruleValidator;
-	protected HantoPieceFactory pieceFactory;
 
 	protected HantoPieceType playedPieceType;
 	protected HantoCoordinate playedFrom;
@@ -20,20 +28,22 @@ public abstract class HantoGameBase implements HantoGame {
 	
 	protected int maxNumberOfMove = Integer.MAX_VALUE;
 
-	/**
-	 * Construct a HantoGameBase instance with the player who moves first being
-	 * specified.
-	 * 
-	 * @param movesFirst
-	 *            color of the player who moves first
-	 * @param ruleValidator
-	 *            a validators that validates set of rules for this game.
-	 * @param piecesQuota
-	 *            number of available pieces for each piece types.
-	 */
-	public HantoGameBase(HantoPlayerColor movesFirst) {
-		pieceFactory = HantoPieceFactory.getInstance();
-	}
+//	/**
+//	 * Construct a HantoGameBase instance with the player who moves first being
+//	 * specified.
+//	 * 
+//	 * @param movesFirst
+//	 *            color of the player who moves first
+//	 * @param ruleValidator
+//	 *            a validators that validates set of rules for this game.
+//	 * @param piecesQuota
+//	 *            number of available pieces for each piece types.
+//	 */
+//	public HantoGameBase(HantoPlayerColor movesFirst) {
+//		pieceFactory = HantoPieceFactory.getInstance();
+//	}
+	
+	
 
 	@Override
 	public MoveResult makeMove(HantoPieceType pieceType, HantoCoordinate from, HantoCoordinate to)
@@ -73,6 +83,14 @@ public abstract class HantoGameBase implements HantoGame {
 	public String getPrintableBoard() {
 		return gameState.getPrintableBoard();
 	}
+	
+	/**
+	 * Create a Hanto piece with validators being dependent on a particular version of Hanto game. 
+	 * @param color	color of the new piece
+	 * @param pieceType type of the new piece
+	 * @return a Hanto piece
+	 */
+	public abstract HantoPiece makeHantoPiece(HantoPlayerColor color, HantoPieceType pieceType);
 
 	/**
 	 * Check for game rules compliance before making the move. 
@@ -116,7 +134,7 @@ public abstract class HantoGameBase implements HantoGame {
 	 */
 	protected void doMove() throws HantoException {
 		if (playedFrom == null) {
-			HantoPiece newPiece = pieceFactory.makeHantoPiece(gameState.getCurrentPlayer(), playedPieceType);
+			HantoPiece newPiece = makeHantoPiece(gameState.getCurrentPlayer(), playedPieceType);
 			gameState.putPieceAt(playedTo, newPiece);
 		} else {
 			HantoPieceAbstract piece = (HantoPieceAbstract) gameState.getPieceAt(playedFrom);

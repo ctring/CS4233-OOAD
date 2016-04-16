@@ -13,18 +13,25 @@
 package hanto.studentctnguyendinh.delta;
 
 import static hanto.common.HantoPieceType.BUTTERFLY;
-import static hanto.common.HantoPieceType.SPARROW;
 import static hanto.common.HantoPieceType.CRAB;
+import static hanto.common.HantoPieceType.SPARROW;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import hanto.common.HantoPiece;
 import hanto.common.HantoPieceType;
 import hanto.common.HantoPlayerColor;
 import hanto.studentctnguyendinh.common.HantoGameBase;
 import hanto.studentctnguyendinh.common.HantoGameState;
+import hanto.studentctnguyendinh.common.piece.HantoMovementRule;
+import hanto.studentctnguyendinh.common.piece.HantoPieceImpl;
+import hanto.studentctnguyendinh.common.piece.MVBlockedPiece;
+import hanto.studentctnguyendinh.common.piece.MVFlying;
+import hanto.studentctnguyendinh.common.piece.MVWalking;
 import hanto.studentctnguyendinh.common.rule.HantoRule;
 import hanto.studentctnguyendinh.common.rule.HantoRuleAdjacentSameColor;
 import hanto.studentctnguyendinh.common.rule.HantoRuleButterflyInFourMoves;
@@ -53,8 +60,7 @@ public class DeltaHantoGame extends HantoGameBase {
 	 *            number of available pieces for each piece types.
 	 */
 	public DeltaHantoGame(HantoPlayerColor movesFirst) {
-		super(movesFirst);
-		
+
 		maxNumberOfMove = 40;
 		
 		HantoRule[] rules = { 
@@ -72,5 +78,22 @@ public class DeltaHantoGame extends HantoGameBase {
 		deltaPiecesQuota.put(CRAB, 4);
 
 		gameState = new HantoGameState(movesFirst, deltaPiecesQuota);
+	}
+
+	@Override
+	public HantoPiece makeHantoPiece(HantoPlayerColor color, HantoPieceType pieceType) {
+		List<HantoMovementRule> validators = new ArrayList<>();
+		switch (pieceType) {
+		case CRAB:
+		case BUTTERFLY:
+			validators.add(new MVBlockedPiece());
+			validators.add(new MVWalking(1));
+			break;
+		case SPARROW:
+			validators.add(new MVFlying());
+			break;
+		}
+
+		return new HantoPieceImpl(color, pieceType, validators);
 	}
 }

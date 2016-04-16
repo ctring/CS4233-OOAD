@@ -16,11 +16,19 @@ import hanto.studentctnguyendinh.common.HantoGameState;
  * @author Cuong Nguyen
  * @version April 7, 2016
  */
-public class MVWalkOneHex implements HantoMovementRule {
+public class MVWalking implements HantoMovementRule {
 
+	private int maxSteps = Integer.MAX_VALUE;
+	
+	public MVWalking() {}
+	
+	public MVWalking(int maxSteps) {
+		this.maxSteps = maxSteps;
+	}
+	
 	@Override
 	public String validate(HantoGameState gameState, HantoCoordinate from, HantoCoordinate to) {
-		if (new HantoCoordinateImpl(from).getMinimumDistanceTo(to) > 1) {
+		if (new HantoCoordinateImpl(from).getMinimumDistanceTo(to) > maxSteps) {
 			return "Cannot walk more than one hex";
 		}
 		return null;

@@ -28,7 +28,7 @@ PLACING PIECES
 MOVING PIECES
 +Blue makes a valid butterfly walk
 +Red makes a valid butterfly walk
-Blue makes a valid sparrow fly
++Blue makes a valid sparrow fly
 
 Red walks butterfly 2 hexes away --> exception
 

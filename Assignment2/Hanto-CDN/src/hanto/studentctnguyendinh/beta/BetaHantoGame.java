@@ -18,12 +18,18 @@ import static hanto.common.HantoPieceType.SPARROW;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import hanto.common.HantoPiece;
 import hanto.common.HantoPieceType;
 import hanto.common.HantoPlayerColor;
 import hanto.studentctnguyendinh.common.HantoGameBase;
 import hanto.studentctnguyendinh.common.HantoGameState;
+import hanto.studentctnguyendinh.common.piece.HantoMovementRule;
+import hanto.studentctnguyendinh.common.piece.HantoPieceImpl;
+import hanto.studentctnguyendinh.common.piece.MVBlockedPiece;
+import hanto.studentctnguyendinh.common.piece.MVWalking;
 import hanto.studentctnguyendinh.common.rule.HantoRule;
 import hanto.studentctnguyendinh.common.rule.HantoRuleButterflyInFourMoves;
 import hanto.studentctnguyendinh.common.rule.HantoRuleNotAdjacent;
@@ -41,7 +47,6 @@ public class BetaHantoGame extends HantoGameBase
 	 * @param movesFirst Color of the player who moves first.
 	 */
 	public BetaHantoGame(HantoPlayerColor movesFirst) {
-		super(movesFirst);
 		
 		maxNumberOfMove = 12;
 		
@@ -59,6 +64,12 @@ public class BetaHantoGame extends HantoGameBase
 
 		gameState = new HantoGameState(movesFirst, gammaPiecesQuota);
 		
+	}
+
+	@Override
+	public HantoPiece makeHantoPiece(HantoPlayerColor color, HantoPieceType pieceType) {
+		List<HantoMovementRule> validators = new ArrayList<>();
+		return new HantoPieceImpl(color, pieceType, validators);
 	}	
 	
 }
