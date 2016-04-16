@@ -16,6 +16,7 @@ import hanto.common.HantoPlayerColor;
 import hanto.studentctnguyendinh.common.piece.HantoMovementRule;
 import hanto.studentctnguyendinh.common.piece.HantoPieceImpl;
 import hanto.studentctnguyendinh.common.piece.MVBlockedPiece;
+import hanto.studentctnguyendinh.common.piece.MVFlyStraightLine;
 import hanto.studentctnguyendinh.common.piece.MVWalkOneHex;
 
 /**
@@ -54,8 +55,11 @@ public class HantoPieceFactory {
 	public HantoPiece makeHantoPiece(HantoPlayerColor color, HantoPieceType pieceType) {
 		List<HantoMovementRule> validators = new ArrayList<>();
 		switch (pieceType) {
-		case BUTTERFLY:
 		case SPARROW:
+			validators.add(new MVFlyStraightLine());
+			break;
+		case BUTTERFLY:
+		case CRAB:
 			validators.add(new MVWalkOneHex());
 			validators.add(new MVBlockedPiece());
 			break;

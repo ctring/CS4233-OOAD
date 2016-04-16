@@ -148,25 +148,8 @@ public class DeltaHantoMasterTest {
 
 		@Test // 11
 		public void blueAndRedPlacesButterflyOnFourthMove() throws HantoException {
-			game.makeMove(SPARROW, null, makeCoordinate(0, 0));
-			game.makeMove(SPARROW, null, makeCoordinate(0, 1));
-			game.makeMove(SPARROW, null, makeCoordinate(0, -1));
-			game.makeMove(SPARROW, null, makeCoordinate(0, 2));
-			game.makeMove(SPARROW, null, makeCoordinate(0, -2));
-			game.makeMove(SPARROW, null, makeCoordinate(0, 3));
-			MoveResult mr = game.makeMove(BUTTERFLY, null, makeCoordinate(-1, 0)); 
-			
-			assertEquals(OK, mr);
-			HantoPiece pc = game.getPieceAt(makeCoordinate(-1, 0));
-			assertNotNull(pc);
-			assertEquals(BUTTERFLY, pc.getType());
-			assertEquals(BLUE, pc.getColor());
-
-			mr = game.makeMove(BUTTERFLY, null, makeCoordinate(1, 1));
-			assertEquals(OK, mr);
-			pc = game.getPieceAt(makeCoordinate(1, 1));
-			assertEquals(BUTTERFLY, pc.getType());
-			assertEquals(RED, pc.getColor());
+			makeMoves(md(SPARROW, 0, 0), md(SPARROW, 0, 1), md(SPARROW, 0, -1), md(SPARROW, 0, 2), md(SPARROW, 0, -2),
+					md(SPARROW, 0, 3), md(BUTTERFLY, -1, 0), md(BUTTERFLY, 1, 1));
 		}
 
 		@Test(expected = HantoException.class) // 12
@@ -226,7 +209,7 @@ public class DeltaHantoMasterTest {
 					md(SPARROW, 0, -2), md(SPARROW, 0, 3), md(SPARROW, 0, -3), md(SPARROW, 0, 4), md(SPARROW, 0, -4),
 					md(SPARROW, 0, 5), md(SPARROW, 0, -5));
 		}
-		
+
 	}
 
 	public static class MovingPiecesTests {
@@ -239,12 +222,9 @@ public class DeltaHantoMasterTest {
 		@Test
 		public void blueMakesAValidButterflyWalk() throws HantoException // 21
 		{
-			game.makeMove(SPARROW, null, makeCoordinate(0, 0));
-			game.makeMove(BUTTERFLY, null, makeCoordinate(0, -1));
-			game.makeMove(BUTTERFLY, null, makeCoordinate(-1, 1));
-			game.makeMove(SPARROW, null, makeCoordinate(-1, -1));
-			MoveResult mr = game.makeMove(BUTTERFLY, makeCoordinate(-1, 1), makeCoordinate(-1, 0)); // blue
-																									// 3
+			MoveResult mr = makeMoves(md(SPARROW, 0, 0), md(BUTTERFLY, 0, -1), md(BUTTERFLY, -1, 1),
+					md(SPARROW, -1, -1), md(BUTTERFLY, -1, 1, -1, 0));
+
 			assertEquals(OK, mr);
 
 			HantoPiece pc = game.getPieceAt(makeCoordinate(-1, 1));
@@ -259,13 +239,8 @@ public class DeltaHantoMasterTest {
 		@Test
 		public void redMakesAValidButterflyWalk() throws HantoException // 22
 		{
-			game.makeMove(BUTTERFLY, null, makeCoordinate(0, 0));
-			game.makeMove(SPARROW, null, makeCoordinate(0, -1));
-			game.makeMove(SPARROW, null, makeCoordinate(-1, 1));
-			game.makeMove(BUTTERFLY, null, makeCoordinate(-1, -1));
-			game.makeMove(SPARROW, null, makeCoordinate(0, 1));
-			MoveResult mr = game.makeMove(BUTTERFLY, makeCoordinate(-1, -1), makeCoordinate(0, -2)); // red
-																									// 3
+			MoveResult mr = makeMoves(md(BUTTERFLY, 0, 0), md(SPARROW, 0, -1), md(SPARROW, -1, 1),
+					md(BUTTERFLY, -1, -1), md(SPARROW, 0, 1), md(BUTTERFLY, -1, -1, 0, -2));
 			assertEquals(OK, mr);
 
 			HantoPiece pc = game.getPieceAt(makeCoordinate(-1, -1));
@@ -277,93 +252,34 @@ public class DeltaHantoMasterTest {
 			assertEquals(BUTTERFLY, pc.getType());
 		}
 
-		@Test(expected = HantoException.class) // 23
-		public void blueAttemptsToWalkTwoHexes() throws HantoException {
-			makeMoves(md(BUTTERFLY, 0, 0), md(BUTTERFLY, 0, -1), md(SPARROW, -1, 1), md(SPARROW, -1, -1),
-					md(SPARROW, -1, 1, -2, 0));
-		}
+		@Test
+		public void blueMakesAValidCrabWalk() throws HantoException {
+			MoveResult mr = makeMoves(md(BUTTERFLY, 0, 0), md(BUTTERFLY, 0, 1), md(CRAB, 0, -1), md(CRAB, 1, 1),
+					md(CRAB, 0, -1, -1, 0));
+			assertEquals(OK, mr);
+			HantoPiece pc = game.getPieceAt(makeCoordinate(0, -1));
+			assertNull(pc);
 
-		@Test(expected = HantoException.class) // 24
-		public void redAttemptsToWalkFourHexes() throws HantoException {
-			makeMoves(md(BUTTERFLY, 0, 0), md(BUTTERFLY, 0, -1), md(SPARROW, -1, 1), md(SPARROW, -1, -1),
-					md(SPARROW, 1, 0), md(SPARROW, 1, -1, 2, -1));
-		}
-
-		@Test(expected = HantoException.class) // 25
-		public void blueAttemptsToWalkABlockedPiece() throws HantoException {
-			makeMoves(md(BUTTERFLY, 0, 0), md(BUTTERFLY, 0, 1), md(SPARROW, 0, -1), md(SPARROW, 1, 1),
-					md(SPARROW, 1, -1), md(SPARROW, -1, 2), md(SPARROW, -1, 0), md(SPARROW, 1, 1, 1, 0),
-					md(BUTTERFLY, 0, 0, -1, 1));
-		}
-
-		@Test(expected = HantoException.class) // 26
-		public void redAttemptsToWalkABlockedPiece() throws HantoException {
-			makeMoves(md(BUTTERFLY, 0, 0), md(BUTTERFLY, 0, 1), md(SPARROW, 0, -1), md(SPARROW, 1, 1),
-					md(SPARROW, 1, -1), md(SPARROW, -1, 2), md(SPARROW, 1, -1, 1, 0), md(BUTTERFLY, 0, 1, 0, 2));
-		}
-
-		@Test(expected = HantoException.class) // 27
-		public void blueAttemptsToWalkAWronglySpecifiedPiece() throws HantoException {
-			makeMoves(md(BUTTERFLY, 0, 0), md(BUTTERFLY, 0, 1), md(SPARROW, 0, -1), md(SPARROW, 1, 1),
-					md(SPARROW, 1, -1), md(SPARROW, -1, 2), md(BUTTERFLY, 1, -1, 1, 0));
-		}
-
-		@Test(expected = HantoException.class) // 28
-		public void redAttemptsToWalkANonExistentPiece() throws HantoException {
-			makeMoves(md(BUTTERFLY, 0, 0), md(BUTTERFLY, 0, 1), md(SPARROW, 0, -1), md(SPARROW, 1, 1),
-					md(SPARROW, 1, -1), md(SPARROW, 1, 0, -1, 2));
-		}
-
-		@Test(expected = HantoException.class) // 29
-		public void blueAttemptsToWalkToAnOccupiedHex() throws HantoException {
-			makeMoves(md(BUTTERFLY, 0, 0), md(BUTTERFLY, 0, 1), md(SPARROW, 0, -1), md(SPARROW, 1, 1),
-					md(SPARROW, 1, -1), md(SPARROW, -1, 2), md(SPARROW, 1, -1, 0, 0));
-		}
-
-		@Test(expected = HantoException.class) // 30
-		public void blueAttemptsToMakeADiscontinuousWalk() throws HantoException {
-			game = factory.makeHantoGame(HantoGameID.DELTA_HANTO, BLUE);
-			makeMoves(md(BUTTERFLY, 0, 0), md(BUTTERFLY, 0, 1), md(SPARROW, 0, -1), md(SPARROW, 1, 1),
-					md(SPARROW, 1, -2), md(SPARROW, -1, 2), md(SPARROW, -1, 0), md(SPARROW, 0, 2),
-					md(SPARROW, 0, -1, 0, -2));
-		}
-
-		@Test(expected = HantoException.class) // 31
-		public void redAttemptsToMakeADiscontinuousWalk() throws HantoException {
-			makeMoves(md(BUTTERFLY, 0, 0), md(BUTTERFLY, 1, 0), md(SPARROW, -1, 1), md(SPARROW, 1, 1),
-					md(SPARROW, 0, -1), md(SPARROW, 2, -1), md(SPARROW, -2, 1), md(SPARROW, 2, 0),
-					md(SPARROW, -1, 1, -1, 2));
-		}
-
-		@Test(expected = HantoException.class) // 32
-		public void blueAttempsToWalkARedPiece() throws HantoException {
-			makeMoves(md(BUTTERFLY, 0, 0), md(BUTTERFLY, 1, 0), md(SPARROW, -1, 1), md(SPARROW, 1, 1),
-					md(SPARROW, 0, -1), md(SPARROW, 2, -1), md(SPARROW, 1, 1, 0, 1));
-		}
-
-		@Test(expected = HantoException.class) // 33
-		public void redAttempsToWalkABluePiece() throws HantoException {
-			makeMoves(md(BUTTERFLY, 0, 0), md(BUTTERFLY, 1, 0), md(SPARROW, -1, 1), md(SPARROW, 1, 1),
-					md(SPARROW, 0, -1), md(SPARROW, 0, -1, -1, 0));
-		}
-
-		@Test(expected = HantoException.class) // 34
-		public void blueAttemptsToMakeANonAdjacentWalk() throws HantoException {
-			makeMoves(md(BUTTERFLY, 0, 0), md(BUTTERFLY, 1, 0), md(SPARROW, -1, 1), md(SPARROW, 1, 1),
-					md(SPARROW, 0, -1), md(SPARROW, 2, -1), md(SPARROW, 0, -1, 0, -2));
-		}
-
-		@Test(expected = HantoException.class) // 42
-		public void blueAttemptsToWalkBeforePlacingButterfly() throws HantoException {
-			makeMoves(md(SPARROW, 0, 0), md(SPARROW, 1, 0), md(SPARROW, 0, -1), md(SPARROW, 2, 0),
-					md(SPARROW, 0, -1, 1, -1));
-		}
-
-		@Test(expected = HantoException.class) // 43
-		public void redAttemptsToWalkBeforePlacingButterfly() throws HantoException {
-			makeMoves(md(SPARROW, 0, 0), md(SPARROW, 1, 0), md(SPARROW, 0, -1), md(SPARROW, 1, 0, 0, 1));
+			pc = game.getPieceAt(makeCoordinate(-1, 0));
+			assertNotNull(pc);
+			assertEquals(BLUE, pc.getColor());
+			assertEquals(CRAB, pc.getType());
 		}
 		
+		@Test
+		public void blueMakesAValidSparrowFly() throws HantoException {
+			MoveResult mr = makeMoves(md(BUTTERFLY, 0, 0), md(BUTTERFLY, 0, 1), md(SPARROW, 0, -1), md(SPARROW, 1, 1),
+					md(SPARROW, 0, -1, 0, 2));
+			assertEquals(OK, mr);
+			HantoPiece pc = game.getPieceAt(makeCoordinate(0, -1));
+			assertNull(pc);
+
+			pc = game.getPieceAt(makeCoordinate(0, 2));
+			assertNotNull(pc);
+			assertEquals(BLUE, pc.getColor());
+			assertEquals(SPARROW, pc.getType());			
+		}
+
 	}
 
 	public static class WinningAndDrawTests {
