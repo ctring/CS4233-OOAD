@@ -49,16 +49,28 @@ public abstract class HantoGameBase implements HantoGame {
 	public MoveResult makeMove(HantoPieceType pieceType, HantoCoordinate from, HantoCoordinate to)
 			throws HantoException {
 
-		recordMoveInput(pieceType, from, to);
-
-		doPreMoveCheck();
-		doMove();
-		doPostMoveCheck();
-
-		MoveResult moveResult = getMoveResult();
+		if (gameState.isGameOver()) {
+			throw new HantoException("Cannot make more moves after the game is finished");
+		}
+		
+		MoveResult moveResult; 
+		if (pieceType == null && from == null && to == null) {
+			moveResult = gameState.getCurrentPlayer() == BLUE ? RED_WINS : BLUE_WINS;
+		}
+		else {
+			recordMoveInput(pieceType, from, to);
+	
+			doPreMoveCheck();
+			doMove();
+			doPostMoveCheck();
+	
+			moveResult = getMoveResult();
+		}
+		
 		if (moveResult != OK) {
 			gameState.flagGameOver();
 		}
+		
 		return moveResult;
 	}
 
@@ -97,11 +109,7 @@ public abstract class HantoGameBase implements HantoGame {
 	 * 
 	 * @throws HantoException
 	 */
-	protected void doPreMoveCheck() throws HantoException {
-		if (gameState.isGameOver()) {
-			throw new HantoException("Cannot make more moves after the game is finished");
-		}
-		
+	protected void doPreMoveCheck() throws HantoException {		
 		if (gameState.getNumberOfPlayedMoves() == 0 && 
 				(playedTo.getX() != 0 || playedTo.getY() != 0)) {
 			throw new HantoException("First move must be the origin");

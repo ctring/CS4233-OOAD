@@ -47,12 +47,10 @@ MOVING PIECES
 
 
 WIN CONDITION
--Blue wins by walking
--Red wins by walking
-Blue wins by walking and flying
-Red wins by walking and flying
-Blue resigns
-Red resigns 
++Blue wins by walking
++Red wins by flying
++Blue resigns
++Red resigns 
 
 DRAW CONDITION
 Both butterfly are surrounded

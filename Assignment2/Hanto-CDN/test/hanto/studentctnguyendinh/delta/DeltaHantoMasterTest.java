@@ -406,22 +406,36 @@ public class DeltaHantoMasterTest {
 		@Test
 		public void blueWinsByWalking() throws HantoException // 35
 		{
-			MoveResult mr = makeMoves(md(BUTTERFLY, 0, 0), md(BUTTERFLY, 1, 0), md(SPARROW, -1, 1), md(SPARROW, 2, 0),
-					md(SPARROW, -1, 2), md(SPARROW, 2, -1), md(SPARROW, 0, 2), md(SPARROW, 2, -2),
-					md(SPARROW, 0, 2, 1, 1), md(SPARROW, 3, 0), md(SPARROW, -1, 2, 0, 2), md(SPARROW, 2, -2, 1, -1),
-					md(SPARROW, 0, 2, 0, 1));
+			MoveResult mr = makeMoves(md(BUTTERFLY, 0, 0), md(BUTTERFLY, 1, 0), md(CRAB, -1, 1), md(CRAB, 2, 0),
+					md(CRAB, -1, 2), md(CRAB, 2, -1), md(CRAB, 0, 2), md(CRAB, 2, -2),
+					md(CRAB, 0, 2, 1, 1), md(CRAB, 3, 0), md(CRAB, -1, 2, 0, 2), md(CRAB, 2, -2, 1, -1),
+					md(CRAB, 0, 2, 0, 1));
 			assertEquals(BLUE_WINS, mr);
 		}
 
 		@Test
-		public void redWinsByWalking() throws HantoException // 36
+		public void redWinsByFlying() throws HantoException // 36
 		{
-			MoveResult mr = makeMoves(md(BUTTERFLY, 0, 0), md(BUTTERFLY, 1, 0), md(SPARROW, -1, 1), md(SPARROW, 1, 1),
-					md(SPARROW, -1, 0), md(SPARROW, 2, -1), md(SPARROW, 0, -1), md(SPARROW, 1, 1, 0, 1),
-					md(SPARROW, -2, 1), md(SPARROW, 2, -1, 1, -1));
+			MoveResult mr = makeMoves(md(BUTTERFLY, 0, 0), md(BUTTERFLY, 1, 0), md(SPARROW, 0, -1), md(SPARROW, 1, 1),
+					md(SPARROW, 1, -2), md(SPARROW, 2, -1), md(SPARROW, -1, 1), md(SPARROW, 1, 1, 1, -1),
+					md(SPARROW, -1, 0), md(SPARROW, 2, -1, 0, 1));
 			assertEquals(RED_WINS, mr);
 		}
-
+		
+		@Test
+		public void blueResigns() throws HantoException 
+		{
+			MoveResult mr = makeMoves(md(BUTTERFLY, 0, 0), md(BUTTERFLY, 1, 0), md(SPARROW, 0, -1), md(SPARROW, 1, 1),
+					md());
+			assertEquals(RED_WINS, mr);
+		}
+		
+		@Test
+		public void redResigns() throws HantoException 
+		{
+			MoveResult mr = makeMoves(md(BUTTERFLY, 0, 0), md(BUTTERFLY, 1, 0), md(SPARROW, 0, -1), md());
+			assertEquals(BLUE_WINS, mr);
+		}
 	}
 
 	public static class OtherTests {
@@ -468,6 +482,10 @@ public class DeltaHantoMasterTest {
 		return new TestHantoCoordinate(x, y);
 	}
 
+	private static MoveData md() {
+		return new MoveData(null, null,null);
+	}
+	
 	private static MoveData md(HantoPieceType type, int toX, int toY) {
 		return new MoveData(type, null, makeCoordinate(toX, toY));
 	}
