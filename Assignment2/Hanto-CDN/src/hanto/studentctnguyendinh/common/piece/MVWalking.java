@@ -28,9 +28,16 @@ public class MVWalking implements HantoMovementRule {
 
 	private int maxSteps = Integer.MAX_VALUE;
 
+	/**
+	 * Default constructor.
+	 */
 	public MVWalking() {
 	}
 
+	/**
+	 * Constructor that allows specifying maximum number of steps in a walk.
+	 * @param maxSteps maximum number of steps for walking.
+	 */
 	public MVWalking(int maxSteps) {
 		this.maxSteps = maxSteps;
 	}
@@ -43,26 +50,23 @@ public class MVWalking implements HantoMovementRule {
 		}
 		return null;
 	}
-	
+
+	/**
+	 * Get a set of coordinates that can be reached from a given coordinate by walking.
+	 * @param gameState current state of the game.
+	 * @param from coordinate to be checked.
+	 * @return a set of reachable coordinate using walking.
+	 */
 	public ArrayList<HantoCoordinate> getReachableCoordinates(HantoGameState gameState, HantoCoordinate from) {
-		return getReachableCoordinates(gameState.cloneBoard(), from);
-	}	
-
-
-	public ArrayList<HantoCoordinate> getReachableCoordinates(HantoBoard board, HantoCoordinate from) {
 		HantoCoordinateImpl fromCoord = new HantoCoordinateImpl(from);
-
-		board.removePieceAt(from);
-
-		int partitions = board.numberPartitions();
 		ArrayList<HantoCoordinate> reachable = new ArrayList<>();
 		LinkedList<HantoCoordinateImpl> queue = new LinkedList<>();
 		Map<HantoCoordinateImpl, Boolean> checked = new HashMap<>();
-		
-		board.setDataAt(fromCoord, new Integer(0));
+
+		HantoBoard board = prepareScratchBoard(gameState, fromCoord);
+
 		checked.put(fromCoord, true);
 		queue.push(fromCoord);
-
 		while (!queue.isEmpty()) {
 			HantoCoordinateImpl cur = queue.pop();
 			int distance = board.getDataAt(cur);
@@ -72,10 +76,9 @@ public class MVWalking implements HantoMovementRule {
 			if (distance < maxSteps) {
 				HantoCoordinateImpl[] adj = cur.getAdjacentCoordsSet();
 				for (HantoCoordinateImpl coord : adj) {
-					if (checked.get(coord) == null &&
-						pathIsNotBlocked(board, cur, coord) &&
-						goodToPlace(board, partitions, coord)) {
-						
+					if (checked.get(coord) == null 
+							&& goodToPlace(board, board.getNumberOfPartition(), cur, coord)) {
+
 						board.setDataAt(coord, distance + 1);
 						checked.put(coord, true);
 						queue.push(coord);
@@ -85,22 +88,35 @@ public class MVWalking implements HantoMovementRule {
 		}
 		return reachable;
 	}
-	
-	private boolean goodToPlace(HantoBoard board, int partitions, HantoCoordinateImpl coord) {
-		if (board.getPieceAt(coord) != null) {
-			return false;
-		}
-		boolean isAdjacentToAny = false;
+
+	private HantoBoard prepareScratchBoard(HantoGameState gameState, HantoCoordinateImpl from) {
+		HantoBoard board = gameState.cloneBoard();
+		board.removePieceAt(from);
+		board.setDataAt(from, new Integer(0));
+		return board;
+	}
+
+	private boolean goodToPlace(HantoBoard board, int partitions, HantoCoordinateImpl from, HantoCoordinateImpl to) {
+		return isNotBlocked(board, from, to) && isAdjacentToOthers(board, to) && isNotOccupied(board, to)
+				&& isContinuous(board, partitions, to);
+	}
+
+	private boolean isAdjacentToOthers(HantoBoard board, HantoCoordinateImpl coord) {
 		HantoCoordinateImpl[] adj = coord.getAdjacentCoordsSet();
 		for (HantoCoordinateImpl c : adj) {
 			if (board.getPieceAt(c) != null) {
-				isAdjacentToAny = true;
-				break;
+				return true;
 			}
 		}
-		if (!isAdjacentToAny) {
-			return false;
-		}
+		return false;
+	}
+
+	private boolean isNotOccupied(HantoBoard board, HantoCoordinateImpl coord) {
+		return board.getPieceAt(coord) == null;
+	}
+
+	private boolean isContinuous(HantoBoard board, int partitions, HantoCoordinateImpl coord) {
+		HantoCoordinateImpl[] adj = coord.getAdjacentCoordsSet();
 		boolean isContinuous = true;
 		if (partitions > 1) {
 			isContinuous = false;
@@ -122,21 +138,19 @@ public class MVWalking implements HantoMovementRule {
 		if (!isContinuous) {
 			return false;
 		}
-		
+
 		return true;
 	}
 
-	private boolean pathIsNotBlocked(HantoBoard board, HantoCoordinate from, HantoCoordinate to) {
+	private boolean isNotBlocked(HantoBoard board, HantoCoordinate from, HantoCoordinate to) {
 		int normX = to.getX() - from.getX();
 		int normY = to.getY() - from.getY();
-		HantoCoordinateImpl coadjCoord1 = new HantoCoordinateImpl(
-				from.getX() + normX + normY, from.getY() - normX);
-		HantoCoordinateImpl coadjCoord2 = new HantoCoordinateImpl(
-				from.getX() - normY, from.getY() + normX + normY);
-		
+		HantoCoordinateImpl coadjCoord1 = new HantoCoordinateImpl(from.getX() + normX + normY, from.getY() - normX);
+		HantoCoordinateImpl coadjCoord2 = new HantoCoordinateImpl(from.getX() - normY, from.getY() + normX + normY);
+
 		HantoPiece coadjPiece1 = board.getPieceAt(coadjCoord1);
 		HantoPiece coadjPiece2 = board.getPieceAt(coadjCoord2);
-		
+
 		return coadjPiece1 == null || coadjPiece2 == null;
 	}
 }

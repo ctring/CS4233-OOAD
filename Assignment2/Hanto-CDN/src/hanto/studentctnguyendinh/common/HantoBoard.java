@@ -24,6 +24,7 @@ import hanto.common.HantoPiece;
 public class HantoBoard {
 	
 	private Map<HantoCoordinateImpl, Cell> board = new HashMap<>();
+	private int partitions = 0;
 	
 	public HantoBoard() {
 
@@ -55,7 +56,7 @@ public class HantoBoard {
 	
 	/**
 	 * Get partition number associating with a cell. This method should be called after
-	 * calling the {@link #numberPartitions() numberPartitions} method.
+	 * calling the {@link #updatePartition() numberPartitions} method.
 	 * @param coord coordinate of the cell.
 	 * @return custom partition number of the specified cell, 0 if the cell does not exist.
 	 */
@@ -98,6 +99,7 @@ public class HantoBoard {
 	public void putPieceAt(HantoCoordinate coord, HantoPiece piece) {
 		Cell c = getOrCreateCellAt(coord);
 		c.piece = piece;
+		updatePartition();
 	}
 	
 	/**
@@ -106,6 +108,7 @@ public class HantoBoard {
 	 */
 	public void removePieceAt(HantoCoordinate coord) {		
 		board.remove(new HantoCoordinateImpl(coord));
+		updatePartition();
 	}
 	
 	/**
@@ -117,6 +120,7 @@ public class HantoBoard {
 		HantoPiece piece = getPieceAt(from);
 		removePieceAt(new HantoCoordinateImpl(from));
 		putPieceAt(new HantoCoordinateImpl(to), piece);
+		updatePartition();
 	}
 	
 	/**
@@ -124,7 +128,7 @@ public class HantoBoard {
 	 * @return true if every piece is connect, false otherwise.
 	 */
 	public boolean validateConnectivity() {
-		int parts = numberPartitions();
+		int parts = getNumberOfPartition();
 		return parts <= 1;
 	}
 	
@@ -134,14 +138,14 @@ public class HantoBoard {
 	 * states of moving or when performing movement checking. 
 	 * @return the number of partitions.
 	 */
-	public int numberPartitions() {
+	public void updatePartition() {
 		LinkedList<HantoCoordinateImpl> queue = new LinkedList<>();
-		int partitionCounter = 0;
+		partitions = 0;
 		Map<HantoCoordinateImpl, Boolean> checked = new HashMap<>();
 		for (Map.Entry<HantoCoordinateImpl, Cell> entry : board.entrySet()) {
 			if (checked.get(entry.getKey()) == null) {
-				partitionCounter++;
-				entry.getValue().partition = partitionCounter;
+				partitions++;
+				entry.getValue().partition = partitions;
 				checked.put(entry.getKey(), true);
 				queue.clear();
 				queue.push(entry.getKey());
@@ -154,7 +158,7 @@ public class HantoBoard {
 						Cell c = board.get(coord);
 						if (c != null && c.piece != null &&
 								checked.get(coord) == null) {
-							c.partition = partitionCounter;
+							c.partition = partitions;
 							checked.put(coord, true);
 							queue.push(coord);
 						}
@@ -162,8 +166,13 @@ public class HantoBoard {
 				}
 			}
 		}
-		
-		return partitionCounter;
+	}
+	
+	/**
+	 * @return number of partitions.
+	 */
+	public int getNumberOfPartition() {
+		return partitions;
 	}
 	
 	/**
