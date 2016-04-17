@@ -7,9 +7,6 @@
  *******************************************************************************/
 package hanto.studentctnguyendinh.common.rule;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import hanto.common.HantoCoordinate;
 import hanto.common.HantoException;
 import hanto.common.HantoPieceType;

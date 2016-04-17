@@ -40,4 +40,10 @@ public class MVBlockedPiece implements HantoMovementRule {
 		return null;
 	}
 
+	@Override
+	public HantoCoordinate[] getReachableCoordinates(HantoGameState gameState, HantoCoordinate from) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

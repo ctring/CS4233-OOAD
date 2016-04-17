@@ -27,4 +27,12 @@ public interface HantoMovementRule {
 	 * @return an error message if the move is illegal, null otherwise.
 	 */
 	String validate(HantoGameState gameState, HantoCoordinate from, HantoCoordinate to);
+	
+	/**
+	 * Get an array of coordinates that can be reached using this movement rule.
+	 * @param gameState current game state.
+	 * @param from coordinate where the piece begins. 
+	 * @return an array of coordinates that can be reached.
+	 */
+	HantoCoordinate[] getReachableCoordinates(HantoGameState gameState, HantoCoordinate from);
 }

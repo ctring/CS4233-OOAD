@@ -18,13 +18,15 @@ public class MVFlying implements HantoMovementRule {
 	public String validate(HantoGameState gameState, HantoCoordinate from, HantoCoordinate to) {
 		HantoCoordinateImpl fromCoord = new HantoCoordinateImpl(from);
 		HantoCoordinateImpl toCoord = new HantoCoordinateImpl(to); 
-		
-		if (!fromCoord.alignedWith(toCoord)) {
-			return "Flight path must be a straight line";
-		}
 		if (fromCoord.getMinimumDistanceTo(toCoord) > maxSteps) {
 			return "Cannot fly further than " + maxSteps + " steps";
 		}
+		return null;
+	}
+
+	@Override
+	public HantoCoordinate[] getReachableCoordinates(HantoGameState gameState, HantoCoordinate from) {
+		// TODO Auto-generated method stub
 		return null;
 	}
 

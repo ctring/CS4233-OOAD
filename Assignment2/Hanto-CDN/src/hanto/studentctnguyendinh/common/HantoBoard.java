@@ -44,23 +44,29 @@ public class HantoBoard {
 	}
 	
 	/**
-	 * Get partition number at a given coordinate.
-	 * @param coord coordinate that needs retrieving partition number.
-	 * @return partition number at the given coordinate. 0 if there is none.
+	 * Get a copy of the data of a cell in the board.
+	 * @param coord coordinate of the cell.
+	 * @return a copy of data of the specified cell.
 	 */
-	public int getParitionNumberAt(HantoCoordinate coord) {
-		Cell c = board.get(new HantoCoordinateImpl(coord));
-		return c == null ? 0 : c.partition;
+	public Cell getCellAt(HantoCoordinate coord) {
+		Cell inner = board.get(new HantoCoordinateImpl(coord));
+		return inner == null ? null : new Cell(inner);
 	}
 	
 	/**
-	 * Get custom data associated with a given coordinate.
-	 * @param coord coordinate that needs retrieving customd data.
-	 * @return custom data associated with the given coordinate.
+	 * Get a cell at a given coordinate. If the cell does not exist, create
+	 * an empty one.
+	 * @param coord coordinate of the cell.
+	 * @return a cell at the given coordinate.
 	 */
-	public Object getDataAt(HantoCoordinate coord) {
-		Cell c = board.get(new HantoCoordinateImpl(coord));
-		return c == null ? null : c.data;
+	private Cell getOrCreateCellAt(HantoCoordinate coord) {
+		HantoCoordinateImpl innerCoord = new HantoCoordinateImpl(coord);
+		Cell c = board.get(innerCoord);
+		if (c == null) {
+			c = new Cell();
+			board.put(innerCoord, c);
+		}
+		return c;
 	}
 	
 	/**
@@ -68,11 +74,9 @@ public class HantoBoard {
 	 * @param coord coordinate that needs setting custom data.
 	 * @param data custom data to be set.
 	 */
-	public void setDataAt(HantoCoordinate coord, Object data) {
-		Cell c = board.get(new HantoCoordinateImpl(coord));
-		if (c != null) {
-			c.data = data;
-		}
+	public void setDataAt(HantoCoordinate coord, int data) {
+		Cell c = getOrCreateCellAt(coord);
+		c.data = data;
 	}
 
 	/**
@@ -81,14 +85,15 @@ public class HantoBoard {
 	 * @param piece piece to be placed.
 	 */
 	public void putPieceAt(HantoCoordinate coord, HantoPiece piece) {
-		board.put(new HantoCoordinateImpl(coord), new Cell(piece));
+		Cell c = getOrCreateCellAt(coord);
+		c.piece = piece;
 	}
 	
 	/**
 	 * Remove a piece at a given coordinate.
 	 * @param coord coordinate of the piece being removed.
 	 */
-	public void removePieceAt(HantoCoordinate coord) {
+	public void removePieceAt(HantoCoordinate coord) {		
 		board.remove(new HantoCoordinateImpl(coord));
 	}
 	
@@ -99,8 +104,8 @@ public class HantoBoard {
 	 */
 	public void movePiece(HantoCoordinate from, HantoCoordinate to) {
 		HantoPiece piece = getPieceAt(from);
-		board.remove(new HantoCoordinateImpl(from));
-		board.put(new HantoCoordinateImpl(to), new Cell(piece));
+		removePieceAt(new HantoCoordinateImpl(from));
+		putPieceAt(new HantoCoordinateImpl(to), piece);
 	}
 	
 	/**
@@ -121,11 +126,12 @@ public class HantoBoard {
 	public int numberPartitions() {
 		LinkedList<HantoCoordinateImpl> queue = new LinkedList<>();
 		int noPartitions = 0;
-		
+		Map<HantoCoordinateImpl, Boolean> checked = new HashMap<>();
 		for (Map.Entry<HantoCoordinateImpl, Cell> entry : board.entrySet()) {
-			if (entry.getValue().partition == 0) {
+			if (checked.get(entry.getKey()) == null) {
 				noPartitions++;
 				entry.getValue().partition = noPartitions;
+				checked.put(entry.getKey(), true);
 				queue.clear();
 				queue.push(entry.getKey());
 				
@@ -135,8 +141,9 @@ public class HantoBoard {
 					HantoCoordinateImpl[] adj = cur.getAdjacentCoordsSet();
 					for (HantoCoordinateImpl coord : adj) {
 						Cell c = board.get(coord);
-						if (c != null && c.partition == 0) {
+						if (c != null && checked.get(coord) == null) {
 							c.partition = noPartitions;
+							checked.put(coord, true);
 							queue.push(coord);
 						}
 					}
@@ -167,7 +174,7 @@ public class HantoBoard {
 				if ((-r-c) % 2 == 0) {
 					int coordX = c;
 					int coordY = (-r - c) / 2;
-					HantoPiece pc = board.get(new HantoCoordinateImpl(coordX, coordY)).piece;
+					HantoPiece pc = getPieceAt(new HantoCoordinateImpl(coordX, coordY));
 					String pcString = "  ";
 					if (pc != null) {
 						pcString = getPieceString(pc);
@@ -206,13 +213,29 @@ public class HantoBoard {
 		return pcstr;
 	}
 	
-	private static class Cell {
-		HantoPiece piece;
-		int partition = 0;
-		Object data = null;
+	public static class Cell {
+		public HantoPiece piece;
+		public int partition;
+		public int data;
+		
+		Cell() {
+			this(null, 0, 0);
+		}
 		
 		Cell(HantoPiece piece) {
+			this(piece, 0, 0);
+		}
+		
+		Cell(HantoPiece piece, int partition, int data) {
 			this.piece = piece;
+			this.partition = partition;
+			this.data = data;
+		}
+		
+		Cell(Cell other) {
+			this.piece = other.piece;
+			this.partition = other.partition;
+			this.data = other.data;
 		}
 	}
 }

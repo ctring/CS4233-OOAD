@@ -60,7 +60,6 @@ public class BetaHantoMasterTest
 	
 	private static HantoGameFactory factory;
 	private HantoGame game;
-	private HantoPlayerColor firstPlayer = BLUE;
 	
 	@BeforeClass
 	public static void initializeClass()

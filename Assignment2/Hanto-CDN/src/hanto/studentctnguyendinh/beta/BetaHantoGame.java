@@ -15,10 +15,7 @@ package hanto.studentctnguyendinh.beta;
 import static hanto.common.HantoPieceType.BUTTERFLY;
 import static hanto.common.HantoPieceType.SPARROW;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import hanto.common.HantoPiece;
@@ -28,8 +25,6 @@ import hanto.studentctnguyendinh.common.HantoGameBase;
 import hanto.studentctnguyendinh.common.HantoGameState;
 import hanto.studentctnguyendinh.common.piece.HantoMovementRule;
 import hanto.studentctnguyendinh.common.piece.HantoPieceImpl;
-import hanto.studentctnguyendinh.common.piece.MVBlockedPiece;
-import hanto.studentctnguyendinh.common.piece.MVWalking;
 import hanto.studentctnguyendinh.common.rule.HantoRule;
 import hanto.studentctnguyendinh.common.rule.HantoRuleButterflyInFourMoves;
 import hanto.studentctnguyendinh.common.rule.HantoRuleNotAdjacent;
