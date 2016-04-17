@@ -23,14 +23,14 @@ import hanto.common.HantoPiece;
  */
 public class HantoBoard {
 	
-	private Map<HantoCoordinateImpl, HantoPiece> board = new HashMap<>();
+	private Map<HantoCoordinateImpl, Cell> board = new HashMap<>();
 	
 	public HantoBoard() {
 
 	}
 	
 	public HantoBoard(HantoBoard other) {
-		board = new HashMap<HantoCoordinateImpl, HantoPiece>(other.board);
+		board = new HashMap<HantoCoordinateImpl, Cell>(other.board);
 	}
 	
 	/**
@@ -39,7 +39,18 @@ public class HantoBoard {
 	 * @return a Hanto piece at the given coordinate. Null if there is none.
 	 */
 	public HantoPiece getPieceAt(HantoCoordinate coord) {
-		return board.get(new HantoCoordinateImpl(coord));
+		Cell c = board.get(new HantoCoordinateImpl(coord));
+		return c == null ? null : board.get(new HantoCoordinateImpl(coord)).piece;
+	}
+	
+	/**
+	 * Get partition number at a given coordinate.
+	 * @param coord coordinate that needs retrieving partition number.
+	 * @return partition number at the given coordinate. 0 if there is none.
+	 */
+	public int getParitionNumberAt(HantoCoordinate coord) {
+		Cell c = board.get(new HantoCoordinateImpl(coord));
+		return c == null ? 0 : board.get(new HantoCoordinateImpl(coord)).partition;
 	}
 
 	/**
@@ -48,7 +59,15 @@ public class HantoBoard {
 	 * @param piece piece to be placed.
 	 */
 	public void putPieceAt(HantoCoordinate coord, HantoPiece piece) {
-		board.put(new HantoCoordinateImpl(coord), piece);
+		board.put(new HantoCoordinateImpl(coord), new Cell(piece));
+	}
+	
+	/**
+	 * Remove a piece at a given coordinate.
+	 * @param coord coordinate of the piece being removed.
+	 */
+	public void removePieceAt(HantoCoordinate coord) {
+		board.remove(new HantoCoordinateImpl(coord));
 	}
 	
 	/**
@@ -59,7 +78,7 @@ public class HantoBoard {
 	public void movePiece(HantoCoordinate from, HantoCoordinate to) {
 		HantoPiece piece = getPieceAt(from);
 		board.remove(new HantoCoordinateImpl(from));
-		board.put(new HantoCoordinateImpl(to), piece);
+		board.put(new HantoCoordinateImpl(to), new Cell(piece));
 	}
 	
 	/**
@@ -67,33 +86,43 @@ public class HantoBoard {
 	 * @return true if every piece is connect, false otherwise.
 	 */
 	public boolean validateConnectivity() {
-		if (board.isEmpty()) {
-			return true;
-		}
-		
+		int parts = numberPartitions();
+		return parts <= 1;
+	}
+	
+	/**
+	 * Number the pieces inside a partition with the number of that partition. Normally,
+	 * there is only one big partition. However, multiple partitions can exist in intermediate
+	 * states of moving or when performing movement checking. 
+	 * @return the number of partitions.
+	 */
+	public int numberPartitions() {
 		LinkedList<HantoCoordinateImpl> queue = new LinkedList<>();
-		HashMap<HantoCoordinateImpl, Boolean> checked = new HashMap<>();
+		int noPartitions = 0;
 		
-		HantoCoordinateImpl any = board.keySet().iterator().next();
-		queue.push(any);
-		checked.put(any, true);
-		
-		int count = 0;
-		
-		while (!queue.isEmpty()) {
-			HantoCoordinateImpl cur = queue.pop();
-			count++;
-			
-			HantoCoordinateImpl[] adj = cur.getAdjacentCoordsSet();
-			for (HantoCoordinateImpl coord : adj) {
-				if (board.containsKey(coord) && (checked.get(coord) == null)) {
-					queue.push(coord);
-					checked.put(coord, true);
+		for (Map.Entry<HantoCoordinateImpl, Cell> entry : board.entrySet()) {
+			if (entry.getValue().partition == 0) {
+				noPartitions++;
+				entry.getValue().partition = noPartitions;
+				queue.clear();
+				queue.push(entry.getKey());
+				
+				while (!queue.isEmpty()) {
+					HantoCoordinateImpl cur = queue.pop();
+
+					HantoCoordinateImpl[] adj = cur.getAdjacentCoordsSet();
+					for (HantoCoordinateImpl coord : adj) {
+						Cell c = board.get(coord);
+						if (c != null && c.partition == 0) {
+							c.partition = noPartitions;
+							queue.push(coord);
+						}
+					}
 				}
 			}
 		}
 		
-		return count == board.size();
+		return noPartitions;
 	}
 	
 	/**
@@ -116,7 +145,7 @@ public class HantoBoard {
 				if ((-r-c) % 2 == 0) {
 					int coordX = c;
 					int coordY = (-r - c) / 2;
-					HantoPiece pc = board.get(new HantoCoordinateImpl(coordX, coordY));
+					HantoPiece pc = board.get(new HantoCoordinateImpl(coordX, coordY)).piece;
 					String pcString = "  ";
 					if (pc != null) {
 						pcString = getPieceString(pc);
@@ -153,5 +182,14 @@ public class HantoBoard {
 			break;*/
 		}
 		return pcstr;
+	}
+	
+	private static class Cell {
+		HantoPiece piece;
+		int partition = 0;
+		
+		Cell(HantoPiece piece) {
+			this.piece = piece;
+		}
 	}
 }
