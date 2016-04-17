@@ -340,6 +340,34 @@ public class DeltaHantoMasterTest {
 					md(CRAB, -2, 0), md(CRAB, 1, 2), md(SPARROW, -2, 1), md(SPARROW, 3, 1),
 					md(SPARROW, -2, 2), md(CRAB, 0, 2, -1, 1));
 		}
+		
+		@Test(expected = HantoException.class)
+		public void blueAttemptsToWalkAWronglySpecifiedPiece() throws HantoException
+		{
+			makeMoves(md(BUTTERFLY, 0, 0), md(BUTTERFLY, 1, -1), md(SPARROW, -1, 1), md(SPARROW,1, -2),
+					md(CRAB, -1, 1, 0, 1));
+		}
+		
+		@Test(expected = HantoException.class)
+		public void redAttemptsToWalkANonExistentPiece() throws HantoException
+		{
+			makeMoves(md(BUTTERFLY, 0, 0), md(BUTTERFLY, 1, -1), md(CRAB, -1, 1), md(SPARROW,1, -2),
+					md(CRAB, -1, 1, 0, 1), md(SPARROW, 2, -2, 1, 0));
+		}
+		
+		@Test(expected = HantoException.class)
+		public void blueAttemptsToWalkToAnOccupiedHex() throws HantoException
+		{
+			makeMoves(md(BUTTERFLY, 0, 0), md(BUTTERFLY, 1, -1), md(CRAB, -1, 1), md(SPARROW,1, -2),
+					md(CRAB, -1, 1, 0, 0));			
+		}
+		
+		@Test(expected = HantoException.class)
+		public void redAttemptsToFlyToAnOccupiedHex() throws HantoException
+		{
+			makeMoves(md(BUTTERFLY, 0, 0), md(BUTTERFLY, 1, -1), md(CRAB, -1, 1), md(SPARROW,1, -2),
+					md(CRAB, -1, 1, 0, 1), md(SPARROW, 1, -2, 0, 1));
+		}
 	}
 
 	public static class WinningAndDrawTests {

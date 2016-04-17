@@ -36,15 +36,15 @@ MOVING PIECES
 +Red attempts to fly sparrow before placing butterfly --> exception
 +Blue attempts to walk a blocked piece --> exception
 +Red attempts to walk a blocked piece --> exception
++Blue attempts to walk a piece that is wrongly specified --> exception
++Red attempts to walk a non-existent piece --> exception
++Blue attempts to walk to an occupied hex --> exception
++Red attempts to fly to an occupied hex --> exception
 
-Blue attempts to walk a piece that is wrongly specified --> exception
-Red attempts to walk a non-existent piece --> exception
-Blue attempts to walk to an occupied hex --> exception
 Blue attempts to make a disconnecting walk --> exception
-Red attempts to make a disconnecting walk --> exception
+Red attempts to make a disconnecting fly --> exception
 Blue attempts to walk a red piece --> exception
 Red attempts to walk a blue piece --> exception
-Blue attempts make a non-adjacent walk --> exception
 
 
 WIN CONDITION
