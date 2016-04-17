@@ -26,7 +26,6 @@ import hanto.studentctnguyendinh.common.HantoGameBase;
 import hanto.studentctnguyendinh.common.HantoGameState;
 import hanto.studentctnguyendinh.common.piece.HantoMovementRule;
 import hanto.studentctnguyendinh.common.piece.HantoPieceImpl;
-import hanto.studentctnguyendinh.common.piece.MVBlockedPiece;
 import hanto.studentctnguyendinh.common.piece.MVFlying;
 import hanto.studentctnguyendinh.common.piece.MVWalking;
 import hanto.studentctnguyendinh.common.rule.HantoRule;
@@ -82,10 +81,10 @@ public class DeltaHantoGame extends HantoGameBase {
 		HantoMovementRule[] validators;
 		switch (pieceType) {
 		case CRAB:
-			validators = new HantoMovementRule[] {new MVBlockedPiece(), new MVWalking(3)};
+			validators = new HantoMovementRule[] {new MVWalking(3)};
 			break;
 		case BUTTERFLY:
-			validators = new HantoMovementRule[] {new MVBlockedPiece(), new MVWalking(1)};
+			validators = new HantoMovementRule[] {new MVWalking(1)};
 			break;
 		case SPARROW:
 			validators = new HantoMovementRule[] {new MVFlying()};

@@ -37,19 +37,19 @@ public class MVWalking implements HantoMovementRule {
 
 	@Override
 	public String validate(HantoGameState gameState, HantoCoordinate from, HantoCoordinate to) {
-		if (new HantoCoordinateImpl(from).getMinimumDistanceTo(to) > maxSteps) {
-			return "Cannot walk more than " + maxSteps + " hex(es)";
+		ArrayList<HantoCoordinate> reachable = getReachableCoordinates(gameState, from);
+		if (!reachable.contains(new HantoCoordinateImpl(to))) {
+			return "Invalid walk";
 		}
 		return null;
 	}
 	
-	@Override
-	public HantoCoordinate[] getReachableCoordinates(HantoGameState gameState, HantoCoordinate from) {
+	public ArrayList<HantoCoordinate> getReachableCoordinates(HantoGameState gameState, HantoCoordinate from) {
 		return getReachableCoordinates(gameState.cloneBoard(), from);
 	}	
 
 
-	public HantoCoordinate[] getReachableCoordinates(HantoBoard board, HantoCoordinate from) {
+	public ArrayList<HantoCoordinate> getReachableCoordinates(HantoBoard board, HantoCoordinate from) {
 		HantoCoordinateImpl fromCoord = new HantoCoordinateImpl(from);
 
 		board.removePieceAt(from);
@@ -83,9 +83,7 @@ public class MVWalking implements HantoMovementRule {
 				}
 			}
 		}
-		HantoCoordinate[] ret = new HantoCoordinate[reachable.size()];
-		reachable.toArray(ret);
-		return ret;
+		return reachable;
 	}
 	
 	private boolean goodToPlace(HantoBoard board, int partitions, HantoCoordinateImpl coord) {

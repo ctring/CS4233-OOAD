@@ -38,7 +38,7 @@ public class HantoRuleNotAdjacent implements HantoRule {
 			}
 		}
 		
-		return !isAdjacentToAny ? "The new piece must be ajacent to some pieces on the board" : null;
+		return !isAdjacentToAny ? "Pieces must be ajacent to each other" : null;
 	}
 	
 }

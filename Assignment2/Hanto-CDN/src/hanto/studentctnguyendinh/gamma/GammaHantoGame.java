@@ -25,7 +25,6 @@ import hanto.studentctnguyendinh.common.HantoGameBase;
 import hanto.studentctnguyendinh.common.HantoGameState;
 import hanto.studentctnguyendinh.common.piece.HantoMovementRule;
 import hanto.studentctnguyendinh.common.piece.HantoPieceImpl;
-import hanto.studentctnguyendinh.common.piece.MVBlockedPiece;
 import hanto.studentctnguyendinh.common.piece.MVWalking;
 import hanto.studentctnguyendinh.common.rule.HantoRule;
 import hanto.studentctnguyendinh.common.rule.HantoRuleAdjacentSameColor;
@@ -79,7 +78,7 @@ public class GammaHantoGame extends HantoGameBase {
 		switch (pieceType) {
 		case BUTTERFLY:
 		case SPARROW:
-			validators = new HantoMovementRule[] {new MVWalking(1), new MVBlockedPiece()};
+			validators = new HantoMovementRule[] {new MVWalking(1)};
 			break;
 		default:
 			validators = new HantoMovementRule[0];

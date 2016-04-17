@@ -306,6 +306,12 @@ public class DeltaHantoMasterTest {
 			makeMoves(md(BUTTERFLY, 0, 0), md(BUTTERFLY, 0, 1), md(CRAB, 0, -1), md(CRAB, 1, 1),
 				md(CRAB, 0, -1, 0, 2));
 		}
+		
+		@Test(expected = HantoException.class)
+		public void blueFliesSparrowToANonAdjacentHex() throws HantoException {
+			makeMoves(md(BUTTERFLY, 0, 0), md(BUTTERFLY, 0, 1), md(SPARROW, -1, 0), md(SPARROW, 1, 1),
+					md(SPARROW, -1, 0, 3, 0));
+		}
 	}
 
 	public static class WinningAndDrawTests {
@@ -348,23 +354,23 @@ public class DeltaHantoMasterTest {
 			makeMoves(md(BUTTERFLY, 0, 0), md(SPARROW, 1, 0), md(BUTTERFLY, 0, 0, 0, 0));
 		}
 		
-		@Test
-		public void getReachableHex() {
-			MVWalking mv = new MVWalking(2);
-			HantoBoard board = new HantoBoard();
-			board.putPieceAt(new HantoCoordinateImpl(0, 0), new HantoPieceImpl(BLUE, BUTTERFLY));
-			board.putPieceAt(new HantoCoordinateImpl(0, 1), new HantoPieceImpl(RED, BUTTERFLY));
-			board.putPieceAt(new HantoCoordinateImpl(1, 1), new HantoPieceImpl(BLUE, BUTTERFLY));
-			board.putPieceAt(new HantoCoordinateImpl(2, 0), new HantoPieceImpl(RED, BUTTERFLY));
-			board.putPieceAt(new HantoCoordinateImpl(2, -2), new HantoPieceImpl(BLUE, BUTTERFLY));
-			board.putPieceAt(new HantoCoordinateImpl(1, -2), new HantoPieceImpl(BLUE, BUTTERFLY));
-			board.putPieceAt(new HantoCoordinateImpl(0, -1), new HantoPieceImpl(BLUE, BUTTERFLY));
-			
-			HantoCoordinate[] coords = mv.getReachableCoordinates(board, new HantoCoordinateImpl(2, 0));
-			for (HantoCoordinate c : coords) {
-				System.out.println(c.getX() + " " + c.getY());
-			}
-		}
+//		@Test
+//		public void getReachableHex() {
+//			MVWalking mv = new MVWalking(2);
+//			HantoBoard board = new HantoBoard();
+//			board.putPieceAt(new HantoCoordinateImpl(0, 0), new HantoPieceImpl(BLUE, BUTTERFLY));
+//			board.putPieceAt(new HantoCoordinateImpl(0, 1), new HantoPieceImpl(RED, BUTTERFLY));
+//			board.putPieceAt(new HantoCoordinateImpl(1, 1), new HantoPieceImpl(BLUE, BUTTERFLY));
+//			board.putPieceAt(new HantoCoordinateImpl(2, 0), new HantoPieceImpl(RED, BUTTERFLY));
+//			board.putPieceAt(new HantoCoordinateImpl(2, -2), new HantoPieceImpl(BLUE, BUTTERFLY));
+//			board.putPieceAt(new HantoCoordinateImpl(1, -2), new HantoPieceImpl(BLUE, BUTTERFLY));
+//			board.putPieceAt(new HantoCoordinateImpl(0, -1), new HantoPieceImpl(BLUE, BUTTERFLY));
+//			
+//			HantoCoordinate[] coords = mv.getReachableCoordinates(board, new HantoCoordinateImpl(2, 0));
+//			for (HantoCoordinate c : coords) {
+//				System.out.println(c.getX() + " " + c.getY());
+//			}
+//		}
 	}
 
 	// Helper methods

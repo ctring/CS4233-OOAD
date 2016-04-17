@@ -34,5 +34,5 @@ public interface HantoMovementRule {
 	 * @param from coordinate where the piece begins. 
 	 * @return an array of coordinates that can be reached.
 	 */
-	HantoCoordinate[] getReachableCoordinates(HantoGameState gameState, HantoCoordinate from);
+	//HantoCoordinate[] getReachableCoordinates(HantoGameState gameState, HantoCoordinate from);
 }
