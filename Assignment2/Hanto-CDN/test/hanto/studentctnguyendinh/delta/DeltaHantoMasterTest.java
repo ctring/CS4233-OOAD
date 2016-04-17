@@ -280,7 +280,7 @@ public class DeltaHantoMasterTest {
 			assertEquals(BLUE, pc.getColor());
 			assertEquals(CRAB, pc.getType());
 		}
-		
+
 		@Test
 		public void blueMakesAValidSparrowFly() throws HantoException {
 			MoveResult mr = makeMoves(md(BUTTERFLY, 0, 0), md(BUTTERFLY, 0, 1), md(SPARROW, 0, -1), md(SPARROW, 1, 1),
@@ -292,7 +292,7 @@ public class DeltaHantoMasterTest {
 			pc = game.getPieceAt(makeCoordinate(-1, 1));
 			assertNotNull(pc);
 			assertEquals(BLUE, pc.getColor());
-			assertEquals(SPARROW, pc.getType());			
+			assertEquals(SPARROW, pc.getType());
 		}
 
 		@Test(expected = HantoException.class)
@@ -300,17 +300,45 @@ public class DeltaHantoMasterTest {
 			makeMoves(md(BUTTERFLY, 0, 0), md(BUTTERFLY, 1, 0), md(SPARROW, 0, -1), md(CRAB, 1, 1),
 					md(SPARROW, 0, -1, 0, 1), md(BUTTERFLY, 1, 0, 0, -1));
 		}
-		
+
 		@Test(expected = HantoException.class)
 		public void blueWalksCrabFourHexesAway() throws HantoException {
-			makeMoves(md(BUTTERFLY, 0, 0), md(BUTTERFLY, 0, 1), md(CRAB, 0, -1), md(CRAB, 1, 1),
-				md(CRAB, 0, -1, 0, 2));
+			makeMoves(md(BUTTERFLY, 0, 0), md(BUTTERFLY, 0, 1), md(CRAB, 0, -1), md(CRAB, 1, 1), md(CRAB, 0, -1, 0, 2));
 		}
-		
+
 		@Test(expected = HantoException.class)
 		public void blueFliesSparrowToANonAdjacentHex() throws HantoException {
 			makeMoves(md(BUTTERFLY, 0, 0), md(BUTTERFLY, 0, 1), md(SPARROW, -1, 0), md(SPARROW, 1, 1),
 					md(SPARROW, -1, 0, 3, 0));
+		}
+
+		@Test(expected = HantoException.class)
+		public void blueAttemptsToWalkCrabBeforePlacingButterfly() throws HantoException {
+			makeMoves(md(CRAB, 0, 0), md(BUTTERFLY, 0, 1), md(CRAB, -1, 0), md(SPARROW, 1, 1), md(CRAB, -1, 0, -1, 2));
+		}
+
+		@Test(expected = HantoException.class)
+		public void redAttemptsToFlySparrowBeforePlacingButterfly() throws HantoException {
+			makeMoves(md(BUTTERFLY, 0, 0), md(SPARROW, -1, 1), md(CRAB, 0, -1), md(SPARROW, -1, 2), md(SPARROW, 1, -1),
+					md(SPARROW, -1, 2, 1, 0));
+		}
+
+		@Test(expected = HantoException.class)	// 25
+		public void blueAttemptsToWalkABlockedCrab() throws HantoException
+		{
+			makeMoves(md(BUTTERFLY, 0, 0), md(BUTTERFLY, 0, 1), md(CRAB, -1, 0), md(CRAB, 1, 1),
+					md(CRAB, 0, -1), md(CRAB, 2, 1), md(CRAB, -1, -1), md(CRAB, 3, 1), 
+					md(CRAB, -2, 0), md(CRAB, 4, 1), md(SPARROW, -2, 1), md(SPARROW, 5, 1),
+					md(CRAB, -1, 0, -1, 2));
+		}
+		
+		@Test(expected = HantoException.class) 
+		public void redAttemptsToWalkABlockedCrab() throws HantoException
+		{
+			makeMoves(md(BUTTERFLY, 0, 0), md(BUTTERFLY, 0, 1), md(CRAB, -1, 0), md(CRAB, 1, 1),
+					md(CRAB, 0, -1), md(CRAB, 0, 2), md(CRAB, -1, -1), md(CRAB, 2, 1), 
+					md(CRAB, -2, 0), md(CRAB, 1, 2), md(SPARROW, -2, 1), md(SPARROW, 3, 1),
+					md(SPARROW, -2, 2), md(CRAB, 0, 2, -1, 1));
 		}
 	}
 
@@ -353,24 +381,32 @@ public class DeltaHantoMasterTest {
 		public void makeMoveWithTheSameFromAndTo() throws HantoException {
 			makeMoves(md(BUTTERFLY, 0, 0), md(SPARROW, 1, 0), md(BUTTERFLY, 0, 0, 0, 0));
 		}
-		
-//		@Test
-//		public void getReachableHex() {
-//			MVWalking mv = new MVWalking(2);
-//			HantoBoard board = new HantoBoard();
-//			board.putPieceAt(new HantoCoordinateImpl(0, 0), new HantoPieceImpl(BLUE, BUTTERFLY));
-//			board.putPieceAt(new HantoCoordinateImpl(0, 1), new HantoPieceImpl(RED, BUTTERFLY));
-//			board.putPieceAt(new HantoCoordinateImpl(1, 1), new HantoPieceImpl(BLUE, BUTTERFLY));
-//			board.putPieceAt(new HantoCoordinateImpl(2, 0), new HantoPieceImpl(RED, BUTTERFLY));
-//			board.putPieceAt(new HantoCoordinateImpl(2, -2), new HantoPieceImpl(BLUE, BUTTERFLY));
-//			board.putPieceAt(new HantoCoordinateImpl(1, -2), new HantoPieceImpl(BLUE, BUTTERFLY));
-//			board.putPieceAt(new HantoCoordinateImpl(0, -1), new HantoPieceImpl(BLUE, BUTTERFLY));
-//			
-//			HantoCoordinate[] coords = mv.getReachableCoordinates(board, new HantoCoordinateImpl(2, 0));
-//			for (HantoCoordinate c : coords) {
-//				System.out.println(c.getX() + " " + c.getY());
-//			}
-//		}
+
+		// @Test
+		// public void getReachableHex() {
+		// MVWalking mv = new MVWalking(2);
+		// HantoBoard board = new HantoBoard();
+		// board.putPieceAt(new HantoCoordinateImpl(0, 0), new
+		// HantoPieceImpl(BLUE, BUTTERFLY));
+		// board.putPieceAt(new HantoCoordinateImpl(0, 1), new
+		// HantoPieceImpl(RED, BUTTERFLY));
+		// board.putPieceAt(new HantoCoordinateImpl(1, 1), new
+		// HantoPieceImpl(BLUE, BUTTERFLY));
+		// board.putPieceAt(new HantoCoordinateImpl(2, 0), new
+		// HantoPieceImpl(RED, BUTTERFLY));
+		// board.putPieceAt(new HantoCoordinateImpl(2, -2), new
+		// HantoPieceImpl(BLUE, BUTTERFLY));
+		// board.putPieceAt(new HantoCoordinateImpl(1, -2), new
+		// HantoPieceImpl(BLUE, BUTTERFLY));
+		// board.putPieceAt(new HantoCoordinateImpl(0, -1), new
+		// HantoPieceImpl(BLUE, BUTTERFLY));
+		//
+		// HantoCoordinate[] coords = mv.getReachableCoordinates(board, new
+		// HantoCoordinateImpl(2, 0));
+		// for (HantoCoordinate c : coords) {
+		// System.out.println(c.getX() + " " + c.getY());
+		// }
+		// }
 	}
 
 	// Helper methods

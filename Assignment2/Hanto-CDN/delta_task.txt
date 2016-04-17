@@ -31,12 +31,12 @@ MOVING PIECES
 +Blue makes a valid sparrow fly
 +Red walks butterfly 2 hexes away --> exception
 +Blue walks crab 4 hexes away --> exception
++Blue flies sparrow to a non-adjacent hex --> exception
++Blue attempts to walk crab before placing butterfly --> exception
++Red attempts to fly sparrow before placing butterfly --> exception
++Blue attempts to walk a blocked piece --> exception
++Red attempts to walk a blocked piece --> exception
 
-Blue flies sparrow to a non-adjacent hex --> exception
-Blue attempts to walk crab before placing butterfly --> exception
-Red attempts to fly sparrow before placing butterfly --> exception
-Blue attempts to walk a blocked piece --> exception
-Red attempts to walk a blocked piece --> exception
 Blue attempts to walk a piece that is wrongly specified --> exception
 Red attempts to walk a non-existent piece --> exception
 Blue attempts to walk to an occupied hex --> exception
