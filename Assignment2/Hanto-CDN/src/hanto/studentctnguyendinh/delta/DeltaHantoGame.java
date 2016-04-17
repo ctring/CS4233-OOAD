@@ -85,6 +85,8 @@ public class DeltaHantoGame extends HantoGameBase {
 		HantoMovementRule[] validators;
 		switch (pieceType) {
 		case CRAB:
+			validators = new HantoMovementRule[] {new MVBlockedPiece(), new MVWalking(3)};
+			break;
 		case BUTTERFLY:
 			validators = new HantoMovementRule[] {new MVBlockedPiece(), new MVWalking(1)};
 			break;

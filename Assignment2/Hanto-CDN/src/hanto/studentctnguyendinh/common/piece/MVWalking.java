@@ -29,7 +29,7 @@ public class MVWalking implements HantoMovementRule {
 	@Override
 	public String validate(HantoGameState gameState, HantoCoordinate from, HantoCoordinate to) {
 		if (new HantoCoordinateImpl(from).getMinimumDistanceTo(to) > maxSteps) {
-			return "Cannot walk more than one hex";
+			return "Cannot walk more than " + maxSteps + " hex(es)";
 		}
 		return null;
 	}
