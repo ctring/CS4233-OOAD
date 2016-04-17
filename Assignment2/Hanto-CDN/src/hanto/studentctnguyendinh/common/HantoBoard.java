@@ -40,7 +40,7 @@ public class HantoBoard {
 	 */
 	public HantoPiece getPieceAt(HantoCoordinate coord) {
 		Cell c = board.get(new HantoCoordinateImpl(coord));
-		return c == null ? null : board.get(new HantoCoordinateImpl(coord)).piece;
+		return c == null ? null : c.piece;
 	}
 	
 	/**
@@ -50,7 +50,29 @@ public class HantoBoard {
 	 */
 	public int getParitionNumberAt(HantoCoordinate coord) {
 		Cell c = board.get(new HantoCoordinateImpl(coord));
-		return c == null ? 0 : board.get(new HantoCoordinateImpl(coord)).partition;
+		return c == null ? 0 : c.partition;
+	}
+	
+	/**
+	 * Get custom data associated with a given coordinate.
+	 * @param coord coordinate that needs retrieving customd data.
+	 * @return custom data associated with the given coordinate.
+	 */
+	public Object getDataAt(HantoCoordinate coord) {
+		Cell c = board.get(new HantoCoordinateImpl(coord));
+		return c == null ? null : c.data;
+	}
+	
+	/**
+	 * Set custom data at a given coordinate.
+	 * @param coord coordinate that needs setting custom data.
+	 * @param data custom data to be set.
+	 */
+	public void setDataAt(HantoCoordinate coord, Object data) {
+		Cell c = board.get(new HantoCoordinateImpl(coord));
+		if (c != null) {
+			c.data = data;
+		}
 	}
 
 	/**
@@ -187,6 +209,7 @@ public class HantoBoard {
 	private static class Cell {
 		HantoPiece piece;
 		int partition = 0;
+		Object data = null;
 		
 		Cell(HantoPiece piece) {
 			this.piece = piece;
