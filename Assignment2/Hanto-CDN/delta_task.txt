@@ -40,11 +40,10 @@ MOVING PIECES
 +Red attempts to walk a non-existent piece --> exception
 +Blue attempts to walk to an occupied hex --> exception
 +Red attempts to fly to an occupied hex --> exception
-
-Blue attempts to make a disconnecting walk --> exception
-Red attempts to make a disconnecting fly --> exception
-Blue attempts to walk a red piece --> exception
-Red attempts to walk a blue piece --> exception
++Blue attempts to make a disconnecting walk --> exception
++Red attempts to make a disconnecting fly --> exception
++Blue attempts to walk a red piece --> exception
++Red attempts to walk a blue piece --> exception
 
 
 WIN CONDITION
