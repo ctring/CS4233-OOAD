@@ -53,12 +53,12 @@ WIN CONDITION
 +Red resigns 
 
 DRAW CONDITION
-Both butterfly are surrounded
++Both butterfly are surrounded
 
 
 OTHER
 +First player is red
-Someone attempts to make a move after the game ended --> exception
++Someone attempts to make a move after the game ended --> exception
 
 
 min distant = |x2 - x1| + min(|y2 - y1|, |y2 - (y1 + (x1 - x2))|)

@@ -28,23 +28,6 @@ public abstract class HantoGameBase implements HantoGame {
 	
 	protected int maxNumberOfMove = Integer.MAX_VALUE;
 
-//	/**
-//	 * Construct a HantoGameBase instance with the player who moves first being
-//	 * specified.
-//	 * 
-//	 * @param movesFirst
-//	 *            color of the player who moves first
-//	 * @param ruleValidator
-//	 *            a validators that validates set of rules for this game.
-//	 * @param piecesQuota
-//	 *            number of available pieces for each piece types.
-//	 */
-//	public HantoGameBase(HantoPlayerColor movesFirst) {
-//		pieceFactory = HantoPieceFactory.getInstance();
-//	}
-	
-	
-
 	@Override
 	public MoveResult makeMove(HantoPieceType pieceType, HantoCoordinate from, HantoCoordinate to)
 			throws HantoException {

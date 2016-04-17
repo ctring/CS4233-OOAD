@@ -16,6 +16,7 @@ import static hanto.common.HantoPieceType.SPARROW;
 import static hanto.common.HantoPlayerColor.BLUE;
 import static hanto.common.HantoPlayerColor.RED;
 import static hanto.common.MoveResult.BLUE_WINS;
+import static hanto.common.MoveResult.DRAW;
 import static hanto.common.MoveResult.OK;
 import static hanto.common.MoveResult.RED_WINS;
 import static org.junit.Assert.assertEquals;
@@ -436,6 +437,16 @@ public class DeltaHantoMasterTest {
 			MoveResult mr = makeMoves(md(BUTTERFLY, 0, 0), md(BUTTERFLY, 1, 0), md(SPARROW, 0, -1), md());
 			assertEquals(BLUE_WINS, mr);
 		}
+		
+		@Test
+		public void bothButterfliesAreSurrounded() throws HantoException 
+		{
+			MoveResult mr = makeMoves(md(BUTTERFLY, 0, 0), md(BUTTERFLY, 1, 0), md(SPARROW, 0, -1), md(SPARROW, 1, 1),
+					md(SPARROW, 1, -2), md(SPARROW, 2, -1), md(SPARROW, -1, 0), md(SPARROW, 0, 2),
+					md(SPARROW, -1, 1), md(SPARROW, 2, 0), md(SPARROW, 1, -2, 0, 1), md(SPARROW, 0, 2, 1, -1));
+
+			assertEquals(DRAW, mr);
+		}
 	}
 
 	public static class OtherTests {
@@ -450,31 +461,12 @@ public class DeltaHantoMasterTest {
 			makeMoves(md(BUTTERFLY, 0, 0), md(SPARROW, 1, 0), md(BUTTERFLY, 0, 0, 0, 0));
 		}
 
-		// @Test
-		// public void getReachableHex() {
-		// MVWalking mv = new MVWalking(2);
-		// HantoBoard board = new HantoBoard();
-		// board.putPieceAt(new HantoCoordinateImpl(0, 0), new
-		// HantoPieceImpl(BLUE, BUTTERFLY));
-		// board.putPieceAt(new HantoCoordinateImpl(0, 1), new
-		// HantoPieceImpl(RED, BUTTERFLY));
-		// board.putPieceAt(new HantoCoordinateImpl(1, 1), new
-		// HantoPieceImpl(BLUE, BUTTERFLY));
-		// board.putPieceAt(new HantoCoordinateImpl(2, 0), new
-		// HantoPieceImpl(RED, BUTTERFLY));
-		// board.putPieceAt(new HantoCoordinateImpl(2, -2), new
-		// HantoPieceImpl(BLUE, BUTTERFLY));
-		// board.putPieceAt(new HantoCoordinateImpl(1, -2), new
-		// HantoPieceImpl(BLUE, BUTTERFLY));
-		// board.putPieceAt(new HantoCoordinateImpl(0, -1), new
-		// HantoPieceImpl(BLUE, BUTTERFLY));
-		//
-		// HantoCoordinate[] coords = mv.getReachableCoordinates(board, new
-		// HantoCoordinateImpl(2, 0));
-		// for (HantoCoordinate c : coords) {
-		// System.out.println(c.getX() + " " + c.getY());
-		// }
-		// }
+		@Test(expected = HantoException.class)
+		public void blueAttemptsToMakeAmoveAfterResigning() throws HantoException {
+			makeMoves(md(BUTTERFLY, 0, 0), md(BUTTERFLY, 1, 0), md(SPARROW, 0, -1), md(SPARROW, 1, 1), 
+					md(), md(SPARROW, 2, 0));
+
+		}
 	}
 
 	// Helper methods
