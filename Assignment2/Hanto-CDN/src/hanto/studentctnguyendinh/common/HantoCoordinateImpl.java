@@ -113,14 +113,14 @@ public class HantoCoordinateImpl implements HantoCoordinate {
 	 *            another coordinate to calculate distance to.
 	 * @return distance to the given coordinate.
 	 */
-	public int getMinimumDistanceTo(HantoCoordinate coord) {
-		int x2 = coord.getX();
-		int y2 = coord.getY();
-		return Math.abs(x - x2) + Math.min(Math.abs(y - y2), Math.abs(y2 - (y + (x - x2))));
-	}
-
-	public boolean alignedWith(HantoCoordinate coord) {
-		return (x == coord.getX()) || (y == coord.getY()) || (x - coord.getX() == coord.getY() - y);
-	}
+//	public int getMinimumDistanceTo(HantoCoordinate coord) {
+//		int x2 = coord.getX();
+//		int y2 = coord.getY();
+//		return Math.abs(x - x2) + Math.min(Math.abs(y - y2), Math.abs(y2 - (y + (x - x2))));
+//	}
+//
+//	public boolean alignedWith(HantoCoordinate coord) {
+//		return (x == coord.getX()) || (y == coord.getY()) || (x - coord.getX() == coord.getY() - y);
+//	}
 
 }

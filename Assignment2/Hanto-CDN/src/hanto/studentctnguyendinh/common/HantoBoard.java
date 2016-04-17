@@ -213,14 +213,14 @@ public class HantoBoard {
 			break;
 			case SPARROW: pcstr += "S";
 			break;
-			/*case HORSE: pcstr += "H";
-			break;
-			case DOVE: pcstr += "D";
-			break;
-			case CRANE: pcstr += "R";
-			break;
+//			case HORSE: pcstr += "H";
+//			break;
+//			case DOVE: pcstr += "D";
+//			break;
+//			case CRANE: pcstr += "R";
+//			break;
 			case CRAB: pcstr += "C";
-			break;*/
+			break;
 		}
 		return pcstr;
 	}
@@ -234,20 +234,12 @@ public class HantoBoard {
 			this(null, 0, 0);
 		}
 		
-		Cell(HantoPiece piece) {
-			this(piece, 0, 0);
-		}
 		
 		Cell(HantoPiece piece, int partition, int data) {
 			this.piece = piece;
 			this.partition = partition;
 			this.data = data;
 		}
-		
-		Cell(Cell other) {
-			this.piece = other.piece;
-			this.partition = other.partition;
-			this.data = other.data;
-		}
+
 	}
 }

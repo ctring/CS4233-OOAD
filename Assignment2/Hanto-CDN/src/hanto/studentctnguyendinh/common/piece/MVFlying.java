@@ -10,17 +10,13 @@ public class MVFlying implements HantoMovementRule {
 	
 	public MVFlying() {}
 	
-	public MVFlying(int maxSteps) {
-		this.maxSteps = maxSteps;
-	}
-	
 	@Override
 	public String validate(HantoGameState gameState, HantoCoordinate from, HantoCoordinate to) {
-		HantoCoordinateImpl fromCoord = new HantoCoordinateImpl(from);
-		HantoCoordinateImpl toCoord = new HantoCoordinateImpl(to); 
-		if (fromCoord.getMinimumDistanceTo(toCoord) > maxSteps) {
-			return "Cannot fly further than " + maxSteps + " steps";
-		}
+//		HantoCoordinateImpl fromCoord = new HantoCoordinateImpl(from);
+//		HantoCoordinateImpl toCoord = new HantoCoordinateImpl(to); 
+//		if (fromCoord.getMinimumDistanceTo(toCoord) > maxSteps) {
+//			return "Cannot fly further than " + maxSteps + " steps";
+//		}
 		return null;
 	}
 

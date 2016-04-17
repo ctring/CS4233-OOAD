@@ -395,6 +395,16 @@ public class DeltaHantoMasterTest {
 		{
 			makeMoves(md(BUTTERFLY, 0, 0), md(BUTTERFLY, 0, 1), md(SPARROW, -1, 0), md(BUTTERFLY, 0, 0, -1, 1));
 		}
+		
+		@Test
+		public void abitraryMoves() throws HantoException
+		{
+			makeMoves(md(CRAB, 0, 0), md(BUTTERFLY, 1, -1), md(BUTTERFLY, -1, 0), md(CRAB, 2, -1),
+					md(SPARROW, -2, 0), md(CRAB, 2, 0), md(SPARROW, -1, -1), md(CRAB, 1, 1),
+					md(SPARROW, -2, 0, 0, 2), md(CRAB, 3, 0), md(SPARROW, -1, 2), md(SPARROW, 4, 0),
+					md(SPARROW, -1, -1, -2, 2), md(SPARROW, 5, 0), md(CRAB, 0, 0, -1, 1), md(SPARROW, 5, 0, 1, 0),
+					md(BUTTERFLY, -1, 0, 0, 0), md(SPARROW, 4, 0, 0, 1));
+		}
 	}
 
 	public static class WinningAndDrawTests {
