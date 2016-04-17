@@ -15,7 +15,9 @@ import hanto.studentctnguyendinh.common.HantoCoordinateImpl;
 import hanto.studentctnguyendinh.common.HantoGameState;
 
 /**
- * This rule checks if the added piece is adjacent to pieces with the same color.
+ * This rule checks if the added piece is adjacent to pieces with the same
+ * color.
+ * 
  * @author Cuong Nguyen
  * @version April 7, 2016
  */

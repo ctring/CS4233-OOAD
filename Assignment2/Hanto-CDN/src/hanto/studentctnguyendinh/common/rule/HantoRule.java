@@ -12,22 +12,26 @@ import hanto.common.HantoPieceType;
 import hanto.studentctnguyendinh.common.HantoGameState;
 
 /**
- * HantoRule are strategies for validating general rules of a Hanto game. 
+ * HantoRule are strategies for validating general rules of a Hanto game.
  * 
  * @author Cuong Nguyen
  * @version April 6, 2016
  *
  */
 public interface HantoRule {
-	
+
 	/**
 	 * Validate a rule based on current game state and input.
-	 * @param gameState current game state.
-	 * @param pieceType type of the piece in the latest move.
-	 * @param from coordinate where the piece begins.
-	 * @param to coordinate where the piece is after this move.
+	 * 
+	 * @param gameState
+	 *            current game state.
+	 * @param pieceType
+	 *            type of the piece in the latest move.
+	 * @param from
+	 *            coordinate where the piece begins.
+	 * @param to
+	 *            coordinate where the piece is after this move.
 	 * @return an error message if the move is illegal, null otherwise.
 	 */
-	String validate(HantoGameState gameState, HantoPieceType pieceType, HantoCoordinate from, 
-			HantoCoordinate to);
+	String validate(HantoGameState gameState, HantoPieceType pieceType, HantoCoordinate from, HantoCoordinate to);
 }

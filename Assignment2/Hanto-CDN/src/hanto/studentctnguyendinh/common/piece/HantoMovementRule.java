@@ -11,28 +11,37 @@ import hanto.common.HantoCoordinate;
 import hanto.studentctnguyendinh.common.HantoGameState;
 
 /**
- * HantoMovementRule are strategies for validating movement rules of a Hanto Piece. 
+ * HantoMovementRule are strategies for validating movement rules of a Hanto
+ * Piece.
  * 
  * @author Cuong Nguyen
  * @version April 6, 2016
  *
  */
 public interface HantoMovementRule {
-	
+
 	/**
 	 * Validate a movement rule based on current game state an input.
-	 * @param gameState current game state.
-	 * @param from coordinate where the piece begins.
-	 * @param to coordinate where the piece is after this move.
+	 * 
+	 * @param gameState
+	 *            current game state.
+	 * @param from
+	 *            coordinate where the piece begins.
+	 * @param to
+	 *            coordinate where the piece is after this move.
 	 * @return an error message if the move is illegal, null otherwise.
 	 */
 	String validate(HantoGameState gameState, HantoCoordinate from, HantoCoordinate to);
-	
+
 	/**
 	 * Get an array of coordinates that can be reached using this movement rule.
-	 * @param gameState current game state.
-	 * @param from coordinate where the piece begins. 
+	 * 
+	 * @param gameState
+	 *            current game state.
+	 * @param from
+	 *            coordinate where the piece begins.
 	 * @return an array of coordinates that can be reached.
 	 */
-	//HantoCoordinate[] getReachableCoordinates(HantoGameState gameState, HantoCoordinate from);
+	// HantoCoordinate[] getReachableCoordinates(HantoGameState gameState,
+	// HantoCoordinate from);
 }

@@ -41,7 +41,7 @@ import hanto.studentctnguyendinh.common.rule.HantoRuleValidatorImpl;
  * @version April 7, 2016
  */
 public class GammaHantoGame extends HantoGameBase {
-	
+
 	/**
 	 * Construct a GammaHantoGame instance with the player who moves first being
 	 * specified.
@@ -55,13 +55,9 @@ public class GammaHantoGame extends HantoGameBase {
 	 */
 	public GammaHantoGame(HantoPlayerColor movesFirst) {
 		maxNumberOfMove = 40;
-		
-		HantoRule[] rules = { 
-				new HantoRuleMoveBeforeButterfly(), 
-				new HantoRuleOccupiedHex(),
-				new HantoRuleNotAdjacent(),
-				new HantoRuleButterflyInFourMoves(),
-				new HantoRuleAdjacentSameColor() };
+
+		HantoRule[] rules = { new HantoRuleMoveBeforeButterfly(), new HantoRuleOccupiedHex(),
+				new HantoRuleNotAdjacent(), new HantoRuleButterflyInFourMoves(), new HantoRuleAdjacentSameColor() };
 
 		ruleValidator = new HantoRuleValidatorImpl(rules);
 
@@ -78,12 +74,11 @@ public class GammaHantoGame extends HantoGameBase {
 		switch (pieceType) {
 		case BUTTERFLY:
 		case SPARROW:
-			validators = new HantoMovementRule[] {new MVWalking(1)};
+			validators = new HantoMovementRule[] { new MVWalking(1) };
 			break;
 		default:
 			validators = new HantoMovementRule[0];
 		}
-	
 
 		return new HantoPieceImpl(color, pieceType, validators);
 	}

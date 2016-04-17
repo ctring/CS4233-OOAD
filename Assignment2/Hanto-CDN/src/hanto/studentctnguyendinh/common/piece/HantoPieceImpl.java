@@ -18,41 +18,46 @@ import hanto.studentctnguyendinh.common.HantoGameState;
 
 /**
  * Implementation of the HantoPiece.
+ * 
  * @version Mar 2,2016
  */
-public class HantoPieceImpl extends HantoPieceAbstract
-{
+public class HantoPieceImpl extends HantoPieceAbstract {
 	private final HantoPlayerColor color;
 	private final HantoPieceType type;
-	
+
 	/**
 	 * Default constructor
-	 * @param color the piece color
-	 * @param type the piece type
+	 * 
+	 * @param color
+	 *            the piece color
+	 * @param type
+	 *            the piece type
 	 */
-	public HantoPieceImpl(HantoPlayerColor color, HantoPieceType type)
-	{
+	public HantoPieceImpl(HantoPlayerColor color, HantoPieceType type) {
 		this(color, type, null);
 	}
-	
+
 	/**
 	 * Default constructor
-	 * @param color the piece color
-	 * @param type the piece type
-	 * @param validators set of rule validators for this piece
+	 * 
+	 * @param color
+	 *            the piece color
+	 * @param type
+	 *            the piece type
+	 * @param validators
+	 *            set of rule validators for this piece
 	 */
-	public HantoPieceImpl(HantoPlayerColor color, HantoPieceType type, HantoMovementRule[] validators)
-	{
+	public HantoPieceImpl(HantoPlayerColor color, HantoPieceType type, HantoMovementRule[] validators) {
 		this.color = color;
 		this.type = type;
 		this.validators = validators;
 	}
+
 	/*
 	 * @see hanto.common.HantoPiece#getColor()
 	 */
 	@Override
-	public HantoPlayerColor getColor()
-	{
+	public HantoPlayerColor getColor() {
 		return color;
 	}
 
@@ -60,14 +65,12 @@ public class HantoPieceImpl extends HantoPieceAbstract
 	 * @see hanto.common.HantoPiece#getType()
 	 */
 	@Override
-	public HantoPieceType getType()
-	{
+	public HantoPieceType getType() {
 		return type;
 	}
-	
+
 	@Override
-	public void validateMove(HantoGameState gameState, 
-			HantoCoordinate from, HantoCoordinate to) throws HantoException {
+	public void validateMove(HantoGameState gameState, HantoCoordinate from, HantoCoordinate to) throws HantoException {
 		if (validators != null) {
 			for (HantoMovementRule validator : validators) {
 				String error = validator.validate(gameState, from, to);

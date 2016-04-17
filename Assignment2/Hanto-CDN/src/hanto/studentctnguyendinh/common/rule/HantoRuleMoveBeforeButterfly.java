@@ -15,7 +15,9 @@ import hanto.common.HantoPlayerColor;
 import hanto.studentctnguyendinh.common.HantoGameState;
 
 /**
- * This rule prevents movements that are made before the placer placing a butterfly.
+ * This rule prevents movements that are made before the placer placing a
+ * butterfly.
+ * 
  * @author Cuong Nguyen
  * @version April 7, 2016
  *

@@ -15,7 +15,7 @@ import hanto.studentctnguyendinh.common.HantoGameState;
 /**
  * HantoRuleValidator is an interface for the rule validators that perform rules
  * checking using a set of strategies.
- *  
+ * 
  * @author Cuong Nguyen
  * @version April 6, 2016
  *
@@ -24,12 +24,18 @@ public interface HantoRuleValidator {
 
 	/**
 	 * Enforce a set of rule based on given game state and input.
-	 * @param gameState current state of the game.
-	 * @param pieceType type of the piece in the latest move.
-	 * @param from coordinate where the piece begins in the latest move.
-	 * @param to coordinate where the piece is after the latest move.
-	 * @throws HantoException if there is a rule that is not satisfied.
+	 * 
+	 * @param gameState
+	 *            current state of the game.
+	 * @param pieceType
+	 *            type of the piece in the latest move.
+	 * @param from
+	 *            coordinate where the piece begins in the latest move.
+	 * @param to
+	 *            coordinate where the piece is after the latest move.
+	 * @throws HantoException
+	 *             if there is a rule that is not satisfied.
 	 */
-	void validateRules(HantoGameState gameState, HantoPieceType pieceType, HantoCoordinate from,	
-			HantoCoordinate to) throws HantoException;
+	void validateRules(HantoGameState gameState, HantoPieceType pieceType, HantoCoordinate from, HantoCoordinate to)
+			throws HantoException;
 }

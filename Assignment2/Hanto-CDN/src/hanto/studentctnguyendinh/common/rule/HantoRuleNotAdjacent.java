@@ -13,7 +13,7 @@ import hanto.studentctnguyendinh.common.HantoCoordinateImpl;
 import hanto.studentctnguyendinh.common.HantoGameState;
 
 /**
- * This rule checks if the move ends with a piece next to some other pieces. 
+ * This rule checks if the move ends with a piece next to some other pieces.
  * 
  * @author Cuong Nguyen
  * @version April 6, 2016
@@ -23,11 +23,11 @@ public class HantoRuleNotAdjacent implements HantoRule {
 	@Override
 	public String validate(HantoGameState gameState, HantoPieceType pieceType, HantoCoordinate from,
 			HantoCoordinate to) {
-		
+
 		if (gameState.getNumberOfPlayedMoves() == 0) {
 			return null;
 		}
-		
+
 		boolean isAdjacentToAny = false;
 		HantoCoordinateImpl coord = new HantoCoordinateImpl(to);
 		HantoCoordinateImpl[] adjCoords = coord.getAdjacentCoordsSet();
@@ -37,8 +37,8 @@ public class HantoRuleNotAdjacent implements HantoRule {
 				break;
 			}
 		}
-		
+
 		return !isAdjacentToAny ? "Pieces must be ajacent to each other" : null;
 	}
-	
+
 }

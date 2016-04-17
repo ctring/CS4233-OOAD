@@ -15,16 +15,18 @@ import hanto.studentctnguyendinh.common.HantoGameState;
 
 /**
  * This rules check if a butterfly is placed in the first four moves.
+ * 
  * @author Cuong Nguyen
  * @version April 6, 2016
  */
 public class HantoRuleButterflyInFourMoves implements HantoRule {
-	
+
 	@Override
-	public String validate(HantoGameState gameState, HantoPieceType pieceType, HantoCoordinate from, HantoCoordinate to) {
+	public String validate(HantoGameState gameState, HantoPieceType pieceType, HantoCoordinate from,
+			HantoCoordinate to) {
 		HantoGameState.HantoPlayerState currentPlayerState = gameState.getPlayerState(gameState.getCurrentPlayer());
 		boolean placedButterfly = currentPlayerState.getButterflyCoordinate() != null;
-				
+
 		int currentPlayerMoves = gameState.getNumberOfPlayedMoves() / 2 + 1;
 		if (currentPlayerMoves == 4 && !placedButterfly && pieceType != BUTTERFLY) {
 			return "A butterfly must be placed in the first four turn";

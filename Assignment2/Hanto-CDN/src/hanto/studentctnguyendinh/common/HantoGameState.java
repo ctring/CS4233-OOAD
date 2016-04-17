@@ -20,29 +20,34 @@ import hanto.common.HantoPieceType;
 import hanto.common.HantoPlayerColor;
 
 /**
- * HantoGameState is an interface for providing state of a HantoGame during playing.
+ * HantoGameState is an interface for providing state of a HantoGame during
+ * playing.
+ * 
  * @author Cuong Nguyen
  * @version April 6, 2016
  */
 public class HantoGameState {
-	
+
 	private HantoBoard board = new HantoBoard();
-	
+
 	private HantoPlayerColor movesFirst;
 	private HantoPlayerColor movesSecond;
-	
-	private int currentPlayer = 0;	// 0 = first player, 1 = second player
-	
-	private int moveCount = 0; 
+
+	private int currentPlayer = 0; // 0 = first player, 1 = second player
+
+	private int moveCount = 0;
 	private boolean gameOver = false;
-	
+
 	private HantoPlayerState bluePlayerState;
 	private HantoPlayerState redPlayerState;
-	
+
 	/**
 	 * Create a game state with give first-move player and quota of the pieces.
-	 * @param movesFirst color of the player who moves first.
-	 * @param piecesQuota quota for the pieces.
+	 * 
+	 * @param movesFirst
+	 *            color of the player who moves first.
+	 * @param piecesQuota
+	 *            quota for the pieces.
 	 */
 	public HantoGameState(HantoPlayerColor movesFirst, Map<HantoPieceType, Integer> piecesQuota) {
 		this.movesFirst = movesFirst;
@@ -50,7 +55,7 @@ public class HantoGameState {
 		bluePlayerState = new HantoPlayerState(new HashMap<HantoPieceType, Integer>(piecesQuota));
 		redPlayerState = new HantoPlayerState(new HashMap<HantoPieceType, Integer>(piecesQuota));
 	}
-	
+
 	/**
 	 * Increase the number of moves.
 	 */
@@ -58,89 +63,96 @@ public class HantoGameState {
 		moveCount++;
 		currentPlayer = 1 - currentPlayer;
 	}
-	
+
 	/**
 	 * Turn on the game over flag.
 	 */
 	void flagGameOver() {
 		gameOver = true;
 	}
-	
+
 	/**
 	 * Put a piece at a specified location on the board.
-	 * @param coord coordinate of the location of the new piece.
-	 * @param piece a new piece to be put on the board.
+	 * 
+	 * @param coord
+	 *            coordinate of the location of the new piece.
+	 * @param piece
+	 *            a new piece to be put on the board.
 	 */
 	void putPieceAt(HantoCoordinate coord, HantoPiece piece) {
 		HantoCoordinateImpl innerCoord = new HantoCoordinateImpl(coord);
 		HantoPieceType pieceType = piece.getType();
-		
+
 		board.putPieceAt(innerCoord, piece);
-		
+
 		if (piece.getColor() == BLUE) {
 			int rem = bluePlayerState.getNumberOfRemainingPieces(pieceType);
 			bluePlayerState.setNumberOfRemainingPieces(pieceType, rem - 1);
 			if (piece.getType() == BUTTERFLY) {
-				bluePlayerState.setButterflyCoordinate(innerCoord); 
+				bluePlayerState.setButterflyCoordinate(innerCoord);
 			}
-		}
-		else {
+		} else {
 			int rem = redPlayerState.getNumberOfRemainingPieces(pieceType);
 			redPlayerState.setNumberOfRemainingPieces(pieceType, rem - 1);
 			if (piece.getType() == BUTTERFLY) {
 				redPlayerState.setButterflyCoordinate(innerCoord);
-			}	
+			}
 		}
 	}
-	
+
 	/**
 	 * Move a piece between two coordinates on the board.
-	 * @param from coordinate of the hex containing the piece.
-	 * @param to destination of the piece.
+	 * 
+	 * @param from
+	 *            coordinate of the hex containing the piece.
+	 * @param to
+	 *            destination of the piece.
 	 */
 	void movePiece(HantoCoordinate from, HantoCoordinate to) {
 		board.movePiece(from, to);
 	}
-	
-	
+
 	public String getPrintableBoard() {
 		return board.getPrintableBoard();
 	}
-	
-	
+
 	/**
 	 * Get a Hanto piece at a given coordinate.
-	 * @param coord coordinate that needs retrieving a piece.
+	 * 
+	 * @param coord
+	 *            coordinate that needs retrieving a piece.
 	 * @return a Hanto piece at the given coordinate. Null if there is none.
 	 */
 	public HantoPiece getPieceAt(HantoCoordinate coord) {
 		return board.getPieceAt(coord);
 	}
-	
+
 	/**
 	 * @return number of played moves.
 	 */
 	public int getNumberOfPlayedMoves() {
 		return moveCount;
 	}
-	
+
 	/**
 	 * @return a boolean indicating if game is over.
 	 */
 	public boolean isGameOver() {
 		return gameOver;
 	}
-	
+
 	/**
 	 * @return get color of current player.
 	 */
 	public HantoPlayerColor getCurrentPlayer() {
 		return currentPlayer == 0 ? movesFirst : movesSecond;
 	}
-	
+
 	/**
-	 * @param player of a player.
-	 * @return object representing state of a player with given color. Null if it is not placed yet.
+	 * @param player
+	 *            of a player.
+	 * @return object representing state of a player with given color. Null if
+	 *         it is not placed yet.
 	 */
 	public HantoPlayerState getPlayerState(HantoPlayerColor player) {
 		return player == BLUE ? bluePlayerState : redPlayerState;
@@ -148,21 +160,23 @@ public class HantoGameState {
 
 	/**
 	 * Check whether connectivity of the pieces on the board is valid.
+	 * 
 	 * @return true if it is valid, false otherwise.
 	 */
 	public boolean validateBoard() {
 		return board.validateConnectivity();
 	}
-	
+
 	/**
 	 * @return a copy of the Hanto board contained in this game state.
 	 */
 	public HantoBoard cloneBoard() {
 		return new HantoBoard(board);
 	}
-	
+
 	/**
-	 * HantoPlayerState is an interface for providing state of a player. 
+	 * HantoPlayerState is an interface for providing state of a player.
+	 * 
 	 * @author Cuong Nguyen
 	 * @version April 6, 2016
 	 *
@@ -171,39 +185,45 @@ public class HantoGameState {
 
 		HantoCoordinate butterflyCoord = null;
 		Map<HantoPieceType, Integer> remaining = new HashMap<>();
-		
+
 		/**
-		 * Create a new player state with a given piece quota. 
-		 * @param pieceQuota quota of the pieces for each player.
+		 * Create a new player state with a given piece quota.
+		 * 
+		 * @param pieceQuota
+		 *            quota of the pieces for each player.
 		 */
 		HantoPlayerState(Map<HantoPieceType, Integer> pieceQuota) {
 			remaining = pieceQuota;
 		}
-		
+
 		/**
-		 * @return coordinate of the butterfly of this player. 
+		 * @return coordinate of the butterfly of this player.
 		 */
 		public HantoCoordinate getButterflyCoordinate() {
 			return butterflyCoord;
 		}
-		
+
 		protected void setButterflyCoordinate(HantoCoordinate coord) {
 			butterflyCoord = coord;
 		}
-		
+
 		/**
-		 * @param pieceType type of piece in question. 
+		 * @param pieceType
+		 *            type of piece in question.
 		 * @return number of remaining pieces of the given type.
 		 */
 		public int getNumberOfRemainingPieces(HantoPieceType pieceType) {
-			Integer rem = remaining.get(pieceType);	
+			Integer rem = remaining.get(pieceType);
 			return rem == null ? 0 : rem.intValue();
 		}
-		
+
 		/**
 		 * Set the number of remaining pieces by a new value.
-		 * @param pieceType type of the piece need to be set.
-		 * @param newVal new value for the number of the remaining piece.
+		 * 
+		 * @param pieceType
+		 *            type of the piece need to be set.
+		 * @param newVal
+		 *            new value for the number of the remaining piece.
 		 */
 		protected void setNumberOfRemainingPieces(HantoPieceType pieceType, int newVal) {
 			remaining.put(pieceType, newVal);

@@ -14,6 +14,7 @@ import hanto.studentctnguyendinh.common.HantoGameState;
 
 /**
  * This is an implementation of a Hanto rule validator.
+ * 
  * @author Cuong Nguyen
  * @version April 6, 2016
  *
@@ -21,24 +22,29 @@ import hanto.studentctnguyendinh.common.HantoGameState;
 public class HantoRuleValidatorImpl implements HantoRuleValidator {
 
 	HantoRule[] ruleList;
-	
+
 	/**
-	 * Create a new Hanto rule validator with given rules list and end rules list.
-	 * @param ruleList list of general rules.
-	 * @param endRuleList list of rules for a game end.
+	 * Create a new Hanto rule validator with given rules list and end rules
+	 * list.
+	 * 
+	 * @param ruleList
+	 *            list of general rules.
+	 * @param endRuleList
+	 *            list of rules for a game end.
 	 */
 	public HantoRuleValidatorImpl(HantoRule[] ruleList) {
 		this.ruleList = ruleList.clone();
 	}
-	
+
 	@Override
-	public void validateRules(HantoGameState gameState, HantoPieceType pieceType, HantoCoordinate from,	HantoCoordinate to) throws HantoException {
+	public void validateRules(HantoGameState gameState, HantoPieceType pieceType, HantoCoordinate from,
+			HantoCoordinate to) throws HantoException {
 		for (HantoRule rule : ruleList) {
 			String error = rule.validate(gameState, pieceType, from, to);
 			if (error != null) {
 				throw new HantoException(error);
 			}
-		} 
+		}
 	}
-	
+
 }
