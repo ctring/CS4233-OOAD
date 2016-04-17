@@ -23,15 +23,15 @@ import hanto.studentctnguyendinh.common.HantoGameState;
  */
 public class HantoRuleValidatorImpl implements HantoRuleValidator {
 
-	List<HantoRule> ruleList;
+	HantoRule[] ruleList;
 	
 	/**
 	 * Create a new Hanto rule validator with given rules list and end rules list.
 	 * @param ruleList list of general rules.
 	 * @param endRuleList list of rules for a game end.
 	 */
-	public HantoRuleValidatorImpl(List<HantoRule> ruleList) {
-		this.ruleList = new ArrayList<>(ruleList);
+	public HantoRuleValidatorImpl(HantoRule[] ruleList) {
+		this.ruleList = ruleList.clone();
 	}
 	
 	@Override

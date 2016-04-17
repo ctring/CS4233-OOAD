@@ -56,7 +56,7 @@ public class BetaHantoGame extends HantoGameBase
 				new HantoRuleButterflyInFourMoves(),
 				};
 
-		ruleValidator = new HantoRuleValidatorImpl(new ArrayList<HantoRule>(Arrays.asList(rules)));
+		ruleValidator = new HantoRuleValidatorImpl(rules);
 
 		Map<HantoPieceType, Integer> gammaPiecesQuota = new HashMap<>();
 		gammaPiecesQuota.put(BUTTERFLY, 1);

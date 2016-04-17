@@ -70,7 +70,7 @@ public class DeltaHantoGame extends HantoGameBase {
 				new HantoRuleButterflyInFourMoves(),
 				new HantoRuleAdjacentSameColor() };
 
-		ruleValidator = new HantoRuleValidatorImpl(new ArrayList<HantoRule>(Arrays.asList(rules)));
+		ruleValidator = new HantoRuleValidatorImpl(rules);
 
 		Map<HantoPieceType, Integer> deltaPiecesQuota = new HashMap<>();
 		deltaPiecesQuota.put(BUTTERFLY, 1);
