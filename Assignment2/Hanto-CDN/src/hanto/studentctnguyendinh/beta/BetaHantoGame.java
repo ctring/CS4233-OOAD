@@ -68,8 +68,7 @@ public class BetaHantoGame extends HantoGameBase
 
 	@Override
 	public HantoPiece makeHantoPiece(HantoPlayerColor color, HantoPieceType pieceType) {
-		List<HantoMovementRule> validators = new ArrayList<>();
-		return new HantoPieceImpl(color, pieceType, validators);
+		return new HantoPieceImpl(color, pieceType, new HantoMovementRule[0]);
 	}	
 	
 }

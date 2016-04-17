@@ -22,7 +22,7 @@ import hanto.studentctnguyendinh.common.HantoGameState;
  */
 public abstract class HantoPieceAbstract implements HantoPiece {
 
-	List<HantoMovementRule> validators;
+	HantoMovementRule[] validators;
 	
 	/**
 	 * Validate movement rules of this piece based on the current game state

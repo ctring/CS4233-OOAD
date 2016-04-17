@@ -1,7 +1,6 @@
 DeltaHanto
 
 // TODO
-Change the tests with '-' so that crabs are walked, not sparrows
 Shorten doPreMoveCheck in HantoGameBase
 
 PLACING PIECES

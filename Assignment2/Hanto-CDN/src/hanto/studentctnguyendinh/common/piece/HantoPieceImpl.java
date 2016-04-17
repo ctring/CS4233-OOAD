@@ -43,7 +43,7 @@ public class HantoPieceImpl extends HantoPieceAbstract
 	 * @param type the piece type
 	 * @param validators set of rule validators for this piece
 	 */
-	public HantoPieceImpl(HantoPlayerColor color, HantoPieceType type, List<HantoMovementRule> validators)
+	public HantoPieceImpl(HantoPlayerColor color, HantoPieceType type, HantoMovementRule[] validators)
 	{
 		this.color = color;
 		this.type = type;
