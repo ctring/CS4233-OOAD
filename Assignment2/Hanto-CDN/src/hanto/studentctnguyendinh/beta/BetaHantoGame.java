@@ -32,7 +32,9 @@ import hanto.studentctnguyendinh.common.rule.HantoRuleOccupiedHex;
 import hanto.studentctnguyendinh.common.rule.HantoRuleValidatorImpl;
 
 /**
- * <<Fill this in>>
+ * A concrete implementation of the Beta version of the Hanto game.
+ * 
+ * @author Cuong Nguyen
  * @version Mar 16, 2016
  */
 public class BetaHantoGame extends HantoGameBase

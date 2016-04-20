@@ -48,10 +48,6 @@ public class GammaHantoGame extends HantoGameBase {
 	 * 
 	 * @param movesFirst
 	 *            color of the player who moves first
-	 * @param ruleValidator
-	 *            a validators that validates set of rules for this game.
-	 * @param piecesQuota
-	 *            number of available pieces for each piece types.
 	 */
 	public GammaHantoGame(HantoPlayerColor movesFirst) {
 		maxNumberOfMove = 40;

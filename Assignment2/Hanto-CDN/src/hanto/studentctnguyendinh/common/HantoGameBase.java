@@ -1,3 +1,10 @@
+/*******************************************************************************
+ * This files was developed for CS4233: Object-Oriented Analysis & Design. The course was
+ * taken at Worcester Polytechnic Institute. All rights reserved. This program and the
+ * accompanying materials are made available under the terms of the Eclipse Public License
+ * v1.0 which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *******************************************************************************/
 package hanto.studentctnguyendinh.common;
 
 import static hanto.common.HantoPlayerColor.BLUE;
@@ -17,6 +24,13 @@ import hanto.common.MoveResult;
 import hanto.studentctnguyendinh.common.piece.HantoPieceAbstract;
 import hanto.studentctnguyendinh.common.rule.HantoRuleValidator;
 
+/**
+ * HantoGameBase contains the commonalities of all versions of Hanto Game.
+ * Every version of Hanto game must extend this class and edits/adds functionalities
+ * if needed.
+ *  
+ * @author Cuong
+ */
 public abstract class HantoGameBase implements HantoGame {
 
 	protected HantoGameState gameState;

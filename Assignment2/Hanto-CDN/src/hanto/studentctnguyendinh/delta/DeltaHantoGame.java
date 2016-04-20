@@ -37,10 +37,10 @@ import hanto.studentctnguyendinh.common.rule.HantoRuleOccupiedHex;
 import hanto.studentctnguyendinh.common.rule.HantoRuleValidatorImpl;
 
 /**
- * A concrete implementation of the Gamma version of the Hanto game.
+ * A concrete implementation of the Delta version of the Hanto game.
  * 
  * @author Cuong Nguyen
- * @version April 7, 2016
+ * @version April 18, 2016
  */
 public class DeltaHantoGame extends HantoGameBase {
 
@@ -50,10 +50,6 @@ public class DeltaHantoGame extends HantoGameBase {
 	 * 
 	 * @param movesFirst
 	 *            color of the player who moves first
-	 * @param ruleValidator
-	 *            a validators that validates set of rules for this game.
-	 * @param piecesQuota
-	 *            number of available pieces for each piece types.
 	 */
 	public DeltaHantoGame(HantoPlayerColor movesFirst) {
 

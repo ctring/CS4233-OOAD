@@ -31,6 +31,10 @@ public class HantoBoard {
 
 	}
 
+	/**
+	 * Copy constructor
+	 * @param other a Hanto board to be copied.
+	 */
 	public HantoBoard(HantoBoard other) {
 		board = new HashMap<HantoCoordinateImpl, Cell>(other.board);
 	}
@@ -161,8 +165,6 @@ public class HantoBoard {
 	 * Normally, there is only one big partition. However, multiple partitions
 	 * can exist in intermediate states of moving or when performing movement
 	 * checking.
-	 * 
-	 * @return the number of partitions.
 	 */
 	public void updatePartition() {
 		LinkedList<HantoCoordinateImpl> queue = new LinkedList<>();
@@ -261,20 +263,32 @@ public class HantoBoard {
 		return pcstr;
 	}
 
-	public static class Cell {
-		public HantoPiece piece;
-		public int partition;
-		public int data;
+	/**
+	 * A cell contains information such as piece type, partition or custom data 
+	 * associating with a hex on a Hanto board.
+	 * @author Cuong
+	 *
+	 */
+	static class Cell {
+		private HantoPiece piece;
+		private int partition;
+		private int data;
 
 		Cell() {
 			this(null, 0, 0);
 		}
 
+		/**
+		 * Create a new cell with given data.
+		 * @param piece Hanto piece in this cell.
+		 * @param partition partition number.
+		 * @param data custom data.
+		 */
 		Cell(HantoPiece piece, int partition, int data) {
 			this.piece = piece;
 			this.partition = partition;
 			this.data = data;
 		}
-
+		
 	}
 }

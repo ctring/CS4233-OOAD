@@ -10,6 +10,7 @@ package hanto.studentctnguyendinh.common.piece;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 import hanto.common.HantoCoordinate;
@@ -19,10 +20,10 @@ import hanto.studentctnguyendinh.common.HantoCoordinateImpl;
 import hanto.studentctnguyendinh.common.HantoGameState;
 
 /**
- * This rule ensures that the piece only walks one hex.
+ * This rule checks for validity when walking a piece.
  * 
  * @author Cuong Nguyen
- * @version April 7, 2016
+ * @version April 18, 2016
  */
 public class MVWalking implements HantoMovementRule {
 
@@ -46,7 +47,7 @@ public class MVWalking implements HantoMovementRule {
 
 	@Override
 	public String validate(HantoGameState gameState, HantoCoordinate from, HantoCoordinate to) {
-		ArrayList<HantoCoordinate> reachable = getReachableCoordinates(gameState, from);
+		List<HantoCoordinate> reachable = getReachableCoordinates(gameState, from);
 		if (!reachable.contains(new HantoCoordinateImpl(to))) {
 			return "Invalid walk";
 		}
@@ -63,9 +64,9 @@ public class MVWalking implements HantoMovementRule {
 	 *            coordinate to be checked.
 	 * @return a set of reachable coordinate using walking.
 	 */
-	public ArrayList<HantoCoordinate> getReachableCoordinates(HantoGameState gameState, HantoCoordinate from) {
+	public List<HantoCoordinate> getReachableCoordinates(HantoGameState gameState, HantoCoordinate from) {
 		HantoCoordinateImpl fromCoord = new HantoCoordinateImpl(from);
-		ArrayList<HantoCoordinate> reachable = new ArrayList<>();
+		List<HantoCoordinate> reachable = new ArrayList<>();
 		LinkedList<HantoCoordinateImpl> queue = new LinkedList<>();
 		Map<HantoCoordinateImpl, Boolean> checked = new HashMap<>();
 

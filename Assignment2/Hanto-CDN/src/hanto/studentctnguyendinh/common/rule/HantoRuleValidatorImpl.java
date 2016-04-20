@@ -29,8 +29,6 @@ public class HantoRuleValidatorImpl implements HantoRuleValidator {
 	 * 
 	 * @param ruleList
 	 *            list of general rules.
-	 * @param endRuleList
-	 *            list of rules for a game end.
 	 */
 	public HantoRuleValidatorImpl(HantoRule[] ruleList) {
 		this.ruleList = ruleList.clone();
