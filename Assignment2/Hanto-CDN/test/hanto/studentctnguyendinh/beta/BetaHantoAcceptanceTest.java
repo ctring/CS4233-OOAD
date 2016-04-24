@@ -23,7 +23,7 @@ import org.junit.*;
  * first player and RED for the second player.
  * @version Sep 14, 2014
  */
-public class BetaHantoMasterTestGP
+public class BetaHantoAcceptanceTest
 {
 	/**
 	 * Internal class for these test cases.

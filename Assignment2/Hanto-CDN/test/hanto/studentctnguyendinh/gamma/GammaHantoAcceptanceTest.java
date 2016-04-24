@@ -3,12 +3,23 @@ package hanto.studentctnguyendinh.gamma;
 import static hanto.common.HantoPieceType.*;
 import static hanto.common.HantoPlayerColor.*;
 import static hanto.common.MoveResult.*;
-import static org.junit.Assert.*;
-import org.junit.*;
-import hanto.common.*;
+import static org.junit.Assert.assertEquals;
+
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
+
+import hanto.common.HantoCoordinate;
+import hanto.common.HantoException;
+import hanto.common.HantoGame;
+import hanto.common.HantoGameID;
+import hanto.common.HantoPiece;
+import hanto.common.HantoPieceType;
+import hanto.common.HantoPlayerColor;
+import hanto.common.MoveResult;
 import hanto.studentctnguyendinh.HantoGameFactory;
 
-public class GammaHantoMasterTestGP
+public class GammaHantoAcceptanceTest
 {
 	class MoveData {
 		final HantoPieceType type;
@@ -260,8 +271,14 @@ public class GammaHantoMasterTestGP
 				md(SPARROW, 1, -1, 1, 0), md(SPARROW, -1, 2),
 				md(SPARROW, -1, 0, -1, 1), md(SPARROW, 0, 3));
 	}
-
-
+	
+	@Test(expected=HantoException.class)
+	public void attemptToMoveBeforeButterflyIsOnBoard() throws HantoException
+	{
+		makeMoves(md(CRAB, 0, 0), md (BUTTERFLY, 0, 1),
+				md(CRAB, 0, 0, 1, 0));
+	}
+	
 	// Helper methods
 	private HantoCoordinate makeCoordinate(int x, int y)
 	{
@@ -295,7 +312,8 @@ public class GammaHantoMasterTestGP
 		return new MoveData(type, null, makeCoordinate(toX, toY));
 	}
 	
-	private MoveData md(HantoPieceType type, int fromX, int fromY, int toX, int toY) {
+	private MoveData md(HantoPieceType type, int fromX, int fromY, int toX, int toY)
+	{
 		return new MoveData(type, makeCoordinate(fromX, fromY), makeCoordinate(toX, toY));
 	}
 	

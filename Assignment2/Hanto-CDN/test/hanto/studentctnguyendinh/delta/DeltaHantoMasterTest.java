@@ -36,10 +36,6 @@ import hanto.common.HantoPiece;
 import hanto.common.HantoPieceType;
 import hanto.common.MoveResult;
 import hanto.studentctnguyendinh.HantoGameFactory;
-import hanto.studentctnguyendinh.common.HantoBoard;
-import hanto.studentctnguyendinh.common.HantoCoordinateImpl;
-import hanto.studentctnguyendinh.common.piece.HantoPieceImpl;
-import hanto.studentctnguyendinh.common.piece.MVWalking;
 
 /**
  * Test cases for Beta Hanto.
@@ -235,8 +231,8 @@ public class DeltaHantoMasterTest {
 			game = factory.makeHantoGame(HantoGameID.DELTA_HANTO, BLUE);
 		}
 
-		@Test
-		public void blueMakesAValidButterflyWalk() throws HantoException // 21
+		@Test	// 21
+		public void blueMakesAValidButterflyWalk() throws HantoException
 		{
 			MoveResult mr = makeMoves(md(SPARROW, 0, 0), md(BUTTERFLY, 0, -1), md(BUTTERFLY, -1, 1),
 					md(SPARROW, -1, -1), md(BUTTERFLY, -1, 1, -1, 0));
@@ -252,8 +248,8 @@ public class DeltaHantoMasterTest {
 			assertEquals(BUTTERFLY, pc.getType());
 		}
 
-		@Test
-		public void redMakesAValidButterflyWalk() throws HantoException // 22
+		@Test	// 22
+		public void redMakesAValidButterflyWalk() throws HantoException
 		{
 			MoveResult mr = makeMoves(md(BUTTERFLY, 0, 0), md(SPARROW, 0, -1), md(SPARROW, -1, 1),
 					md(BUTTERFLY, -1, -1), md(SPARROW, 0, 1), md(BUTTERFLY, -1, -1, 0, -2));
@@ -268,7 +264,7 @@ public class DeltaHantoMasterTest {
 			assertEquals(BUTTERFLY, pc.getType());
 		}
 
-		@Test
+		@Test	// 23
 		public void blueMakesAValidCrabWalk() throws HantoException {
 			MoveResult mr = makeMoves(md(BUTTERFLY, 0, 0), md(BUTTERFLY, 0, 1), md(CRAB, 0, -1), md(CRAB, 1, 1),
 					md(CRAB, 0, -1, -1, 1));
@@ -282,7 +278,7 @@ public class DeltaHantoMasterTest {
 			assertEquals(CRAB, pc.getType());
 		}
 
-		@Test
+		@Test	// 24
 		public void blueMakesAValidSparrowFly() throws HantoException {
 			MoveResult mr = makeMoves(md(BUTTERFLY, 0, 0), md(BUTTERFLY, 0, 1), md(SPARROW, 0, -1), md(SPARROW, 1, 1),
 					md(SPARROW, 0, -1, -1, 1));
@@ -296,35 +292,35 @@ public class DeltaHantoMasterTest {
 			assertEquals(SPARROW, pc.getType());
 		}
 
-		@Test(expected = HantoException.class)
+		@Test(expected = HantoException.class)	// 25
 		public void redWalksButterflyTwoHexesAway() throws HantoException {
 			makeMoves(md(BUTTERFLY, 0, 0), md(BUTTERFLY, 1, 0), md(SPARROW, 0, -1), md(CRAB, 1, 1),
 					md(SPARROW, 0, -1, 0, 1), md(BUTTERFLY, 1, 0, 0, -1));
 		}
 
-		@Test(expected = HantoException.class)
+		@Test(expected = HantoException.class)	// 26
 		public void blueWalksCrabFourHexesAway() throws HantoException {
 			makeMoves(md(BUTTERFLY, 0, 0), md(BUTTERFLY, 0, 1), md(CRAB, 0, -1), md(CRAB, 1, 1), md(CRAB, 0, -1, 0, 2));
 		}
 
-		@Test(expected = HantoException.class)
+		@Test(expected = HantoException.class)	// 27
 		public void blueFliesSparrowToANonAdjacentHex() throws HantoException {
 			makeMoves(md(BUTTERFLY, 0, 0), md(BUTTERFLY, 0, 1), md(SPARROW, -1, 0), md(SPARROW, 1, 1),
 					md(SPARROW, -1, 0, 3, 0));
 		}
 
-		@Test(expected = HantoException.class)
+		@Test(expected = HantoException.class)	// 28
 		public void blueAttemptsToWalkCrabBeforePlacingButterfly() throws HantoException {
 			makeMoves(md(CRAB, 0, 0), md(BUTTERFLY, 0, 1), md(CRAB, -1, 0), md(SPARROW, 1, 1), md(CRAB, -1, 0, -1, 2));
 		}
 
-		@Test(expected = HantoException.class)
+		@Test(expected = HantoException.class)	// 29
 		public void redAttemptsToFlySparrowBeforePlacingButterfly() throws HantoException {
 			makeMoves(md(BUTTERFLY, 0, 0), md(SPARROW, -1, 1), md(CRAB, 0, -1), md(SPARROW, -1, 2), md(SPARROW, 1, -1),
 					md(SPARROW, -1, 2, 1, 0));
 		}
 
-		@Test(expected = HantoException.class)	// 25
+		@Test(expected = HantoException.class)	// 30
 		public void blueAttemptsToWalkABlockedCrab() throws HantoException
 		{
 			makeMoves(md(BUTTERFLY, 0, 0), md(BUTTERFLY, 0, 1), md(CRAB, -1, 0), md(CRAB, 1, 1),
@@ -333,7 +329,7 @@ public class DeltaHantoMasterTest {
 					md(CRAB, -1, 0, -1, 2));
 		}
 		
-		@Test(expected = HantoException.class) 
+		@Test(expected = HantoException.class)	// 31 
 		public void redAttemptsToWalkABlockedCrab() throws HantoException
 		{
 			makeMoves(md(BUTTERFLY, 0, 0), md(BUTTERFLY, 0, 1), md(CRAB, -1, 0), md(CRAB, 1, 1),
@@ -342,61 +338,61 @@ public class DeltaHantoMasterTest {
 					md(SPARROW, -2, 2), md(CRAB, 0, 2, -1, 1));
 		}
 		
-		@Test(expected = HantoException.class)
+		@Test(expected = HantoException.class)	// 32
 		public void blueAttemptsToWalkAWronglySpecifiedPiece() throws HantoException
 		{
 			makeMoves(md(BUTTERFLY, 0, 0), md(BUTTERFLY, 1, -1), md(SPARROW, -1, 1), md(SPARROW,1, -2),
 					md(CRAB, -1, 1, 0, 1));
 		}
 		
-		@Test(expected = HantoException.class)
+		@Test(expected = HantoException.class)	// 33
 		public void redAttemptsToWalkANonExistentPiece() throws HantoException
 		{
 			makeMoves(md(BUTTERFLY, 0, 0), md(BUTTERFLY, 1, -1), md(CRAB, -1, 1), md(SPARROW,1, -2),
 					md(CRAB, -1, 1, 0, 1), md(SPARROW, 2, -2, 1, 0));
 		}
 		
-		@Test(expected = HantoException.class)
+		@Test(expected = HantoException.class)	// 34
 		public void blueAttemptsToWalkToAnOccupiedHex() throws HantoException
 		{
 			makeMoves(md(BUTTERFLY, 0, 0), md(BUTTERFLY, 1, -1), md(CRAB, -1, 1), md(SPARROW,1, -2),
 					md(CRAB, -1, 1, 0, 0));			
 		}
 		
-		@Test(expected = HantoException.class)
+		@Test(expected = HantoException.class)	// 35
 		public void redAttemptsToFlyToAnOccupiedHex() throws HantoException
 		{
 			makeMoves(md(BUTTERFLY, 0, 0), md(BUTTERFLY, 1, -1), md(CRAB, -1, 1), md(SPARROW,1, -2),
 					md(CRAB, -1, 1, 0, 1), md(SPARROW, 1, -2, 0, 1));
 		}
 		
-		@Test(expected = HantoException.class)
+		@Test(expected = HantoException.class)	// 36
 		public void blueAttemptsToMakeADiscontinuousWalk() throws HantoException
 		{
 			makeMoves(md(BUTTERFLY, 0, 0), md(BUTTERFLY, 0, 1), md(CRAB, 1, -1), md(SPARROW, 1, 1),
 					md(CRAB, 2, -1), md(SPARROW, -1, 2), md(CRAB, 1, -1, -1, 0));
 		}
 		
-		@Test(expected = HantoException.class)
+		@Test(expected = HantoException.class)	// 37
 		public void redAttemptsToMakeADiscontinuousFly() throws HantoException
 		{
 			makeMoves(md(BUTTERFLY, 0, 0), md(BUTTERFLY, 0, 1), md(CRAB, 1, -1), md(SPARROW, 1, 1),
 					md(CRAB, 2, -1), md(SPARROW, 1, 2), md(CRAB, 2, -2), md(SPARROW, 1, 1, 1, 0));
 		}
 		
-		@Test(expected = HantoException.class)
+		@Test(expected = HantoException.class)	// 38
 		public void blueAttemptsToMoveARedPiece() throws HantoException
 		{
 			makeMoves(md(BUTTERFLY, 0, 0), md(BUTTERFLY, 0, 1), md(BUTTERFLY, 0, 1, -1, 1));
 		}
 		
-		@Test(expected = HantoException.class)
+		@Test(expected = HantoException.class)	// 39
 		public void redAttemptsToMoveARedPiece() throws HantoException
 		{
 			makeMoves(md(BUTTERFLY, 0, 0), md(BUTTERFLY, 0, 1), md(SPARROW, -1, 0), md(BUTTERFLY, 0, 0, -1, 1));
 		}
 		
-		@Test
+		@Test	// 40
 		public void abitraryMoves() throws HantoException
 		{
 			makeMoves(md(CRAB, 0, 0), md(BUTTERFLY, 1, -1), md(BUTTERFLY, -1, 0), md(CRAB, 2, -1),
@@ -414,8 +410,8 @@ public class DeltaHantoMasterTest {
 			game = factory.makeHantoGame(HantoGameID.DELTA_HANTO, BLUE);
 		}
 
-		@Test
-		public void blueWinsByWalking() throws HantoException // 35
+		@Test // 41
+		public void blueWinsByWalking() throws HantoException 
 		{
 			MoveResult mr = makeMoves(md(BUTTERFLY, 0, 0), md(BUTTERFLY, 1, 0), md(CRAB, -1, 1), md(CRAB, 2, 0),
 					md(CRAB, -1, 2), md(CRAB, 2, -1), md(CRAB, 0, 2), md(CRAB, 2, -2),
@@ -424,8 +420,8 @@ public class DeltaHantoMasterTest {
 			assertEquals(BLUE_WINS, mr);
 		}
 
-		@Test
-		public void redWinsByFlying() throws HantoException // 36
+		@Test	// 42
+		public void redWinsByFlying() throws HantoException 
 		{
 			MoveResult mr = makeMoves(md(BUTTERFLY, 0, 0), md(BUTTERFLY, 1, 0), md(SPARROW, 0, -1), md(SPARROW, 1, 1),
 					md(SPARROW, 1, -2), md(SPARROW, 2, -1), md(SPARROW, -1, 1), md(SPARROW, 1, 1, 1, -1),
@@ -433,7 +429,7 @@ public class DeltaHantoMasterTest {
 			assertEquals(RED_WINS, mr);
 		}
 		
-		@Test
+		@Test	// 43
 		public void blueResigns() throws HantoException 
 		{
 			MoveResult mr = makeMoves(md(BUTTERFLY, 0, 0), md(BUTTERFLY, 1, 0), md(SPARROW, 0, -1), md(SPARROW, 1, 1),
@@ -441,14 +437,14 @@ public class DeltaHantoMasterTest {
 			assertEquals(RED_WINS, mr);
 		}
 		
-		@Test
+		@Test	// 44
 		public void redResigns() throws HantoException 
 		{
 			MoveResult mr = makeMoves(md(BUTTERFLY, 0, 0), md(BUTTERFLY, 1, 0), md(SPARROW, 0, -1), md());
 			assertEquals(BLUE_WINS, mr);
 		}
 		
-		@Test
+		@Test	// 45
 		public void bothButterfliesAreSurrounded() throws HantoException 
 		{
 			MoveResult mr = makeMoves(md(BUTTERFLY, 0, 0), md(BUTTERFLY, 1, 0), md(SPARROW, 0, -1), md(SPARROW, 1, 1),
@@ -466,12 +462,12 @@ public class DeltaHantoMasterTest {
 			game = factory.makeHantoGame(HantoGameID.DELTA_HANTO, BLUE);
 		}
 
-		@Test(expected = HantoException.class)
+		@Test(expected = HantoException.class)	// 46
 		public void makeMoveWithTheSameFromAndTo() throws HantoException {
 			makeMoves(md(BUTTERFLY, 0, 0), md(SPARROW, 1, 0), md(BUTTERFLY, 0, 0, 0, 0));
 		}
 
-		@Test(expected = HantoException.class)
+		@Test(expected = HantoException.class)	// 47
 		public void blueAttemptsToMakeAmoveAfterResigning() throws HantoException {
 			makeMoves(md(BUTTERFLY, 0, 0), md(BUTTERFLY, 1, 0), md(SPARROW, 0, -1), md(SPARROW, 1, 1), 
 					md(), md(SPARROW, 2, 0));
