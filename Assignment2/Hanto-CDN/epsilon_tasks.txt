@@ -48,14 +48,14 @@ MOVING PIECES
 +Red attempts to make a disconnecting jump --> exception
 
 WIN CONDITION
-Blue wins by walking
-Red wins by flying
-Blue wins by jumping
++Blue wins by walking
++Red wins by flying
++Blue wins by jumping
 Blue resigns when there is still moves --> exception 
 Red resigns when run out of moves
 
 DRAW CONDITION
-Both butterfly are surrounded
++Both butterfly are surrounded
 
 
 OTHER

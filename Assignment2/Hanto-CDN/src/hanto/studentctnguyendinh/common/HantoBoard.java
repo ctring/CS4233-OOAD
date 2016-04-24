@@ -9,8 +9,10 @@ package hanto.studentctnguyendinh.common;
 
 import static hanto.common.HantoPlayerColor.BLUE;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 import hanto.common.HantoCoordinate;
@@ -200,6 +202,24 @@ public class HantoBoard {
 	 */
 	public int getNumberOfPartition() {
 		return partitions;
+	}
+	
+	/**
+	 * @return coordinates of the unoccupied hexes that are adjacent to some pieces on the board.
+	 */
+	public List<HantoCoordinate> getAllAdjacentHexes() {
+		List<HantoCoordinate> adj = new ArrayList<>();
+		for (Map.Entry<HantoCoordinateImpl, Cell> entry : board.entrySet()) {
+			HantoCoordinateImpl coord = entry.getKey();
+			if (getPieceAt(coord) != null) {
+				for (HantoCoordinateImpl adjCoord : coord.getAdjacentCoordsSet()) {
+					if (getPieceAt(adjCoord) == null && !adj.contains(adjCoord)) {
+						adj.add(adjCoord);
+					}
+				}
+			}
+		}
+		return adj;
 	}
 
 	/**

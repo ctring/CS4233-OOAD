@@ -11,7 +11,9 @@ import static hanto.common.HantoPieceType.BUTTERFLY;
 import static hanto.common.HantoPlayerColor.BLUE;
 import static hanto.common.HantoPlayerColor.RED;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import hanto.common.HantoCoordinate;
@@ -52,8 +54,8 @@ public class HantoGameState {
 	public HantoGameState(HantoPlayerColor movesFirst, Map<HantoPieceType, Integer> piecesQuota) {
 		this.movesFirst = movesFirst;
 		movesSecond = movesFirst == BLUE ? RED : BLUE;
-		bluePlayerState = new HantoPlayerState(new HashMap<HantoPieceType, Integer>(piecesQuota));
-		redPlayerState = new HantoPlayerState(new HashMap<HantoPieceType, Integer>(piecesQuota));
+		bluePlayerState = new HantoPlayerState(BLUE, new HashMap<HantoPieceType, Integer>(piecesQuota));
+		redPlayerState = new HantoPlayerState(RED, new HashMap<HantoPieceType, Integer>(piecesQuota));
 	}
 
 	/**
@@ -183,16 +185,20 @@ public class HantoGameState {
 	 */
 	public class HantoPlayerState {
 
-		HantoCoordinate butterflyCoord = null;
-		Map<HantoPieceType, Integer> remaining = new HashMap<>();
+		private HantoPlayerColor playerColor;
+		private HantoCoordinate butterflyCoord = null;
+		private Map<HantoPieceType, Integer> remaining = new HashMap<>();
 
+				
 		/**
-		 * Create a new player state with a given piece quota.
-		 * 
+		 * Create a new player state with a given color and piece quota.
+		 *
+		 * @param color player's color.
 		 * @param pieceQuota
 		 *            quota of the pieces for each player.
 		 */
-		HantoPlayerState(Map<HantoPieceType, Integer> pieceQuota) {
+		HantoPlayerState(HantoPlayerColor color, Map<HantoPieceType, Integer> pieceQuota) {
+			playerColor = color;
 			remaining = pieceQuota;
 		}
 
@@ -203,7 +209,7 @@ public class HantoGameState {
 			return butterflyCoord;
 		}
 
-		protected void setButterflyCoordinate(HantoCoordinate coord) {
+		private void setButterflyCoordinate(HantoCoordinate coord) {
 			butterflyCoord = coord;
 		}
 
@@ -225,8 +231,36 @@ public class HantoGameState {
 		 * @param newVal
 		 *            new value for the number of the remaining piece.
 		 */
-		protected void setNumberOfRemainingPieces(HantoPieceType pieceType, int newVal) {
+		private void setNumberOfRemainingPieces(HantoPieceType pieceType, int newVal) {
 			remaining.put(pieceType, newVal);
+		}
+		
+		/**
+		 * @return whether the player can still place some more pieces.
+		 */
+		public List<HantoCoordinate> getPlacableCoordinates() {
+			List<HantoCoordinate> placable = new ArrayList<>();
+			List<HantoCoordinate> raw = board.getAllAdjacentHexes();
+			
+			for (HantoCoordinate coord : raw) {
+				boolean isPlacable = true;
+				HantoCoordinateImpl[] adjCoords =
+						new HantoCoordinateImpl(coord).getAdjacentCoordsSet();
+				
+				for (HantoCoordinateImpl a : adjCoords) {
+					HantoPiece piece = getPieceAt(a);
+					if (piece != null && piece.getColor() != playerColor) {
+						isPlacable = false;
+						break;
+					}
+				}
+				
+				if (isPlacable) {
+					placable.add(coord);
+				}
+			}
+			
+			return placable;
 		}
 	}
 }

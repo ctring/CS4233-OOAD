@@ -20,6 +20,7 @@ import hanto.common.HantoGame;
 import hanto.common.HantoPiece;
 import hanto.common.HantoPieceType;
 import hanto.common.HantoPlayerColor;
+import hanto.common.HantoPrematureResignationException;
 import hanto.common.MoveResult;
 import hanto.studentctnguyendinh.common.piece.HantoPieceAbstract;
 import hanto.studentctnguyendinh.common.rule.HantoRuleValidator;
@@ -52,7 +53,7 @@ public abstract class HantoGameBase implements HantoGame {
 
 		MoveResult moveResult;
 		if (pieceType == null && from == null && to == null) {
-			moveResult = gameState.getCurrentPlayer() == BLUE ? RED_WINS : BLUE_WINS;
+			moveResult = resign(); 
 		} else {
 			recordMoveInput(pieceType, from, to);
 
@@ -70,6 +71,10 @@ public abstract class HantoGameBase implements HantoGame {
 		return moveResult;
 	}
 
+	protected MoveResult resign() throws HantoPrematureResignationException {
+		return gameState.getCurrentPlayer() == BLUE ? RED_WINS : BLUE_WINS;
+	}
+	
 	/**
 	 * Converts input into internal move data.
 	 * 

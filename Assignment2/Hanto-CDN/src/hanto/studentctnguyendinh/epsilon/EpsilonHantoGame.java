@@ -12,18 +12,36 @@
 
 package hanto.studentctnguyendinh.epsilon;
 
-import static hanto.common.HantoPieceType.*;
+import static hanto.common.HantoPieceType.BUTTERFLY;
+import static hanto.common.HantoPieceType.CRAB;
+import static hanto.common.HantoPieceType.HORSE;
+import static hanto.common.HantoPieceType.SPARROW;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import hanto.common.HantoCoordinate;
 import hanto.common.HantoPiece;
 import hanto.common.HantoPieceType;
 import hanto.common.HantoPlayerColor;
+import hanto.common.HantoPrematureResignationException;
+import hanto.common.MoveResult;
 import hanto.studentctnguyendinh.common.HantoGameBase;
 import hanto.studentctnguyendinh.common.HantoGameState;
-import hanto.studentctnguyendinh.common.piece.*;
-import hanto.studentctnguyendinh.common.rule.*;
+import hanto.studentctnguyendinh.common.HantoGameState.HantoPlayerState;
+import hanto.studentctnguyendinh.common.piece.HantoMovementRule;
+import hanto.studentctnguyendinh.common.piece.HantoPieceImpl;
+import hanto.studentctnguyendinh.common.piece.MVFlying;
+import hanto.studentctnguyendinh.common.piece.MVJumping;
+import hanto.studentctnguyendinh.common.piece.MVWalking;
+import hanto.studentctnguyendinh.common.rule.HantoRule;
+import hanto.studentctnguyendinh.common.rule.HantoRuleAdjacentSameColor;
+import hanto.studentctnguyendinh.common.rule.HantoRuleButterflyInFourMoves;
+import hanto.studentctnguyendinh.common.rule.HantoRuleMoveBeforeButterfly;
+import hanto.studentctnguyendinh.common.rule.HantoRuleNotAdjacent;
+import hanto.studentctnguyendinh.common.rule.HantoRuleOccupiedHex;
+import hanto.studentctnguyendinh.common.rule.HantoRuleValidatorImpl;
 
 
 /**
@@ -57,6 +75,32 @@ public class EpsilonHantoGame extends HantoGameBase {
 		epsilonPiecesQuota.put(HORSE, 4);
 
 		gameState = new HantoGameState(movesFirst, epsilonPiecesQuota);
+	}
+	
+	@Override
+	public MoveResult resign() throws HantoPrematureResignationException {
+		if (stillCanPlace() || stillCanMove()) {
+			throw new HantoPrematureResignationException();
+		}
+		return super.resign();
+	}
+	
+	private boolean stillCanPlace() {
+		HantoPlayerColor currentPlayer = gameState.getCurrentPlayer();
+		HantoGameState.HantoPlayerState currentPlayerState = gameState.getPlayerState(currentPlayer);
+		List<HantoCoordinate> placable = currentPlayerState.getPlacableCoordinates();
+		
+		boolean nonzeroPieces = 
+				currentPlayerState.getNumberOfRemainingPieces(BUTTERFLY) > 0 ||
+				currentPlayerState.getNumberOfRemainingPieces(SPARROW) > 0 ||
+				currentPlayerState.getNumberOfRemainingPieces(CRAB) > 0 ||
+				currentPlayerState.getNumberOfRemainingPieces(HORSE) > 0;
+
+		return placable.size() > 0 && nonzeroPieces;
+	}
+	
+	private boolean stillCanMove() {
+		return false;
 	}
 
 	@Override

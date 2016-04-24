@@ -10,10 +10,16 @@
 
 package hanto.studentctnguyendinh.epsilon;
 
-import static hanto.common.HantoPieceType.*;
+import static hanto.common.HantoPieceType.BUTTERFLY;
+import static hanto.common.HantoPieceType.CRAB;
+import static hanto.common.HantoPieceType.HORSE;
+import static hanto.common.HantoPieceType.SPARROW;
 import static hanto.common.HantoPlayerColor.BLUE;
 import static hanto.common.HantoPlayerColor.RED;
+import static hanto.common.MoveResult.BLUE_WINS;
+import static hanto.common.MoveResult.DRAW;
 import static hanto.common.MoveResult.OK;
+import static hanto.common.MoveResult.RED_WINS;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
@@ -29,6 +35,7 @@ import hanto.common.HantoGame;
 import hanto.common.HantoGameID;
 import hanto.common.HantoPiece;
 import hanto.common.HantoPieceType;
+import hanto.common.HantoPrematureResignationException;
 import hanto.common.MoveResult;
 import hanto.studentctnguyendinh.HantoGameFactory;
 
@@ -294,7 +301,7 @@ public class EpsilonHantoMasterTest {
 			assertEquals(SPARROW, pc.getType());
 		}
 		
-		@Test	// 42
+		@Test	// 44
 		public void redMakesAValidSparrowFly() throws HantoException {
 			MoveResult mr = makeMoves(md(BUTTERFLY, 0, 0), md(BUTTERFLY, 0, 1), md(CRAB, 0, -1), md(CRAB, 1, 1), 
 					md(SPARROW, -1, -1), md(SPARROW, 2, 0), md(SPARROW, 0, -2), md(SPARROW, 2, 0, 1, -2));
@@ -446,14 +453,67 @@ public class EpsilonHantoMasterTest {
 		
 	}
 
-//	public static class WinningAndDrawTests {
-//		@Before
-//		public void setup() {
-//			// By default, blue moves first.
-//			game = factory.makeHantoGame(HantoGameID.EPSILON_HANTO, BLUE);
-//		}
-//
-//	}
+	public static class WinningAndDrawTests {
+		@Before
+		public void setup() {
+			// By default, blue moves first.
+			game = factory.makeHantoGame(HantoGameID.EPSILON_HANTO, BLUE);
+		}
+
+		@Test // 45
+		public void blueWinsByWalking() throws HantoException 
+		{
+			MoveResult mr = makeMoves(md(BUTTERFLY, 0, 0), md(BUTTERFLY, 1, 0), md(CRAB, -1, 1), md(CRAB, 2, 0),
+					md(CRAB, -1, 2), md(CRAB, 2, -1), md(CRAB, 0, 2), md(CRAB, 2, -2),
+					md(CRAB, 0, 2, 1, 1), md(CRAB, 3, 0), md(CRAB, -1, 2, 0, 2), md(CRAB, 2, -2, 1, -1),
+					md(CRAB, 0, 2, 0, 1));
+			assertEquals(BLUE_WINS, mr);
+		}
+		
+		@Test	// 46
+		public void redWinsByFlying() throws HantoException 
+		{
+			MoveResult mr = makeMoves(md(BUTTERFLY, 0, 0), md(BUTTERFLY, 1, 0), md(CRAB, 0, -1), md(SPARROW, 1, 1),
+					md(CRAB, 1, -2), md(SPARROW, 2, -1), md(CRAB, -1, 1), md(SPARROW, 1, 1, 1, -1),
+					md(SPARROW, -1, 0), md(SPARROW, 2, -1, 0, 1));
+			assertEquals(RED_WINS, mr);
+		}
+		
+		@Test	// 48
+		public void blueWinsByJumping() throws HantoException
+		{
+			MoveResult mr = makeMoves(md(BUTTERFLY, 0, 0), md(BUTTERFLY, -1, 0), md(HORSE, 1, -1), md(CRAB, -2, 1),
+					md(HORSE, 1, 0), md(CRAB, -2, 2), md(HORSE, 2, -2), md(CRAB, -2, 3),
+					md(HORSE, 0, 1), md(CRAB, -2, 3, -3, 3), md(HORSE, 1, 0, -2, 0), md(CRAB, -3, 3, -2, 3),
+					md(HORSE, 2, -2, -1, 1), md(CRAB, -2, 3, -3, 3), md(HORSE, 0, 1, 0, -1), md(CRAB, -3, 3, -2, 3),
+					md(HORSE, 1, -1, -1, -1));
+			assertEquals(BLUE_WINS, mr);			
+		}
+		
+		@Test	// 49
+		public void bothButterfliesAreSurrounded() throws HantoException 
+		{
+			MoveResult mr = makeMoves(md(BUTTERFLY, 0, 0), md(BUTTERFLY, 1, 0), md(CRAB, 0, -1), md(CRAB, 1, 1),
+					md(HORSE, 0, -2), md(CRAB, 2, -1), md(HORSE, -1, 0), md(SPARROW, 0, 2),
+					md(CRAB, -1, 1), md(HORSE, 2, 0), md(HORSE, 0, -2, 0, 1), md(SPARROW, 0, 2, 1, -1));
+
+			assertEquals(DRAW, mr);
+		}
+		
+		@Test(expected = HantoPrematureResignationException.class)	// 50
+		public void blueResignsWhenThereAreStillPlacingMoves() throws HantoException 
+		{
+			makeMoves(md(BUTTERFLY, 0, 0), md(BUTTERFLY, 1, 0), md(SPARROW, 0, -1), md(SPARROW, 1, 1), 
+					md());
+		}
+		
+		@Test(expected = HantoPrematureResignationException.class)	// 50
+		public void redResignsWhenThereAreStillPlacingMoves() throws HantoException 
+		{
+			makeMoves(md(BUTTERFLY, 0, 0), md(BUTTERFLY, 1, 0), md(SPARROW, 0, -1), md(SPARROW, 1, 1), 
+					md(CRAB, -1, 1), md());
+		}
+	}
 
 	public static class OtherTests {
 		@Before
@@ -462,7 +522,7 @@ public class EpsilonHantoMasterTest {
 			game = factory.makeHantoGame(HantoGameID.EPSILON_HANTO, BLUE);
 		}
 
-		@Test(expected = HantoException.class)	// 46
+		@Test(expected = HantoException.class)	// 47
 		public void makeMoveWithTheSameFromAndTo() throws HantoException {
 			makeMoves(md(BUTTERFLY, 0, 0), md(SPARROW, 1, 0), md(BUTTERFLY, 0, 0, 0, 0));
 		}

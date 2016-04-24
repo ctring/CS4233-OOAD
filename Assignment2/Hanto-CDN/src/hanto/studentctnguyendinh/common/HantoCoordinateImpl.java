@@ -119,6 +119,11 @@ public class HantoCoordinateImpl implements HantoCoordinate {
 		return Math.abs(x - x2) + Math.min(Math.abs(y - y2), Math.abs(y2 - (y + (x - x2))));
 	}
 
+	/**
+	 * Check if this coordinate is on the same straight line with another coordinate.
+	 * @param coord another coordinate
+	 * @return true if this coordinate is aligned with the other coordinate, false otherwise.
+	 */
 	public boolean alignedWith(HantoCoordinate coord) {
 		return (x == coord.getX()) || (y == coord.getY()) || (x - coord.getX() == coord.getY() - y);
 	}
