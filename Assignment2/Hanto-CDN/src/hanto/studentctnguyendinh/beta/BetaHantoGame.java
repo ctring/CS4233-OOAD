@@ -65,7 +65,7 @@ public class BetaHantoGame extends HantoGameBase
 
 	@Override
 	public HantoPiece makeHantoPiece(HantoPlayerColor color, HantoPieceType pieceType) {
-		return new HantoPieceImpl(color, pieceType, new HantoMovementRule[0]);
+		return new HantoPieceImpl(color, pieceType, null);
 	}	
 	
 }

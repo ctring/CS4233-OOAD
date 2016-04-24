@@ -149,7 +149,6 @@ public class HantoBoard {
 		HantoPiece piece = getPieceAt(from);
 		removePieceAt(new HantoCoordinateImpl(from));
 		putPieceAt(new HantoCoordinateImpl(to), piece);
-		updatePartition();
 	}
 
 	/**
@@ -157,9 +156,43 @@ public class HantoBoard {
 	 * 
 	 * @return true if every piece is connect, false otherwise.
 	 */
-	public boolean validateConnectivity() {
-		int parts = getNumberOfPartition();
+	public boolean isContinuous() {
+		int parts = partitions;
 		return parts <= 1;
+	}
+	
+	/**
+	 * Check if the pieces are connected after placing a piece.
+	 * 
+	 * @param coord coordinate of the piece to be placed.
+	 * 
+	 * @return true if every piece is connected after placing the piece, false otherwise.
+	 */
+	public boolean isContinuousAfter(HantoCoordinate coord) {
+		HantoCoordinateImpl[] adj = new HantoCoordinateImpl(coord).getAdjacentCoordsSet();
+		boolean isContinuous = true;
+		if (partitions > 1) {
+			isContinuous = false;
+			int parts = 0;
+			for (HantoCoordinateImpl c : adj) {
+				int p = getPartitionAt(c);
+				if (p != 0) {
+					if (parts == 0) {
+						parts = p;
+					} else {
+						if (parts != p) {
+							isContinuous = true;
+							break;
+						}
+					}
+				}
+			}
+		}
+		if (!isContinuous) {
+			return false;
+		}
+
+		return true;
 	}
 
 	/**
@@ -168,7 +201,7 @@ public class HantoBoard {
 	 * can exist in intermediate states of moving or when performing movement
 	 * checking.
 	 */
-	public void updatePartition() {
+	private void updatePartition() {
 		LinkedList<HantoCoordinateImpl> queue = new LinkedList<>();
 		partitions = 0;
 		Map<HantoCoordinateImpl, Boolean> checked = new HashMap<>();
@@ -195,13 +228,6 @@ public class HantoBoard {
 				}
 			}
 		}
-	}
-
-	/**
-	 * @return number of partitions.
-	 */
-	public int getNumberOfPartition() {
-		return partitions;
 	}
 	
 	/**

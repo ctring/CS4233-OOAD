@@ -151,31 +151,8 @@ public class MVWalking implements HantoMovementRule {
 	 *            ending coordinate to be checked.
 	 * @return true if continuity is retained, false otherwise.
 	 */
-	private boolean isContinuous(HantoBoard board, HantoCoordinateImpl to) {
-		HantoCoordinateImpl[] adj = to.getAdjacentCoordsSet();
-		boolean isContinuous = true;
-		if (board.getNumberOfPartition() > 1) {
-			isContinuous = false;
-			int parts = 0;
-			for (HantoCoordinateImpl c : adj) {
-				int p = board.getPartitionAt(c);
-				if (p != 0) {
-					if (parts == 0) {
-						parts = p;
-					} else {
-						if (parts != p) {
-							isContinuous = true;
-							break;
-						}
-					}
-				}
-			}
-		}
-		if (!isContinuous) {
-			return false;
-		}
-
-		return true;
+	private boolean isContinuous(HantoBoard board, HantoCoordinate to) {
+		return board.isContinuousAfter(to);
 	}
 
 	/**

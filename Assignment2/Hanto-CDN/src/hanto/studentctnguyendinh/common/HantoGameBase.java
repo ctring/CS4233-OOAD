@@ -22,7 +22,7 @@ import hanto.common.HantoPieceType;
 import hanto.common.HantoPlayerColor;
 import hanto.common.HantoPrematureResignationException;
 import hanto.common.MoveResult;
-import hanto.studentctnguyendinh.common.piece.HantoPieceAbstract;
+import hanto.studentctnguyendinh.common.piece.HantoPieceImpl;
 import hanto.studentctnguyendinh.common.rule.HantoRuleValidator;
 
 /**
@@ -169,7 +169,7 @@ public abstract class HantoGameBase implements HantoGame {
 			HantoPiece newPiece = makeHantoPiece(gameState.getCurrentPlayer(), playedPieceType);
 			gameState.putPieceAt(playedTo, newPiece);
 		} else {
-			HantoPieceAbstract piece = (HantoPieceAbstract) gameState.getPieceAt(playedFrom);
+			HantoPieceImpl piece = (HantoPieceImpl)gameState.getPieceAt(playedFrom);
 			piece.validateMove(gameState, playedFrom, playedTo);
 			gameState.movePiece(playedFrom, playedTo);
 		}

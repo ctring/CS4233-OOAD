@@ -10,8 +10,12 @@
 
 package hanto.studentctnguyendinh.common.piece;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import hanto.common.HantoCoordinate;
 import hanto.common.HantoException;
+import hanto.common.HantoPiece;
 import hanto.common.HantoPieceType;
 import hanto.common.HantoPlayerColor;
 import hanto.studentctnguyendinh.common.HantoGameState;
@@ -21,7 +25,10 @@ import hanto.studentctnguyendinh.common.HantoGameState;
  * 
  * @version Mar 2,2016
  */
-public class HantoPieceImpl extends HantoPieceAbstract {
+public class HantoPieceImpl implements HantoPiece {
+
+	HantoMovementRule validator;
+
 	private final HantoPlayerColor color;
 	private final HantoPieceType type;
 
@@ -47,10 +54,10 @@ public class HantoPieceImpl extends HantoPieceAbstract {
 	 * @param validators
 	 *            set of rule validators for this piece
 	 */
-	public HantoPieceImpl(HantoPlayerColor color, HantoPieceType type, HantoMovementRule[] validators) {
+	public HantoPieceImpl(HantoPlayerColor color, HantoPieceType type, HantoMovementRule validator) {
 		this.color = color;
 		this.type = type;
-		this.validators = validators;
+		this.validator = validator;
 	}
 
 	/*
@@ -69,15 +76,43 @@ public class HantoPieceImpl extends HantoPieceAbstract {
 		return type;
 	}
 
-	@Override
+	/**
+	 * Validate movement rules of this piece based on the current game state and
+	 * movement path of this piece.
+	 * 
+	 * @param gameState
+	 *            current game state.
+	 * @param from
+	 *            coordinate where this piece begins.
+	 * @param to
+	 *            coordinate where this piece is after making its move.
+	 * @throws HantoException
+	 *             if the move is illegal.
+	 */
 	public void validateMove(HantoGameState gameState, HantoCoordinate from, HantoCoordinate to) throws HantoException {
-		if (validators != null) {
-			for (HantoMovementRule validator : validators) {
-				String error = validator.validate(gameState, from, to);
-				if (error != null) {
-					throw new HantoException(error);
-				}
+		if (validator != null) {
+			String error = validator.validate(gameState, from, to);
+			if (error != null) {
+				throw new HantoException(error);
 			}
+		}
+	}
+
+	/**
+	 * Generate a list of reachable coordinates according to the current state
+	 * of the game and the rule assigned for this piece.
+	 * 
+	 * @param gameState
+	 *            current state of the game.
+	 * @param from
+	 *            starting location of this piece.
+	 */
+	public List<HantoCoordinate> getReachableCoordinates(HantoGameState gameState, HantoCoordinate from) {
+		if (validator != null) {
+			return validator.getReachableCoordinates(gameState, from);
+		}
+		else {
+			return new ArrayList<HantoCoordinate>();
 		}
 	}
 }

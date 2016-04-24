@@ -7,6 +7,8 @@
  *******************************************************************************/
 package hanto.studentctnguyendinh.common.piece;
 
+import java.util.List;
+
 import hanto.common.HantoCoordinate;
 import hanto.studentctnguyendinh.common.HantoGameState;
 
@@ -42,6 +44,5 @@ public interface HantoMovementRule {
 	 *            coordinate where the piece begins.
 	 * @return an array of coordinates that can be reached.
 	 */
-	// HantoCoordinate[] getReachableCoordinates(HantoGameState gameState,
-	// HantoCoordinate from);
+	List<HantoCoordinate> getReachableCoordinates(HantoGameState gameState, HantoCoordinate from);
 }

@@ -166,7 +166,7 @@ public class HantoGameState {
 	 * @return true if it is valid, false otherwise.
 	 */
 	public boolean validateBoard() {
-		return board.validateConnectivity();
+		return board.isContinuous();
 	}
 
 	/**

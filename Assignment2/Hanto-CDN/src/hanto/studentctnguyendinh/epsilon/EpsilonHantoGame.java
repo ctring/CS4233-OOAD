@@ -107,22 +107,22 @@ public class EpsilonHantoGame extends HantoGameBase {
 
 	@Override
 	public HantoPiece makeHantoPiece(HantoPlayerColor color, HantoPieceType pieceType) {
-		HantoMovementRule[] validators;
+		HantoMovementRule validators;
 		switch (pieceType) {
 		case CRAB:
-			validators = new HantoMovementRule[] { new MVWalking(1) };
+			validators = new MVWalking(1);
 			break;
 		case BUTTERFLY:
-			validators = new HantoMovementRule[] { new MVWalking(1) };
+			validators = new MVWalking(1);
 			break;
 		case SPARROW:
-			validators = new HantoMovementRule[] { new MVFlying(4) };
+			validators = new MVFlying(4);
 			break;
 		case HORSE:
-			validators = new HantoMovementRule[] { new MVJumping() };
+			validators = new MVJumping();
 			break;
 		default:
-			validators = new HantoMovementRule[0];
+			validators = null;
 		}
 
 		return new HantoPieceImpl(color, pieceType, validators);

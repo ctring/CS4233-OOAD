@@ -66,16 +66,16 @@ public class GammaHantoGame extends HantoGameBase {
 
 	@Override
 	public HantoPiece makeHantoPiece(HantoPlayerColor color, HantoPieceType pieceType) {
-		HantoMovementRule[] validators;
+		HantoMovementRule validator;
 		switch (pieceType) {
 		case BUTTERFLY:
 		case SPARROW:
-			validators = new HantoMovementRule[] { new MVWalking(1) };
+			validator = new MVWalking(1);
 			break;
 		default:
-			validators = new HantoMovementRule[0];
+			validator = null;
 		}
 
-		return new HantoPieceImpl(color, pieceType, validators);
+		return new HantoPieceImpl(color, pieceType, validator);
 	}
 }

@@ -70,21 +70,21 @@ public class DeltaHantoGame extends HantoGameBase {
 
 	@Override
 	public HantoPiece makeHantoPiece(HantoPlayerColor color, HantoPieceType pieceType) {
-		HantoMovementRule[] validators;
+		HantoMovementRule validator;
 		switch (pieceType) {
 		case CRAB:
-			validators = new HantoMovementRule[] { new MVWalking(3) };
+			validator = new MVWalking(3);
 			break;
 		case BUTTERFLY:
-			validators = new HantoMovementRule[] { new MVWalking(1) };
+			validator = new MVWalking(1);
 			break;
 		case SPARROW:
-			validators = new HantoMovementRule[] { new MVFlying() };
+			validator = new MVFlying();
 			break;
 		default:
-			validators = new HantoMovementRule[0];
+			validator = null;
 		}
 
-		return new HantoPieceImpl(color, pieceType, validators);
+		return new HantoPieceImpl(color, pieceType, validator);
 	}
 }
