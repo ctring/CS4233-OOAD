@@ -17,9 +17,9 @@ PLACING PIECES
 +Blue adds a piece next to a red piece --> exception
 +Red adds a piece next to a blue piece --> exception
 +Blue makes valid placing
-Blue tries to place the third Sparrow --> exception 
-Red tries to place the seventh Crab --> exception 
-Red tries to place the fifth Horse --> exception 
++Blue tries to place the third Sparrow --> exception 
++Red tries to place the seventh Crab --> exception 
++Red tries to place the fifth Horse --> exception 
 
 
 MOVING PIECES

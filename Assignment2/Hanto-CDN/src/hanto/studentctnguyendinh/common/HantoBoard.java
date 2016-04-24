@@ -250,14 +250,13 @@ public class HantoBoard {
 		case SPARROW:
 			pcstr += "S";
 			break;
-		// case HORSE: pcstr += "H";
-		// break;
-		// case DOVE: pcstr += "D";
-		// break;
-		// case CRANE: pcstr += "R";
-		// break;
+		case HORSE: 
+			pcstr += "H";
+			break;
 		case CRAB:
 			pcstr += "C";
+			break;
+		default:
 			break;
 		}
 		return pcstr;

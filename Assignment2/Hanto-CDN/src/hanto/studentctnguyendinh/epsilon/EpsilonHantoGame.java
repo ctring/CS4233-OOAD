@@ -12,9 +12,7 @@
 
 package hanto.studentctnguyendinh.epsilon;
 
-import static hanto.common.HantoPieceType.BUTTERFLY;
-import static hanto.common.HantoPieceType.CRAB;
-import static hanto.common.HantoPieceType.SPARROW;
+import static hanto.common.HantoPieceType.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -24,17 +22,9 @@ import hanto.common.HantoPieceType;
 import hanto.common.HantoPlayerColor;
 import hanto.studentctnguyendinh.common.HantoGameBase;
 import hanto.studentctnguyendinh.common.HantoGameState;
-import hanto.studentctnguyendinh.common.piece.HantoMovementRule;
-import hanto.studentctnguyendinh.common.piece.HantoPieceImpl;
-import hanto.studentctnguyendinh.common.piece.MVFlying;
-import hanto.studentctnguyendinh.common.piece.MVWalking;
-import hanto.studentctnguyendinh.common.rule.HantoRule;
-import hanto.studentctnguyendinh.common.rule.HantoRuleAdjacentSameColor;
-import hanto.studentctnguyendinh.common.rule.HantoRuleButterflyInFourMoves;
-import hanto.studentctnguyendinh.common.rule.HantoRuleMoveBeforeButterfly;
-import hanto.studentctnguyendinh.common.rule.HantoRuleNotAdjacent;
-import hanto.studentctnguyendinh.common.rule.HantoRuleOccupiedHex;
-import hanto.studentctnguyendinh.common.rule.HantoRuleValidatorImpl;
+import hanto.studentctnguyendinh.common.piece.*;
+import hanto.studentctnguyendinh.common.rule.*;
+
 
 /**
  * A concrete implementation of the Delta version of the Hanto game.
@@ -62,8 +52,9 @@ public class EpsilonHantoGame extends HantoGameBase {
 
 		Map<HantoPieceType, Integer> epsilonPiecesQuota = new HashMap<>();
 		epsilonPiecesQuota.put(BUTTERFLY, 1);
-		epsilonPiecesQuota.put(SPARROW, 4);
-		epsilonPiecesQuota.put(CRAB, 4);
+		epsilonPiecesQuota.put(SPARROW, 2);
+		epsilonPiecesQuota.put(CRAB, 6);
+		epsilonPiecesQuota.put(HORSE, 4);
 
 		gameState = new HantoGameState(movesFirst, epsilonPiecesQuota);
 	}

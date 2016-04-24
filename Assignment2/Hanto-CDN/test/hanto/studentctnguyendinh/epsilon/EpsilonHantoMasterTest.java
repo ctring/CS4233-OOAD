@@ -10,15 +10,10 @@
 
 package hanto.studentctnguyendinh.epsilon;
 
-import static hanto.common.HantoPieceType.BUTTERFLY;
-import static hanto.common.HantoPieceType.CRAB;
-import static hanto.common.HantoPieceType.SPARROW;
+import static hanto.common.HantoPieceType.*;
 import static hanto.common.HantoPlayerColor.BLUE;
 import static hanto.common.HantoPlayerColor.RED;
-import static hanto.common.MoveResult.BLUE_WINS;
-import static hanto.common.MoveResult.DRAW;
 import static hanto.common.MoveResult.OK;
-import static hanto.common.MoveResult.RED_WINS;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
@@ -160,7 +155,7 @@ public class EpsilonHantoMasterTest {
 
 		@Test // 11
 		public void blueAndRedPlacesButterflyOnFourthMove() throws HantoException {
-			makeMoves(md(SPARROW, 0, 0), md(SPARROW, 0, 1), md(SPARROW, 0, -1), md(SPARROW, 0, 2), md(SPARROW, 0, -2),
+			makeMoves(md(CRAB, 0, 0), md(CRAB, 0, 1), md(CRAB, 0, -1), md(CRAB, 0, 2), md(SPARROW, 0, -2),
 					md(SPARROW, 0, 3), md(BUTTERFLY, -1, 0), md(BUTTERFLY, 1, 1));
 		}
 
@@ -207,21 +202,28 @@ public class EpsilonHantoMasterTest {
 					md(SPARROW, 0, -1), md(SPARROW, 2, 0));
 		}
 
-//		@Test(expected = HantoException.class) // 19
-//		public void blueTriesToPlaceTheFifthSparrow() throws HantoException {
-//			makeMoves(md(BUTTERFLY, 0, 0), md(SPARROW, 0, 1), md(SPARROW, 0, -1), md(BUTTERFLY, 0, 2),
-//					md(SPARROW, 0, -2), md(SPARROW, 0, 3), md(SPARROW, 0, -3), md(SPARROW, 0, 4), md(SPARROW, 0, -4),
-//					md(SPARROW, 0, 5), md(SPARROW, 0, -5));
-//		}
-//
-//		@Test(expected = HantoException.class) // 20
-//		public void redTriesToPlaceTheFifthSparrow() throws HantoException {
-//			game = factory.makeHantoGame(HantoGameID.EPSILON_HANTO, RED);
-//			makeMoves(md(BUTTERFLY, 0, 0), md(SPARROW, 0, 1), md(SPARROW, 0, -1), md(BUTTERFLY, 0, 2),
-//					md(SPARROW, 0, -2), md(SPARROW, 0, 3), md(SPARROW, 0, -3), md(SPARROW, 0, 4), md(SPARROW, 0, -4),
-//					md(SPARROW, 0, 5), md(SPARROW, 0, -5));
-//		}
+		@Test(expected = HantoException.class) // 19
+		public void blueTriesToPlaceTheThirdSparrow() throws HantoException {
+			makeMoves(md(BUTTERFLY, 0, 0), md(CRAB, 0, 1), md(SPARROW, 0, -1), md(BUTTERFLY, 0, 2),
+					md(SPARROW, 0, -2), md(CRAB, 0, 3), md(SPARROW, 0, -3));
+		}
 
+		@Test(expected = HantoException.class) // 20
+		public void redTriesToPlaceTheSeventhCrab() throws HantoException {
+			game = factory.makeHantoGame(HantoGameID.EPSILON_HANTO, RED);
+			makeMoves(md(BUTTERFLY, 0, 0), md(SPARROW, 0, 1), md(CRAB, 0, -1), md(BUTTERFLY, 0, 2),
+					md(CRAB, 0, -2), md(CRAB, 0, 3), md(CRAB, 0, -3), md(SPARROW, 0, 4), 
+					md(CRAB, 0, -4), md(CRAB, 0, 5), md(CRAB, 0, -5), md(CRAB, 0, 6),
+					md(CRAB, 0, -6), md(CRAB, 0, 7), md(CRAB, 0, -7), md(CRAB, 0, 8));
+		}
+
+		@Test(expected = HantoException.class) // 38
+		public void redTriesToPlaceTheFifthHorse() throws HantoException {
+			makeMoves(md(BUTTERFLY, 0, 0), md(HORSE, 0, 1), md(CRAB, 0, -1), md(BUTTERFLY, 0, 2),
+					md(CRAB, 0, -2), md(HORSE, 0, 3), md(CRAB, 0, -3), md(HORSE, 0, 4), 
+					md(CRAB, 0, -4), md(HORSE, 0, 5), md(CRAB, 0, -5), md(HORSE, 0, 6),
+					md(SPARROW, 0, -6), md(HORSE, 0, 7));
+		}
 	}
 
 	public static class MovingPiecesTests {
