@@ -25,17 +25,13 @@ PLACING PIECES
 MOVING PIECES
 +Blue makes a valid butterfly walk
 +Red makes a valid butterfly walk
-
-Blue makes a valid crab walk
-Blue makes a valid sparrow fly
-
++Blue makes a valid crab walk
++Blue makes a valid sparrow fly
 +Red walks butterfly 2 hexes away --> exception
-
-Blue walks crab 2 hexes away --> exception
-Blue makes a valid horse jump
-Blue flies sparrow 6 hexes away --> exception
-Blue jumps horse incorrectly --> exception
-
++Blue walks crab 2 hexes away --> exception
++Blue flies sparrow 5 hexes away --> exception
++Blue makes a valid horse jump
++Blue jumps horse incorrectly --> exception
 +Blue flies sparrow to a non-adjacent hex --> exception
 +Blue attempts to walk crab before placing butterfly --> exception
 +Red attempts to fly sparrow before placing butterfly --> exception
@@ -49,8 +45,7 @@ Blue jumps horse incorrectly --> exception
 +Red attempts to make a disconnecting fly --> exception
 +Blue attempts to walk a red piece --> exception
 +Red attempts to walk a blue piece --> exception
-
-Red attempts to make a disconnecting jump --> exception
++Red attempts to make a disconnecting jump --> exception
 
 WIN CONDITION
 Blue wins by walking

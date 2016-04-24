@@ -143,14 +143,14 @@ public class EpsilonHantoMasterTest {
 
 		@Test(expected = HantoException.class) // 9
 		public void blueDoesNotPlaceButterflyOnFourthMove() throws HantoException {
-			makeMoves(md(SPARROW, 0, 0), md(BUTTERFLY, 0, 1), md(SPARROW, 0, -1), md(SPARROW, 0, 2), md(SPARROW, 0, -2),
-					md(SPARROW, 0, 3), md(SPARROW, 0, -3));
+			makeMoves(md(SPARROW, 0, 0), md(BUTTERFLY, 0, 1), md(SPARROW, 0, -1), md(SPARROW, 0, 2), 
+					md(CRAB, 0, -2), md(CRAB, 0, 3), md(CRAB, 0, -3));
 		}
 
 		@Test(expected = HantoException.class) // 10
 		public void redDoesNotPlaceButterflyOnFourthMove() throws HantoException {
-			makeMoves(md(SPARROW, 0, 0), md(SPARROW, 0, 1), md(SPARROW, 0, -1), md(SPARROW, 0, 2), md(SPARROW, 0, -2),
-					md(SPARROW, 0, 3), md(BUTTERFLY, 0, -3), md(SPARROW, 0, 4));
+			makeMoves(md(SPARROW, 0, 0), md(SPARROW, 0, 1), md(CRAB, 0, -1), md(CRAB, 0, 2), 
+					md(CRAB, 0, -2), md(CRAB, 0, 3), md(BUTTERFLY, 0, -3), md(SPARROW, 0, 4));
 		}
 
 		@Test // 11
@@ -217,7 +217,7 @@ public class EpsilonHantoMasterTest {
 					md(CRAB, 0, -6), md(CRAB, 0, 7), md(CRAB, 0, -7), md(CRAB, 0, 8));
 		}
 
-		@Test(expected = HantoException.class) // 38
+		@Test(expected = HantoException.class) // 40
 		public void redTriesToPlaceTheFifthHorse() throws HantoException {
 			makeMoves(md(BUTTERFLY, 0, 0), md(HORSE, 0, 1), md(CRAB, 0, -1), md(BUTTERFLY, 0, 2),
 					md(CRAB, 0, -2), md(HORSE, 0, 3), md(CRAB, 0, -3), md(HORSE, 0, 4), 
@@ -266,33 +266,47 @@ public class EpsilonHantoMasterTest {
 			assertEquals(BUTTERFLY, pc.getType());
 		}
 
-//		@Test	// 23
-//		public void blueMakesAValidCrabWalk() throws HantoException {
-//			MoveResult mr = makeMoves(md(BUTTERFLY, 0, 0), md(BUTTERFLY, 0, 1), md(CRAB, 0, -1), md(CRAB, 1, 1),
-//					md(CRAB, 0, -1, -1, 1));
-//			assertEquals(OK, mr);
-//			HantoPiece pc = game.getPieceAt(makeCoordinate(0, -1));
-//			assertNull(pc);
-//
-//			pc = game.getPieceAt(makeCoordinate(-1, 1));
-//			assertNotNull(pc);
-//			assertEquals(BLUE, pc.getColor());
-//			assertEquals(CRAB, pc.getType());
-//		}
+		@Test	// 23
+		public void blueMakesAValidCrabWalk() throws HantoException {
+			MoveResult mr = makeMoves(md(BUTTERFLY, 0, 0), md(BUTTERFLY, 0, 1), md(CRAB, 0, -1), md(CRAB, 1, 1),
+					md(CRAB, 0, -1, -1, 0));
+			assertEquals(OK, mr);
+			HantoPiece pc = game.getPieceAt(makeCoordinate(0, -1));
+			assertNull(pc);
 
-//		@Test	// 24
-//		public void blueMakesAValidSparrowFly() throws HantoException {
-//			MoveResult mr = makeMoves(md(BUTTERFLY, 0, 0), md(BUTTERFLY, 0, 1), md(SPARROW, 0, -1), md(SPARROW, 1, 1),
-//					md(SPARROW, 0, -1, -1, 1));
-//			assertEquals(OK, mr);
-//			HantoPiece pc = game.getPieceAt(makeCoordinate(0, -1));
-//			assertNull(pc);
-//
-//			pc = game.getPieceAt(makeCoordinate(-1, 1));
-//			assertNotNull(pc);
-//			assertEquals(BLUE, pc.getColor());
-//			assertEquals(SPARROW, pc.getType());
-//		}
+			pc = game.getPieceAt(makeCoordinate(-1, 0));
+			assertNotNull(pc);
+			assertEquals(BLUE, pc.getColor());
+			assertEquals(CRAB, pc.getType());
+		}
+
+		@Test	// 24
+		public void blueMakesAValidSparrowFly() throws HantoException {
+			MoveResult mr = makeMoves(md(BUTTERFLY, 0, 0), md(BUTTERFLY, 0, 1), md(SPARROW, 0, -1), md(SPARROW, 1, 1),
+					md(SPARROW, -1, -1), md(CRAB, 1, 2), md(SPARROW, -1, -1, 0, 2));
+			assertEquals(OK, mr);
+			HantoPiece pc = game.getPieceAt(makeCoordinate(-1, -1));
+			assertNull(pc);
+
+			pc = game.getPieceAt(makeCoordinate(0, 2));
+			assertNotNull(pc);
+			assertEquals(BLUE, pc.getColor());
+			assertEquals(SPARROW, pc.getType());
+		}
+		
+		@Test	// 42
+		public void redMakesAValidSparrowFly() throws HantoException {
+			MoveResult mr = makeMoves(md(BUTTERFLY, 0, 0), md(BUTTERFLY, 0, 1), md(CRAB, 0, -1), md(CRAB, 1, 1), 
+					md(SPARROW, -1, -1), md(SPARROW, 2, 0), md(SPARROW, 0, -2), md(SPARROW, 2, 0, 1, -2));
+			assertEquals(OK, mr);
+			HantoPiece pc = game.getPieceAt(makeCoordinate(2, 0));
+			assertNull(pc);
+
+			pc = game.getPieceAt(makeCoordinate(1, -2));
+			assertNotNull(pc);
+			assertEquals(RED, pc.getColor());
+			assertEquals(SPARROW, pc.getType());
+		}
 
 		@Test(expected = HantoException.class)	// 25
 		public void redWalksButterflyTwoHexesAway() throws HantoException {
@@ -300,10 +314,39 @@ public class EpsilonHantoMasterTest {
 					md(SPARROW, 0, -1, 0, 1), md(BUTTERFLY, 1, 0, 0, -1));
 		}
 
-//		@Test(expected = HantoException.class)	// 26
-//		public void blueWalksCrabFourHexesAway() throws HantoException {
-//			makeMoves(md(BUTTERFLY, 0, 0), md(BUTTERFLY, 0, 1), md(CRAB, 0, -1), md(CRAB, 1, 1), md(CRAB, 0, -1, 0, 2));
-//		}
+		@Test(expected = HantoException.class)	// 26
+		public void blueWalksCrabTwoHexesAway() throws HantoException {
+			makeMoves(md(BUTTERFLY, 0, 0), md(BUTTERFLY, 0, 1), md(CRAB, 0, -1), md(CRAB, 1, 1), 
+					md(CRAB, 0, -1, -1, 1));
+		}
+		
+		@Test(expected = HantoException.class)	// 41
+		public void blueFliesSparrowFiveHexesAway() throws HantoException {
+			makeMoves(md(BUTTERFLY, 0, 0), md(BUTTERFLY, 0, 1), md(SPARROW, 0, -1), md(CRAB, 1, 1), 
+					md(SPARROW, -1, -1), md(CRAB, 2, 0), md(SPARROW, -1, -1, 2, 1));
+		}
+		
+		@Test // 42
+		public void blueMakesAValidHorseJump() throws HantoException {
+			MoveResult mr = makeMoves(md(BUTTERFLY, 0, 0), md(BUTTERFLY, 0, 1), md(CRAB, 1, -1), md(CRAB, -1, 2), 
+					md(SPARROW, -1, 0), md(SPARROW, 0, 2), md(HORSE, 1, -2), md(SPARROW, 1, 1),
+					md(HORSE, 1, -2, -2, 1));
+			assertEquals(OK, mr);
+			HantoPiece pc = game.getPieceAt(makeCoordinate(1, -2));
+			assertNull(pc);
+
+			pc = game.getPieceAt(makeCoordinate(-2, 1));
+			assertNotNull(pc);
+			assertEquals(BLUE, pc.getColor());
+			assertEquals(HORSE, pc.getType());	
+		}
+		
+		@Test(expected = HantoException.class)	// 43
+		public void blueMakesAnInvalidHorseJump() throws HantoException {
+			makeMoves(md(BUTTERFLY, 0, 0), md(BUTTERFLY, 0, 1), md(CRAB, 1, -1), md(CRAB, -1, 2), 
+					md(SPARROW, -1, 0), md(SPARROW, 0, 2), md(HORSE, 1, -2), md(SPARROW, 1, 1),
+					md(HORSE, 1, -2, 0, 3));
+		}
 
 		@Test(expected = HantoException.class)	// 27
 		public void blueFliesSparrowToANonAdjacentHex() throws HantoException {
@@ -328,7 +371,7 @@ public class EpsilonHantoMasterTest {
 			makeMoves(md(BUTTERFLY, 0, 0), md(BUTTERFLY, 0, 1), md(CRAB, -1, 0), md(CRAB, 1, 1),
 					md(CRAB, 0, -1), md(CRAB, 2, 1), md(CRAB, -1, -1), md(CRAB, 3, 1), 
 					md(CRAB, -2, 0), md(CRAB, 4, 1), md(SPARROW, -2, 1), md(SPARROW, 5, 1),
-					md(CRAB, -1, 0, -1, 2));
+					md(CRAB, -1, 0, -1, 1));
 		}
 		
 		@Test(expected = HantoException.class)	// 31 
@@ -380,6 +423,13 @@ public class EpsilonHantoMasterTest {
 		{
 			makeMoves(md(BUTTERFLY, 0, 0), md(BUTTERFLY, 0, 1), md(CRAB, 1, -1), md(SPARROW, 1, 1),
 					md(CRAB, 2, -1), md(SPARROW, 1, 2), md(CRAB, 2, -2), md(SPARROW, 1, 1, 1, 0));
+		}
+		
+		@Test(expected = HantoException.class)	// 43
+		public void redAttemptsToMakeADisconinuosJump() throws HantoException
+		{
+			makeMoves(md(BUTTERFLY, 0, 0), md(BUTTERFLY, 0, 1), md(HORSE, 1, -1), md(SPARROW, 1, 1),
+					md(CRAB, 2, -1), md(CRAB, 0, 2), md(HORSE, 1, -1, -1, 1));			
 		}
 		
 		@Test(expected = HantoException.class)	// 38

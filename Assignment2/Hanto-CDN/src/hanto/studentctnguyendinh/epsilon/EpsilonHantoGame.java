@@ -64,13 +64,16 @@ public class EpsilonHantoGame extends HantoGameBase {
 		HantoMovementRule[] validators;
 		switch (pieceType) {
 		case CRAB:
-			validators = new HantoMovementRule[] { new MVWalking(3) };
+			validators = new HantoMovementRule[] { new MVWalking(1) };
 			break;
 		case BUTTERFLY:
 			validators = new HantoMovementRule[] { new MVWalking(1) };
 			break;
 		case SPARROW:
-			validators = new HantoMovementRule[] { new MVFlying() };
+			validators = new HantoMovementRule[] { new MVFlying(4) };
+			break;
+		case HORSE:
+			validators = new HantoMovementRule[] { new MVJumping() };
 			break;
 		default:
 			validators = new HantoMovementRule[0];
