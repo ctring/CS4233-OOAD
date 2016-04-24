@@ -10,7 +10,7 @@
  * Copyright ©2016 Gary F. Pollice
  *******************************************************************************/
 
-package hanto.studentctnguyendinh.delta;
+package hanto.studentctnguyendinh.epsilon;
 
 import static hanto.common.HantoPieceType.BUTTERFLY;
 import static hanto.common.HantoPieceType.CRAB;
@@ -42,7 +42,7 @@ import hanto.studentctnguyendinh.common.rule.HantoRuleValidatorImpl;
  * @author Cuong Nguyen
  * @version April 18, 2016
  */
-public class DeltaHantoGame extends HantoGameBase {
+public class EpsilonHantoGame extends HantoGameBase {
 
 	/**
 	 * Construct a DeltaHantoGame instance with the player who moves first being
@@ -51,7 +51,7 @@ public class DeltaHantoGame extends HantoGameBase {
 	 * @param movesFirst
 	 *            color of the player who moves first
 	 */
-	public DeltaHantoGame(HantoPlayerColor movesFirst) {
+	public EpsilonHantoGame(HantoPlayerColor movesFirst) {
 
 		maxNumberOfMove = 40;
 
@@ -60,12 +60,12 @@ public class DeltaHantoGame extends HantoGameBase {
 
 		ruleValidator = new HantoRuleValidatorImpl(rules);
 
-		Map<HantoPieceType, Integer> deltaPiecesQuota = new HashMap<>();
-		deltaPiecesQuota.put(BUTTERFLY, 1);
-		deltaPiecesQuota.put(SPARROW, 4);
-		deltaPiecesQuota.put(CRAB, 4);
+		Map<HantoPieceType, Integer> epsilonPiecesQuota = new HashMap<>();
+		epsilonPiecesQuota.put(BUTTERFLY, 1);
+		epsilonPiecesQuota.put(SPARROW, 4);
+		epsilonPiecesQuota.put(CRAB, 4);
 
-		gameState = new HantoGameState(movesFirst, deltaPiecesQuota);
+		gameState = new HantoGameState(movesFirst, epsilonPiecesQuota);
 	}
 
 	@Override

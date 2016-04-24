@@ -17,17 +17,25 @@ PLACING PIECES
 +Blue adds a piece next to a red piece --> exception
 +Red adds a piece next to a blue piece --> exception
 +Blue makes valid placing
-+Blue tries to place the fifth Sparrow --> exception (delta)
-+Red tries to place the fifth Crab --> exception (delta)
+Blue tries to place the third Sparrow --> exception 
+Red tries to place the seventh Crab --> exception 
+Red tries to place the fifth Horse --> exception 
 
 
 MOVING PIECES
 +Blue makes a valid butterfly walk
 +Red makes a valid butterfly walk
-+Blue makes a valid crab walk
-+Blue makes a valid sparrow fly
+
+Blue makes a valid crab walk
+Blue makes a valid sparrow fly
+
 +Red walks butterfly 2 hexes away --> exception
-+Blue walks crab 4 hexes away --> exception
+
+Blue walks crab 2 hexes away --> exception
+Blue makes a valid horse jump
+Blue flies sparrow 6 hexes away --> exception
+Blue jumps horse incorrectly --> exception
+
 +Blue flies sparrow to a non-adjacent hex --> exception
 +Blue attempts to walk crab before placing butterfly --> exception
 +Red attempts to fly sparrow before placing butterfly --> exception
@@ -42,20 +50,22 @@ MOVING PIECES
 +Blue attempts to walk a red piece --> exception
 +Red attempts to walk a blue piece --> exception
 
+Red attempts to make a disconnecting jump --> exception
 
 WIN CONDITION
-+Blue wins by walking
-+Red wins by flying
-+Blue resigns
-+Red resigns 
+Blue wins by walking
+Red wins by flying
+Blue wins by jumping
+Blue resigns when there is still moves --> exception 
+Red resigns when run out of moves
 
 DRAW CONDITION
-+Both butterfly are surrounded
+Both butterfly are surrounded
 
 
 OTHER
 +First player is red
-+Someone attempts to make a move after the game ended --> exception
+Someone attempts to make a move after the game ended --> exception
 
 
 min distant = |x2 - x1| + min(|y2 - y1|, |y2 - (y1 + (x1 - x2))|)

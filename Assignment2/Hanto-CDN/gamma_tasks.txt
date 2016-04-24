@@ -17,8 +17,8 @@ PLACING PIECES
 +Blue adds a piece next to a red piece --> exception
 +Red adds a piece next to a blue piece --> exception
 +Blue makes valid placing
-+Blue tries to place the seventh butterfly --> exception (gamma)
-+Red tries to place the seventh butterfly --> exception (gamma)
++Blue tries to place the seventh sparrow --> exception (gamma)
++Red tries to place the seventh sparrow --> exception (gamma)
 
 
 MOVING PIECES
