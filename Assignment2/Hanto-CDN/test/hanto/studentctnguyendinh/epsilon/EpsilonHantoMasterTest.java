@@ -507,12 +507,25 @@ public class EpsilonHantoMasterTest {
 					md());
 		}
 		
-		@Test(expected = HantoPrematureResignationException.class)	// 50
+		@Test(expected = HantoPrematureResignationException.class)	// 51
 		public void redResignsWhenThereAreStillPlacingMoves() throws HantoException 
 		{
 			makeMoves(md(BUTTERFLY, 0, 0), md(BUTTERFLY, 1, 0), md(SPARROW, 0, -1), md(SPARROW, 1, 1), 
 					md(CRAB, -1, 1), md());
 		}
+		
+		@Test(expected = HantoPrematureResignationException.class)	// 52
+		public void redResignsWhenThereAreStillMovingMoves() throws HantoException 
+		{
+			makeMoves(md(BUTTERFLY, 0, 0), md(BUTTERFLY, 1, 0), md(SPARROW, 0, -1), md(SPARROW, 1, 1), 
+					md(SPARROW, -1, 1), md(SPARROW, 2, 0), md(CRAB, -1, 0), md(CRAB, 2, -1),
+					md(CRAB, -2, 1), md(CRAB, 2, -2), md(CRAB, -2, 0), md(CRAB, 2, 1), 
+					md(CRAB, -1, -1), md(CRAB, 0, 2), md(CRAB, 0, -2), md(CRAB, 0, 3),
+					md(CRAB, 0, -3), md(CRAB, 3, 0), md(HORSE, -2, 2), md(HORSE, 3, -1), 
+					md(HORSE, -3, 0), md(HORSE, 3, -2), md(HORSE, -3, 1), md(HORSE, 4, 0),
+					md(HORSE, -3, 2), md(HORSE, 5, 0), md());
+		}	
+		
 	}
 
 	public static class OtherTests {
