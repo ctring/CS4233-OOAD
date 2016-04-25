@@ -80,22 +80,20 @@ public class EpsilonHantoGame extends HantoGameBase {
 	
 	@Override
 	public MoveResult resign() throws HantoPrematureResignationException {
+//		HantoBoard board = gameState.cloneBoard();
+//		System.out.println(board.getPrintableBoard());
+//		List<HantoCoordinate> allCoords = board.getPiecesCoordinates(gameState.getCurrentPlayer());
+//		for (HantoCoordinate c : allCoords) {
+//			HantoPiece p = board.getPieceAt(c);
+//			if (p instanceof HantoPieceImpl) {
+//				HantoPieceImpl piece = (HantoPieceImpl)p;
+//				System.out.println(c.getX() + " " + c.getY());
+//				for (HantoCoordinate co : piece.getReachableCoordinates(gameState, c)) {
+//					System.out.println(" " + co.getX() + " " + co.getY());
+//				}
+//			}
+//		}
 		if (stillCanPlace() || stillCanMove()) {
-			
-			HantoBoard board = gameState.cloneBoard();
-			System.out.println(board.getPrintableBoard());
-			List<HantoCoordinate> allCoords = board.getAllPieceCoordinates();
-			for (HantoCoordinate c : allCoords) {
-				HantoPiece p = board.getPieceAt(c);
-				if (p instanceof HantoPieceImpl) {
-					HantoPieceImpl piece = (HantoPieceImpl)p;
-					System.out.println(c.getX() + " " + c.getY());
-					for (HantoCoordinate co : piece.getReachableCoordinates(gameState, c)) {
-						System.out.println(" " + co.getX() + " " + co.getY());
-					}
-				}
-			}
-			
 			throw new HantoPrematureResignationException();
 		}
 		return super.resign();
@@ -115,7 +113,7 @@ public class EpsilonHantoGame extends HantoGameBase {
 	
 	private boolean stillCanMove() {
 		HantoBoard board = gameState.cloneBoard();
-		List<HantoCoordinate> allCoords = board.getAllPieceCoordinates();
+		List<HantoCoordinate> allCoords = board.getPiecesCoordinates(gameState.getCurrentPlayer());
 		for (HantoCoordinate c : allCoords) {
 			HantoPiece p = board.getPieceAt(c);
 			if (p instanceof HantoPieceImpl) {

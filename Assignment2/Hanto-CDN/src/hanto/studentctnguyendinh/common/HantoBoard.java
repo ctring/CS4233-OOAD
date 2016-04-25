@@ -17,6 +17,7 @@ import java.util.Map;
 
 import hanto.common.HantoCoordinate;
 import hanto.common.HantoPiece;
+import hanto.common.HantoPlayerColor;
 
 /**
  * HantoBoard represents a board in the HantoGame.
@@ -35,7 +36,9 @@ public class HantoBoard {
 
 	/**
 	 * Copy constructor
-	 * @param other a Hanto board to be copied.
+	 * 
+	 * @param other
+	 *            a Hanto board to be copied.
 	 */
 	public HantoBoard(HantoBoard other) {
 		board = new HashMap<HantoCoordinateImpl, Cell>(other.board);
@@ -160,13 +163,15 @@ public class HantoBoard {
 		int parts = partitions;
 		return parts <= 1;
 	}
-	
+
 	/**
 	 * Check if the pieces are connected after placing a piece.
 	 * 
-	 * @param coord coordinate of the piece to be placed.
+	 * @param coord
+	 *            coordinate of the piece to be placed.
 	 * 
-	 * @return true if every piece is connected after placing the piece, false otherwise.
+	 * @return true if every piece is connected after placing the piece, false
+	 *         otherwise.
 	 */
 	public boolean isContinuousAfter(HantoCoordinate coord) {
 		HantoCoordinateImpl[] adj = new HantoCoordinateImpl(coord).getAdjacentCoordsSet();
@@ -229,9 +234,10 @@ public class HantoBoard {
 			}
 		}
 	}
-	
+
 	/**
-	 * @return coordinates of the unoccupied hexes that are adjacent to some pieces on the board.
+	 * @return coordinates of the unoccupied hexes that are adjacent to some
+	 *         pieces on the board.
 	 */
 	public List<HantoCoordinate> getAllAdjacentHexes() {
 		List<HantoCoordinate> adj = new ArrayList<>();
@@ -247,14 +253,22 @@ public class HantoBoard {
 		}
 		return adj;
 	}
-	
+
 	/**
-	 * @return a list of coordinates of all the pieces on this board.
+	 * Get a list of coordinates of pieces on the board that belong to a player
+	 * or to both players.
+	 * 
+	 * @param player
+	 *            color of player that the pieces belongs to, use null for
+	 *            getting pieces of both players.
+	 * @return a list of coordinates of pieces on this board either belonging to
+	 *         a player or to both players.
 	 */
-	public List<HantoCoordinate> getAllPieceCoordinates() {
+	public List<HantoCoordinate> getPiecesCoordinates(HantoPlayerColor player) {
 		List<HantoCoordinate> coords = new ArrayList<>();
 		for (HantoCoordinateImpl c : board.keySet()) {
-			if (getPieceAt(c) != null) {
+			HantoPiece p = getPieceAt(c);
+			if (p != null && (player == null || p.getColor() == player)) {
 				coords.add(c);
 			}
 		}
@@ -309,7 +323,7 @@ public class HantoBoard {
 		case SPARROW:
 			pcstr += "S";
 			break;
-		case HORSE: 
+		case HORSE:
 			pcstr += "H";
 			break;
 		case CRAB:
@@ -322,8 +336,9 @@ public class HantoBoard {
 	}
 
 	/**
-	 * A cell contains information such as piece type, partition or custom data 
+	 * A cell contains information such as piece type, partition or custom data
 	 * associating with a hex on a Hanto board.
+	 * 
 	 * @author Cuong
 	 *
 	 */
@@ -338,15 +353,19 @@ public class HantoBoard {
 
 		/**
 		 * Create a new cell with given data.
-		 * @param piece Hanto piece in this cell.
-		 * @param partition partition number.
-		 * @param data custom data.
+		 * 
+		 * @param piece
+		 *            Hanto piece in this cell.
+		 * @param partition
+		 *            partition number.
+		 * @param data
+		 *            custom data.
 		 */
 		Cell(HantoPiece piece, int partition, int data) {
 			this.piece = piece;
 			this.partition = partition;
 			this.data = data;
 		}
-		
+
 	}
 }

@@ -51,8 +51,8 @@ WIN CONDITION
 +Blue wins by walking
 +Red wins by flying
 +Blue wins by jumping
-Blue resigns when there is still moves --> exception 
-Red resigns when run out of moves
++Blue resigns when there is still moves --> exception 
++Red resigns when run out of moves
 
 DRAW CONDITION
 +Both butterfly are surrounded
@@ -60,10 +60,9 @@ DRAW CONDITION
 
 OTHER
 +First player is red
-Someone attempts to make a move after the game ended --> exception
++Someone attempts to make a move after the game ended --> exception
 
 
-min distant = |x2 - x1| + min(|y2 - y1|, |y2 - (y1 + (x1 - x2))|)
 coadjacent hex = (x + y, -x), (-y, x + y)
 
 

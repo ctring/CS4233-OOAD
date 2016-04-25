@@ -526,6 +526,16 @@ public class EpsilonHantoMasterTest {
 					md(HORSE, -3, 2), md(HORSE, 5, 0), md());
 		}	
 		
+		@Test
+		public void blueResignsWhenRunOutOfMove() throws HantoException
+		{
+			MoveResult mr = makeMoves(md(BUTTERFLY, 0, 0), md(BUTTERFLY, 0, 1), md(CRAB, -1, 0), md(SPARROW, 0, 2), 
+					md(CRAB, -1, 0, 0, -1), md(HORSE, 1, 1), md(CRAB, 0, -1, -1, 0), md(HORSE, -1, 2),
+					md(CRAB, -1, 0, 0, -1), md(HORSE, 1, 1, 1, -1), md(CRAB, 0, -1, -1, 0), md(SPARROW, 0, 2, 1, -2), 
+					md(CRAB, -1, 0, 0, -1), md(HORSE, -1, 2, -1, -1), md());
+			assertEquals(RED_WINS, mr);
+		}
+		
 	}
 
 	public static class OtherTests {
@@ -540,6 +550,14 @@ public class EpsilonHantoMasterTest {
 			makeMoves(md(BUTTERFLY, 0, 0), md(SPARROW, 1, 0), md(BUTTERFLY, 0, 0, 0, 0));
 		}
 
+		@Test(expected = HantoException.class) // 53
+		public void redAttemptsToMakeMoveAfterGameEnds() throws HantoException
+		{
+			makeMoves(md(BUTTERFLY, 0, 0), md(BUTTERFLY, 0, 1), md(CRAB, -1, 0), md(SPARROW, 0, 2), 
+					md(CRAB, -1, 0, 0, -1), md(HORSE, 1, 1), md(CRAB, 0, -1, -1, 0), md(HORSE, -1, 2),
+					md(CRAB, -1, 0, 0, -1), md(HORSE, 1, 1, 1, -1), md(CRAB, 0, -1, -1, 0), md(SPARROW, 0, 2, 1, -2), 
+					md(CRAB, -1, 0, 0, -1), md(HORSE, -1, 2, -1, -1), md(), md(HORSE, -1, 2));
+		}
 
 	}
 
