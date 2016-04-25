@@ -236,6 +236,17 @@ public class HantoGameState {
 		}
 		
 		/**
+		 * @return total number of remaining pieces.
+		 */
+		public int getTotalOfRemainingPieces() {
+			int total = 0;
+			for (Integer i : remaining.values()) {
+				total += i;
+			}
+			return total;
+		}
+		
+		/**
 		 * @return whether the player can still place some more pieces.
 		 */
 		public List<HantoCoordinate> getPlacableCoordinates() {

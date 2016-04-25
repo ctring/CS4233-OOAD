@@ -22,14 +22,15 @@ import java.util.List;
 import java.util.Map;
 
 import hanto.common.HantoCoordinate;
+import hanto.common.HantoException;
 import hanto.common.HantoPiece;
 import hanto.common.HantoPieceType;
 import hanto.common.HantoPlayerColor;
 import hanto.common.HantoPrematureResignationException;
 import hanto.common.MoveResult;
+import hanto.studentctnguyendinh.common.HantoBoard;
 import hanto.studentctnguyendinh.common.HantoGameBase;
 import hanto.studentctnguyendinh.common.HantoGameState;
-import hanto.studentctnguyendinh.common.HantoGameState.HantoPlayerState;
 import hanto.studentctnguyendinh.common.piece.HantoMovementRule;
 import hanto.studentctnguyendinh.common.piece.HantoPieceImpl;
 import hanto.studentctnguyendinh.common.piece.MVFlying;
@@ -80,6 +81,21 @@ public class EpsilonHantoGame extends HantoGameBase {
 	@Override
 	public MoveResult resign() throws HantoPrematureResignationException {
 		if (stillCanPlace() || stillCanMove()) {
+			
+			HantoBoard board = gameState.cloneBoard();
+			System.out.println(board.getPrintableBoard());
+			List<HantoCoordinate> allCoords = board.getAllPieceCoordinates();
+			for (HantoCoordinate c : allCoords) {
+				HantoPiece p = board.getPieceAt(c);
+				if (p instanceof HantoPieceImpl) {
+					HantoPieceImpl piece = (HantoPieceImpl)p;
+					System.out.println(c.getX() + " " + c.getY());
+					for (HantoCoordinate co : piece.getReachableCoordinates(gameState, c)) {
+						System.out.println(" " + co.getX() + " " + co.getY());
+					}
+				}
+			}
+			
 			throw new HantoPrematureResignationException();
 		}
 		return super.resign();
@@ -92,16 +108,23 @@ public class EpsilonHantoGame extends HantoGameBase {
 //		for (HantoCoordinate c: placable) {
 //			System.out.println(c.getX() + " " + c.getY());
 //		}
-		boolean nonzeroPieces = 
-				currentPlayerState.getNumberOfRemainingPieces(BUTTERFLY) > 0 ||
-				currentPlayerState.getNumberOfRemainingPieces(SPARROW) > 0 ||
-				currentPlayerState.getNumberOfRemainingPieces(CRAB) > 0 ||
-				currentPlayerState.getNumberOfRemainingPieces(HORSE) > 0;
-
+		boolean nonzeroPieces = currentPlayerState.getTotalOfRemainingPieces() > 0;
+				
 		return placable.size() > 0 && nonzeroPieces;
 	}
 	
 	private boolean stillCanMove() {
+		HantoBoard board = gameState.cloneBoard();
+		List<HantoCoordinate> allCoords = board.getAllPieceCoordinates();
+		for (HantoCoordinate c : allCoords) {
+			HantoPiece p = board.getPieceAt(c);
+			if (p instanceof HantoPieceImpl) {
+				HantoPieceImpl piece = (HantoPieceImpl)p;
+				if (piece.getReachableCoordinates(gameState, c).size() > 0) {
+					return true;
+				}
+			}
+		}
 		return false;
 	}
 

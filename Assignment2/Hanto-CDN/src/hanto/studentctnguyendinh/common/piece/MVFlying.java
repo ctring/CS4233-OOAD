@@ -60,7 +60,9 @@ public class MVFlying implements HantoMovementRule {
 		List<HantoCoordinate> crude = board.getAllAdjacentHexes();
 		List<HantoCoordinate> reachable = new ArrayList<>();
 		for (HantoCoordinate coord : crude) {
-			if (board.isContinuousAfter(coord) && fromCoord.getMinimumDistanceTo(coord) <= maxSteps) {
+			if (board.isContinuousAfter(coord) && 
+					fromCoord.getMinimumDistanceTo(coord) <= maxSteps && 
+					fromCoord.getMinimumDistanceTo(coord) > 0) {
 				reachable.add(coord);
 			}
 		}

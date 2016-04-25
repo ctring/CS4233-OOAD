@@ -28,7 +28,8 @@ public class MVJumping implements HantoMovementRule {
 		List<HantoCoordinate> crude = board.getAllAdjacentHexes();
 		List<HantoCoordinate> reachable = new ArrayList<>();
 		for (HantoCoordinate coord : crude) {
-			if (board.isContinuousAfter(coord) && fromCoord.alignedWith(coord)) {
+			if (board.isContinuousAfter(coord) && fromCoord.alignedWith(coord) &&
+					fromCoord.getMinimumDistanceTo(coord) > 0) {
 				reachable.add(coord);
 			}
 		}

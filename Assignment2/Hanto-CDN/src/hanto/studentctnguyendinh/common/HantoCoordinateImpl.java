@@ -109,14 +109,33 @@ public class HantoCoordinateImpl implements HantoCoordinate {
 	/**
 	 * Get the minimum distance to another coordinate.
 	 * 
-	 * @param coord
+	 * @param other
 	 *            another coordinate to calculate distance to.
 	 * @return distance to the given coordinate.
 	 */
-	public int getMinimumDistanceTo(HantoCoordinate coord) {
-		int x2 = coord.getX();
-		int y2 = coord.getY();
-		return Math.abs(x - x2) + Math.min(Math.abs(y - y2), Math.abs(y2 - (y + (x - x2))));
+	public int getMinimumDistanceTo(HantoCoordinate other) {
+		int x2 = other.getX();
+		int y2 = other.getY();
+		HantoCoordinateImpl o = new HantoCoordinateImpl(other);
+		HantoCoordinateImpl[] i = new HantoCoordinateImpl[] {
+				new HantoCoordinateImpl(x, y2),
+				new HantoCoordinateImpl(x2, y),
+				new HantoCoordinateImpl(x, y2 - (x - x2)),
+				new HantoCoordinateImpl(x2, y - (x2 - x)),
+				new HantoCoordinateImpl(x - (y2 - y), y2),
+				new HantoCoordinateImpl(x2 - (y - y2), y) 
+		};
+		
+		int distance = Integer.MAX_VALUE;
+		for (HantoCoordinateImpl c : i) {
+			distance = Math.min(distance, lineUpDistance(c) + o.lineUpDistance(c));
+		}
+		
+		return distance;
+	}
+	
+	private int lineUpDistance(HantoCoordinate other) {
+		return Math.max(Math.abs(x - other.getX()), Math.abs(y - other.getY()));
 	}
 
 	/**

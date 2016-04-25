@@ -76,7 +76,7 @@ public class HantoBoard {
 	 * @return custom partition number of the specified cell, 0 if the cell does
 	 *         not exist.
 	 */
-	public int getPartitionAt(HantoCoordinate coord) {
+	private int getPartitionAt(HantoCoordinate coord) {
 		Cell inner = board.get(new HantoCoordinateImpl(coord));
 		return inner == null ? 0 : inner.partition;
 	}
@@ -246,6 +246,19 @@ public class HantoBoard {
 			}
 		}
 		return adj;
+	}
+	
+	/**
+	 * @return a list of coordinates of all the pieces on this board.
+	 */
+	public List<HantoCoordinate> getAllPieceCoordinates() {
+		List<HantoCoordinate> coords = new ArrayList<>();
+		for (HantoCoordinateImpl c : board.keySet()) {
+			if (getPieceAt(c) != null) {
+				coords.add(c);
+			}
+		}
+		return coords;
 	}
 
 	/**
