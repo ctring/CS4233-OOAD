@@ -46,7 +46,8 @@ public class MVFlying implements HantoMovementRule {
 	public String validate(HantoGameState gameState, HantoCoordinate from, HantoCoordinate to) {
 		HantoCoordinateImpl fromCoord = new HantoCoordinateImpl(from);
 		HantoCoordinateImpl toCoord = new HantoCoordinateImpl(to);
-		if (fromCoord.getMinimumDistanceTo(toCoord) > maxSteps) {
+		if (fromCoord.getMinimumDistanceTo(toCoord) > maxSteps ||
+				fromCoord.getMinimumDistanceTo(toCoord) <= 0) {
 			return "Cannot fly further than " + maxSteps + " steps";
 		}
 		return null;
@@ -57,12 +58,11 @@ public class MVFlying implements HantoMovementRule {
 		HantoCoordinateImpl fromCoord = new HantoCoordinateImpl(from);
 		HantoBoard board = gameState.cloneBoard();
 		board.removePieceAt(fromCoord);
-		List<HantoCoordinate> crude = board.getAllAdjacentHexes();
+		List<HantoCoordinate> crude = board.getAdjacentHexes(null);
 		List<HantoCoordinate> reachable = new ArrayList<>();
 		for (HantoCoordinate coord : crude) {
 			if (board.isContinuousAfter(coord) && 
-					fromCoord.getMinimumDistanceTo(coord) <= maxSteps && 
-					fromCoord.getMinimumDistanceTo(coord) > 0) {
+					validate(gameState, fromCoord, coord) == null) {
 				reachable.add(coord);
 			}
 		}

@@ -14,7 +14,7 @@ public class MVJumping implements HantoMovementRule {
 	public String validate(HantoGameState gameState, HantoCoordinate from, HantoCoordinate to) {
 		HantoCoordinateImpl fromCoord = new HantoCoordinateImpl(from);
 		HantoCoordinateImpl toCoord = new HantoCoordinateImpl(to); 
-		if (!fromCoord.alignedWith(toCoord)) {
+		if (!fromCoord.alignedWith(toCoord) || fromCoord.getMinimumDistanceTo(toCoord) <= 0) {
 			return "Jumping path must be a straight line";
 		}
 		return null;
@@ -25,11 +25,10 @@ public class MVJumping implements HantoMovementRule {
 		HantoCoordinateImpl fromCoord = new HantoCoordinateImpl(from);
 		HantoBoard board = gameState.cloneBoard();
 		board.removePieceAt(fromCoord);
-		List<HantoCoordinate> crude = board.getAllAdjacentHexes();
+		List<HantoCoordinate> crude = board.getAdjacentHexes(null);
 		List<HantoCoordinate> reachable = new ArrayList<>();
 		for (HantoCoordinate coord : crude) {
-			if (board.isContinuousAfter(coord) && fromCoord.alignedWith(coord) &&
-					fromCoord.getMinimumDistanceTo(coord) > 0) {
+			if (board.isContinuousAfter(coord) && validate(gameState, from, coord) != null) {
 				reachable.add(coord);
 			}
 		}

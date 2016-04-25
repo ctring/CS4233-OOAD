@@ -7,7 +7,7 @@
  *******************************************************************************/
 package hanto.studentctnguyendinh.common;
 
-import static hanto.common.HantoPlayerColor.BLUE;
+import static hanto.common.HantoPlayerColor.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -239,19 +239,49 @@ public class HantoBoard {
 	 * @return coordinates of the unoccupied hexes that are adjacent to some
 	 *         pieces on the board.
 	 */
-	public List<HantoCoordinate> getAllAdjacentHexes() {
+	public List<HantoCoordinate> getAdjacentHexes(HantoPlayerColor player) {
 		List<HantoCoordinate> adj = new ArrayList<>();
 		for (Map.Entry<HantoCoordinateImpl, Cell> entry : board.entrySet()) {
 			HantoCoordinateImpl coord = entry.getKey();
 			if (getPieceAt(coord) != null) {
 				for (HantoCoordinateImpl adjCoord : coord.getAdjacentCoordsSet()) {
-					if (getPieceAt(adjCoord) == null && !adj.contains(adjCoord)) {
+					if (getPieceAt(adjCoord) == null 
+							&& !adj.contains(adjCoord)
+							&& ((player == null && coordIsAdjacentToOnlyColor(adjCoord, BLUE) 
+												&& coordIsAdjacentToOnlyColor(adjCoord, RED))
+								|| (player != null && coordIsAdjacentToOnlyColor(adjCoord, player)))) {
 						adj.add(adjCoord);
 					}
 				}
 			}
 		}
 		return adj;
+	}
+
+	/**
+	 * Check if a coordinate is adjacent to a piece with the specified color.
+	 * 
+	 * @param coord
+	 *            coordinate to be checked.
+	 * @param color
+	 *            color of the adjacent piece.
+	 * @return true if the coordinate is next to a piece with given color, false
+	 *         otherwise.
+	 */
+	public boolean coordIsAdjacentToOnlyColor(HantoCoordinate coord, HantoPlayerColor color) {
+		HantoCoordinateImpl[] adjCoords = new HantoCoordinateImpl(coord).getAdjacentCoordsSet();
+
+		boolean adjColor = false;
+		boolean adjNonColor = false;
+		
+		for (HantoCoordinateImpl a : adjCoords) {
+			HantoPiece piece = getPieceAt(a);
+			if (piece != null) {
+				adjColor = adjColor || piece.getColor() == color;
+				adjNonColor = adjNonColor || piece.getColor() != color;
+			}
+		}
+		return adjColor && !adjNonColor;
 	}
 
 	/**

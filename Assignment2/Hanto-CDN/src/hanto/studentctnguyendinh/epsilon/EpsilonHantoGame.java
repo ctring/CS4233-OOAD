@@ -102,10 +102,12 @@ public class EpsilonHantoGame extends HantoGameBase {
 	private boolean stillCanPlace() {
 		HantoPlayerColor currentPlayer = gameState.getCurrentPlayer();
 		HantoGameState.HantoPlayerState currentPlayerState = gameState.getPlayerState(currentPlayer);
-		List<HantoCoordinate> placable = currentPlayerState.getPlacableCoordinates();
+		List<HantoCoordinate> placable = gameState.cloneBoard().getAdjacentHexes(currentPlayer);
+		
 //		for (HantoCoordinate c: placable) {
 //			System.out.println(c.getX() + " " + c.getY());
 //		}
+		
 		boolean nonzeroPieces = currentPlayerState.getTotalOfRemainingPieces() > 0;
 				
 		return placable.size() > 0 && nonzeroPieces;
