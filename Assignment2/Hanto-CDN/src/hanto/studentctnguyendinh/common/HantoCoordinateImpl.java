@@ -128,14 +128,17 @@ public class HantoCoordinateImpl implements HantoCoordinate {
 		
 		int distance = Integer.MAX_VALUE;
 		for (HantoCoordinateImpl c : i) {
-			distance = Math.min(distance, lineUpDistance(c) + o.lineUpDistance(c));
+			distance = Math.min(distance, 
+					lineUpDistance(c) + o.lineUpDistance(c));
 		}
 		
 		return distance;
 	}
 	
 	private int lineUpDistance(HantoCoordinate other) {
-		return Math.max(Math.abs(x - other.getX()), Math.abs(y - other.getY()));
+		return Math.max(
+				Math.abs(x - other.getX()), 
+				Math.abs(y - other.getY()));
 	}
 
 	/**

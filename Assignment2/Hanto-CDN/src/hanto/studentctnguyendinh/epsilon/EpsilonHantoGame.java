@@ -22,7 +22,6 @@ import java.util.List;
 import java.util.Map;
 
 import hanto.common.HantoCoordinate;
-import hanto.common.HantoException;
 import hanto.common.HantoPiece;
 import hanto.common.HantoPieceType;
 import hanto.common.HantoPlayerColor;
