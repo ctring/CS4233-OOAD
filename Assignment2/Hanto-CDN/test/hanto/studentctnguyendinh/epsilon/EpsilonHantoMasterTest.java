@@ -526,7 +526,7 @@ public class EpsilonHantoMasterTest {
 					md(HORSE, -3, 2), md(HORSE, 5, 0), md());
 		}	
 		
-		@Test
+		@Test	//53
 		public void blueResignsWhenRunOutOfMove() throws HantoException
 		{
 			MoveResult mr = makeMoves(md(BUTTERFLY, 0, 0), md(BUTTERFLY, 0, 1), md(CRAB, -1, 0), md(SPARROW, 0, 2), 
@@ -535,6 +535,16 @@ public class EpsilonHantoMasterTest {
 					md(CRAB, -1, 0, 0, -1), md(SPARROW, 0, 2, 1, -2), md(CRAB, 0, -1, -1, 0), md(SPARROW, -1, 2, -2, 0), 
 					md());
 			assertEquals(RED_WINS, mr);
+		}
+		
+		@Test(expected = HantoPrematureResignationException.class) // 54
+		public void blueResignsRightAtTheBeginning() throws HantoException {
+			makeMoves(md());
+		}
+		
+		@Test(expected = HantoPrematureResignationException.class) // 55
+		public void redResignsRightAtTheBeginning() throws HantoException {
+			makeMoves(md(BUTTERFLY, 0, 0), md());
 		}
 		
 	}

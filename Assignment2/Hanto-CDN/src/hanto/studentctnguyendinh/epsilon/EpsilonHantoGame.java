@@ -92,7 +92,7 @@ public class EpsilonHantoGame extends HantoGameBase {
 //				}
 //			}
 //		}
-		if (stillCanPlace() || stillCanMove()) {
+		if (gameState.getNumberOfPlayedMoves() < 2 || stillCanPlace() || stillCanMove()) {
 			throw new HantoPrematureResignationException();
 		}
 		return super.resign();
