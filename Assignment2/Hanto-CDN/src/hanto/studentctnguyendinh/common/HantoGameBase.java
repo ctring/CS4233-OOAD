@@ -42,6 +42,8 @@ public abstract class HantoGameBase implements HantoGame {
 	protected HantoCoordinate playedTo;
 
 	protected int maxNumberOfMove = Integer.MAX_VALUE;
+	
+	private HantoAI ai;
 
 	@Override
 	public MoveResult makeMove(HantoPieceType pieceType, HantoCoordinate from, HantoCoordinate to)
@@ -68,6 +70,8 @@ public abstract class HantoGameBase implements HantoGame {
 			gameState.flagGameOver();
 		}
 
+		notifyAI(moveResult);
+		
 		return moveResult;
 	}
 
@@ -232,4 +236,22 @@ public abstract class HantoGameBase implements HantoGame {
 		return true;
 	}
 
+	/**
+	 * Register an AI as an observer for this Hanto game.
+	 * @param ai AI that observes and calculates move for this game.
+	 */
+	public void registerAI(HantoAI ai) {
+		ai.setGameState(gameState);
+		this.ai = ai;
+	}
+	
+	private void notifyAI(MoveResult mr) {
+		if (ai != null) {
+			ai.compute(mr);
+		}
+	}
+	
+	public void setGameState(HantoGameState state) {
+		this.gameState = state;
+	}
 }

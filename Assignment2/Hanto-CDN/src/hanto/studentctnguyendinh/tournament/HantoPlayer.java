@@ -14,10 +14,11 @@ import static hanto.common.HantoPlayerColor.BLUE;
 import static hanto.common.HantoPlayerColor.RED;
 
 import hanto.common.HantoException;
-import hanto.common.HantoGame;
 import hanto.common.HantoGameID;
 import hanto.common.HantoPlayerColor;
 import hanto.studentctnguyendinh.HantoGameFactory;
+import hanto.studentctnguyendinh.common.HantoAI;
+import hanto.studentctnguyendinh.common.HantoGameBase;
 import hanto.tournament.HantoGamePlayer;
 import hanto.tournament.HantoMoveRecord;
 
@@ -27,7 +28,8 @@ import hanto.tournament.HantoMoveRecord;
  */
 public class HantoPlayer implements HantoGamePlayer
 {
-	HantoGame game;
+	HantoGameBase game;
+	HantoAI ai;
 	/*
 	 * @see hanto.tournament.HantoGamePlayer#startGame(hanto.common.HantoGameID, hanto.common.HantoPlayerColor, boolean)
 	 */
@@ -37,8 +39,11 @@ public class HantoPlayer implements HantoGamePlayer
 	{
 		System.out.println("startGame");
 		HantoPlayerColor otherColor = myColor == BLUE ? RED : BLUE;
-		game = HantoGameFactory.getInstance().makeHantoGame(version, 
+		game = (HantoGameBase)HantoGameFactory.getInstance().makeHantoGame(version, 
 				doIMoveFirst ? myColor : otherColor);
+		
+		ai = new HantoAI();
+		game.registerAI(ai);
 	}
 
 	/*
@@ -51,11 +56,9 @@ public class HantoPlayer implements HantoGamePlayer
 			game.makeMove(opponentsMove.getPiece(), opponentsMove.getFrom(), opponentsMove.getTo());
 		} catch (HantoException e){
 			// do nothing
-		}
-		
-		//HantoMoveRecord myMove = 
-		
-		return new HantoMoveRecord(null, null, null);
+		}		
+		HantoMoveRecord myMove = new HantoMoveRecord(ai.getPiece(), ai.getFrom(), ai.getTo()); 
+		return myMove;
 	}
 
 }
