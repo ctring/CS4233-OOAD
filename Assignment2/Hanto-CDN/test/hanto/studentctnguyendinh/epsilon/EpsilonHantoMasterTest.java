@@ -337,12 +337,12 @@ public class EpsilonHantoMasterTest {
 		public void blueMakesAValidHorseJump() throws HantoException {
 			MoveResult mr = makeMoves(md(BUTTERFLY, 0, 0), md(BUTTERFLY, 0, 1), md(CRAB, 1, -1), md(CRAB, -1, 2), 
 					md(SPARROW, -1, 0), md(SPARROW, 0, 2), md(HORSE, 1, -2), md(SPARROW, 1, 1),
-					md(HORSE, 1, -2, -2, 1));
+					md(HORSE, 1, -2, 1, 0));
 			assertEquals(OK, mr);
 			HantoPiece pc = game.getPieceAt(makeCoordinate(1, -2));
 			assertNull(pc);
 
-			pc = game.getPieceAt(makeCoordinate(-2, 1));
+			pc = game.getPieceAt(makeCoordinate(1, 0));
 			assertNotNull(pc);
 			assertEquals(BLUE, pc.getColor());
 			assertEquals(HORSE, pc.getType());	
@@ -530,9 +530,10 @@ public class EpsilonHantoMasterTest {
 		public void blueResignsWhenRunOutOfMove() throws HantoException
 		{
 			MoveResult mr = makeMoves(md(BUTTERFLY, 0, 0), md(BUTTERFLY, 0, 1), md(CRAB, -1, 0), md(SPARROW, 0, 2), 
-					md(CRAB, -1, 0, 0, -1), md(HORSE, 1, 1), md(CRAB, 0, -1, -1, 0), md(HORSE, -1, 2),
-					md(CRAB, -1, 0, 0, -1), md(HORSE, 1, 1, 1, -1), md(CRAB, 0, -1, -1, 0), md(SPARROW, 0, 2, 1, -2), 
-					md(CRAB, -1, 0, 0, -1), md(HORSE, -1, 2, -1, -1), md());
+					md(CRAB, -1, 0, 0, -1), md(CRAB, 1, 1), md(CRAB, 0, -1, -1, 0), md(SPARROW, -1, 2),
+					md(CRAB, -1, 0, 0, -1), md(CRAB, 1, 1, 1, 0), md(CRAB, 0, -1, -1, 0), md(CRAB, 1, 0, 1, -1),
+					md(CRAB, -1, 0, 0, -1), md(SPARROW, 0, 2, 1, -2), md(CRAB, 0, -1, -1, 0), md(SPARROW, -1, 2, -2, 0), 
+					md());
 			assertEquals(RED_WINS, mr);
 		}
 		

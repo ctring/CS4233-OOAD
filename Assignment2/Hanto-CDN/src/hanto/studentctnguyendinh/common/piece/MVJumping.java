@@ -13,11 +13,34 @@ public class MVJumping implements HantoMovementRule {
 	@Override
 	public String validate(HantoGameState gameState, HantoCoordinate from, HantoCoordinate to) {
 		HantoCoordinateImpl fromCoord = new HantoCoordinateImpl(from);
-		HantoCoordinateImpl toCoord = new HantoCoordinateImpl(to); 
-		if (!fromCoord.alignedWith(toCoord) || fromCoord.getMinimumDistanceTo(toCoord) <= 0) {
-			return "Jumping path must be a straight line";
+		HantoCoordinateImpl toCoord = new HantoCoordinateImpl(to);
+		
+		if (fromCoord.alignedWith(toCoord) && fromCoord.getMinimumDistanceTo(toCoord) > 1 
+				&& isConnectedLine(gameState, fromCoord, toCoord)) {
+			return null;
 		}
-		return null;
+		return "Invalid jump";
+	}
+	
+	private boolean isConnectedLine(HantoGameState gameState, HantoCoordinateImpl from, HantoCoordinateImpl to) {
+		int distance = from.getMinimumDistanceTo(to);
+		//System.out.println(distance);
+		int incX = sign(to.getX() - from.getX());
+		int incY = sign(to.getY() - from.getY());
+		for (int i = 0; i < distance; i++) {
+			int newX = from.getX() + incX * i;
+			int newY = from.getY() + incY * i;
+			//System.out.println(newX + " " + newY);
+			HantoCoordinate newCoord = new HantoCoordinateImpl(newX, newY);
+			if (gameState.getPieceAt(newCoord) == null) {
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	private int sign(int number) {
+		return number < 0 ? -1 : (number > 0 ? 1 : 0);
 	}
 
 	@Override
