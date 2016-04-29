@@ -84,6 +84,7 @@ public class HantoGameFactory {
 			break;
 		default:
 			game = null;
+			break;
 		}
 		return game;
 	}

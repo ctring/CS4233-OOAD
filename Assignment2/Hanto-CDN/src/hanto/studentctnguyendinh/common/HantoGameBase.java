@@ -243,6 +243,7 @@ public abstract class HantoGameBase implements HantoGame {
 	public void registerAI(HantoAI ai) {
 		ai.setGameState(gameState);
 		this.ai = ai;
+		notifyAI(OK);
 	}
 	
 	private void notifyAI(MoveResult mr) {

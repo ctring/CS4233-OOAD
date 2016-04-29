@@ -1,12 +1,14 @@
 package hanto.studentctnguyendinh.common;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import hanto.common.HantoCoordinate;
 import hanto.common.HantoPieceType;
 import hanto.common.HantoPlayerColor;
 import hanto.common.MoveResult;
+import hanto.studentctnguyendinh.common.HantoGameState.HantoPlayerState;
 import hanto.studentctnguyendinh.common.piece.HantoPieceImpl;
 
 public class HantoAI {
@@ -21,16 +23,37 @@ public class HantoAI {
 	
 	public void compute(MoveResult moveResult) {
 		
-		List<HantoMoveRecord> placingMove = getAllPlacingMoves();
-		HantoBoard board = gameState.cloneBoard();
-		List<HantoCoordinate> allCoord = 
-				board.getPiecesCoordinates(gameState.getCurrentPlayer());
+		List<HantoMoveRecord> moves = getAllPlacingMoves();
+		moves.addAll(getAllMovingMoves());
 		
-		for (HantoCoordinate c : allCoord) {
-			HantoPieceImpl p = (HantoPieceImpl) board.getPieceAt(c);
-			
+		HantoPlayerColor currentPlayer = gameState.getCurrentPlayer();
+		
+		float maxScore = 0;
+		HantoMoveRecord selectedMove = null;
+		
+		for (HantoMoveRecord move : moves) {
+			HantoBoard scratch = gameState.cloneBoard();
+			if (move.getFrom() == null) {
+				scratch.putPieceAt(move.getTo(), new HantoPieceImpl(currentPlayer, move.getPiece()));
+			}
+			else {
+				scratch.movePiece(move.getFrom(), move.getTo());
+			}
+			float score = scratch.evaluateAIScore(currentPlayer);
+			if (score > maxScore) {
+				maxScore = score;
+				selectedMove = move;
+			}
 		}
 		
+		// TODO: do some more checkings here
+		
+		if (selectedMove != null) {
+			nextMove = selectedMove;
+		}
+		else {
+			// TODO: what to do here?
+		}
 	}
 	
 	private List<HantoMoveRecord> getAllPlacingMoves() {
@@ -44,16 +67,43 @@ public class HantoAI {
 			placable = new ArrayList<>();
 			placable.add(new HantoCoordinateImpl(0, 0));
 		} 
-//		else if (playedMoves == 1) {
-//			placable = new ArrayList(new HantoCoordinateImpl(0, 0).getAdjacentCoordsSet());
-//			break;
-//		}
-//		}
-//		board.getAdjacentHexes(currentPlayer);
-//		
-//		
-//		
-//		return moves;
+		else if (playedMoves == 1) {
+			placable = new ArrayList<>(Arrays.asList(
+					new HantoCoordinateImpl(0, 0).getAdjacentCoordsSet()));
+		}
+		else {
+			placable = board.getAdjacentHexes(currentPlayer);
+		}
+		
+		HantoPlayerState player = gameState.getPlayerState(currentPlayer);
+		
+		for (HantoPieceType piece: HantoPieceType.values()) {
+			if (player.getNumberOfRemainingPieces(piece) > 0) {
+				for (HantoCoordinate coord : placable) {
+					moves.add(new HantoMoveRecord(piece, null, coord));
+				}
+			}
+		}
+		
+		return moves;
+	}
+	
+	private List<HantoMoveRecord> getAllMovingMoves() {
+		List<HantoMoveRecord> moves = new ArrayList<>();
+		HantoBoard board = gameState.cloneBoard();
+		List<HantoCoordinate> allCoord = 
+				board.getPiecesCoordinates(gameState.getCurrentPlayer());
+		
+		for (HantoCoordinate from : allCoord) {
+			HantoPieceImpl piece = (HantoPieceImpl) board.getPieceAt(from);
+			
+			List<HantoCoordinate> reachable = piece.getReachableCoordinates(gameState, from);
+			for (HantoCoordinate to : reachable) {
+				moves.add(new HantoMoveRecord(piece.getType(), from, to));
+			}
+		}
+
+		return moves;
 	}
 	
 	public HantoPieceType getPiece() {

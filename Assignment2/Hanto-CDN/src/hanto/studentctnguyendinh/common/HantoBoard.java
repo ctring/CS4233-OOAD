@@ -311,6 +311,16 @@ public class HantoBoard {
 		}
 		return coords;
 	}
+	
+	
+	/**
+	 * Evaluate how likely it is for a player to win.
+	 * @param player
+	 * @return
+	 */
+	public float evaluateAIScore(HantoPlayerColor player) {
+		return 1;
+	}
 
 	/**
 	 * @return a string representing the current state of the board.

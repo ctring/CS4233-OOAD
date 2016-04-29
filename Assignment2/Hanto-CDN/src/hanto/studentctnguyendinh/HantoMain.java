@@ -7,31 +7,41 @@ import static hanto.common.HantoPieceType.HORSE;
 import static hanto.common.HantoPieceType.SPARROW;
 import static hanto.common.HantoPlayerColor.BLUE;
 import static hanto.common.HantoPlayerColor.RED;
-import static hanto.common.MoveResult.*;
+import static hanto.common.MoveResult.OK;
 
 import java.util.Scanner;
 
 import hanto.common.HantoCoordinate;
 import hanto.common.HantoException;
-import hanto.common.HantoGame;
 import hanto.common.HantoPieceType;
 import hanto.common.HantoPlayerColor;
 import hanto.common.MoveResult;
+import hanto.studentctnguyendinh.common.HantoAI;
 import hanto.studentctnguyendinh.common.HantoCoordinateImpl;
+import hanto.studentctnguyendinh.common.HantoGameBase;
 
 public class HantoMain {
 
+	private static HantoGameBase game;
+	private static HantoAI ai;
+	
 	private static HantoPieceType piece;
 	private static HantoCoordinate from;
 	private static HantoCoordinate to;
 	private static Scanner scanner = new Scanner(System.in);
 	
 	public static void main(String[] args) {
-		HantoGame game = HantoGameFactory.getInstance().makeHantoGame(EPSILON_HANTO, BLUE);
+		initializeGame();
+		
 		boolean gameOver = false;
 		HantoPlayerColor currentPlayer = BLUE;
 		do {
-			input(currentPlayer);
+			if (currentPlayer == BLUE) {
+				input();
+			}
+			else { 
+				inputAI();
+			}
 			currentPlayer = currentPlayer == BLUE ? RED : BLUE;
 			try {
 				MoveResult mr = game.makeMove(piece, from, to);
@@ -48,8 +58,14 @@ public class HantoMain {
 		scanner.close();
 	}
 	
-	private static void input(HantoPlayerColor player) {
-		System.out.println(player + "'s turn: ");
+	private static void initializeGame() {
+		game = (HantoGameBase)HantoGameFactory.getInstance().makeHantoGame(EPSILON_HANTO, BLUE);
+		ai = new HantoAI();
+		game.registerAI(ai);
+	}
+	
+	private static void input() {
+		System.out.println("Your turn: ");
 		int move = scanner.nextInt();
 		
 		if (move == 3) {
@@ -67,6 +83,13 @@ public class HantoMain {
 			int toY = scanner.nextInt();
 			to = new HantoCoordinateImpl(toX, toY);
 		}
+	}
+	
+	private static void inputAI() {
+		System.out.println("AI's turn.");
+		piece = ai.getPiece();
+		from = ai.getFrom();
+		to = ai.getTo();
 	}
 	
 	private static HantoPieceType translatePieceType(char p) {

@@ -53,12 +53,30 @@ public class HantoPlayer implements HantoGamePlayer
 	public HantoMoveRecord makeMove(HantoMoveRecord opponentsMove)
 	{
 		try {
-			game.makeMove(opponentsMove.getPiece(), opponentsMove.getFrom(), opponentsMove.getTo());
+			if (opponentsMove != null) {
+				game.makeMove(opponentsMove.getPiece(), opponentsMove.getFrom(), opponentsMove.getTo());
+			}
 		} catch (HantoException e){
 			// do nothing
-		}		
-		HantoMoveRecord myMove = new HantoMoveRecord(ai.getPiece(), ai.getFrom(), ai.getTo()); 
+		}
+		
+		HantoMoveRecord myMove = new HantoMoveRecord(ai.getPiece(), ai.getFrom(), ai.getTo());
+		try {
+			game.makeMove(ai.getPiece(), ai.getFrom(), ai.getTo());
+		}
+		catch (HantoException e) {
+			// TODO: do something here
+		}
+		
 		return myMove;
+	}
+	
+	private void printMove(HantoMoveRecord move) {
+		System.out.println("My move: " + move.getPiece());
+		if (move.getFrom() != null) {
+			System.out.println(" from: " + move.getFrom().getX() + " " + move.getFrom().getY());
+		}
+		System.out.println(" to: " + move.getTo().getX() + " " + move.getTo().getY());		
 	}
 
 }
