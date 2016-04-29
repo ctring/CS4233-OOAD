@@ -175,23 +175,18 @@ public class HantoBoard {
 	 */
 	public boolean isContinuousAfter(HantoCoordinate coord) {
 		HantoCoordinateImpl[] adj = new HantoCoordinateImpl(coord).getAdjacentCoordsSet();
+		boolean[] mark = new boolean[] {false, false, false, false, false, false, false};
 		boolean isContinuous = true;
 		if (partitions > 1) {
-			isContinuous = false;
 			int parts = 0;
 			for (HantoCoordinateImpl c : adj) {
 				int p = getPartitionAt(c);
-				if (p != 0) {
-					if (parts == 0) {
-						parts = p;
-					} else {
-						if (parts != p) {
-							isContinuous = true;
-							break;
-						}
-					}
+				if (p != 0 && mark[p] == false) {
+					parts++;
 				}
+				mark[p] = true;
 			}
+			isContinuous = parts == partitions;
 		}
 		if (!isContinuous) {
 			return false;

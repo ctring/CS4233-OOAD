@@ -9,6 +9,8 @@ import static hanto.common.HantoPlayerColor.BLUE;
 import static hanto.common.HantoPlayerColor.RED;
 import static hanto.common.MoveResult.OK;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 import hanto.common.HantoCoordinate;
@@ -28,13 +30,27 @@ public class HantoMain {
 	private static HantoPieceType piece;
 	private static HantoCoordinate from;
 	private static HantoCoordinate to;
-	private static Scanner scanner = new Scanner(System.in);
+	private static Scanner scanner;
+	private static boolean doneReadingFromFile = true;
 	
 	public static void main(String[] args) {
 		initializeGame();
 		
 		boolean gameOver = false;
 		HantoPlayerColor currentPlayer = BLUE;
+		
+		if (args.length > 0) {
+			File inputFile = new File(args[0]);
+			try {
+				scanner = new Scanner(inputFile);
+			}
+			catch (FileNotFoundException e){
+				System.out.println("Error: Cannot find file " +  args[0]);
+				return;
+			}
+			doneReadingFromFile = false;
+		}
+		
 		do {
 			if (currentPlayer == BLUE) {
 				input();
@@ -44,7 +60,13 @@ public class HantoMain {
 			}
 			currentPlayer = currentPlayer == BLUE ? RED : BLUE;
 			try {
+			
+				System.out.print(currentPlayer + " makes move ");
+				printMove();
+				System.out.println();
+				
 				MoveResult mr = game.makeMove(piece, from, to);
+				
 				System.out.println(game.getPrintableBoard());
 				if (mr != OK) {
 					System.out.println("Game Over: " + mr);
@@ -65,7 +87,14 @@ public class HantoMain {
 	}
 	
 	private static void input() {
-		System.out.println("Your turn: ");
+		if (!doneReadingFromFile && !scanner.hasNextLine()) {
+			scanner.close();
+			scanner = new Scanner(System.in);
+			doneReadingFromFile = true;
+		}
+		if (doneReadingFromFile) {
+			System.out.println("Your turn: ");
+		}
 		int move = scanner.nextInt();
 		
 		if (move == 3) {
@@ -91,6 +120,18 @@ public class HantoMain {
 		from = ai.getFrom();
 		to = ai.getTo();
 	}
+	
+	private static void printMove() {
+		System.out.print("(" + piece + ", ");
+		if (from != null) {
+			System.out.print("[" + from.getX() + ", " + from.getY() + "], ");
+		}
+		else {
+			System.out.print("null, ");
+		}
+		System.out.print("[" + to.getX() + ", " + to.getY() + "])");		
+	}
+
 	
 	private static HantoPieceType translatePieceType(char p) {
 		HantoPieceType type;

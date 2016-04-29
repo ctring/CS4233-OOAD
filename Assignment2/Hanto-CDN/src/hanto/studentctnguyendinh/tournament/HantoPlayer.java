@@ -71,12 +71,4 @@ public class HantoPlayer implements HantoGamePlayer
 		return myMove;
 	}
 	
-	private void printMove(HantoMoveRecord move) {
-		System.out.println("My move: " + move.getPiece());
-		if (move.getFrom() != null) {
-			System.out.println(" from: " + move.getFrom().getX() + " " + move.getFrom().getY());
-		}
-		System.out.println(" to: " + move.getTo().getX() + " " + move.getTo().getY());		
-	}
-
 }

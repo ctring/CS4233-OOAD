@@ -26,6 +26,9 @@ public class HantoAI {
 		List<HantoMoveRecord> moves = getAllPlacingMoves();
 		moves.addAll(getAllMovingMoves());
 		
+//		List<HantoMoveRecord> moves = getAllMovingMoves();
+//		moves.addAll(getAllPlacingMoves());
+		
 		HantoPlayerColor currentPlayer = gameState.getCurrentPlayer();
 		
 		float maxScore = 0;
