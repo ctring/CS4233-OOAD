@@ -565,11 +565,29 @@ public class EpsilonHantoMasterTest {
 		public void redAttemptsToMakeMoveAfterGameEnds() throws HantoException
 		{
 			makeMoves(md(BUTTERFLY, 0, 0), md(BUTTERFLY, 0, 1), md(CRAB, -1, 0), md(SPARROW, 0, 2), 
-					md(CRAB, -1, 0, 0, -1), md(HORSE, 1, 1), md(CRAB, 0, -1, -1, 0), md(HORSE, -1, 2),
-					md(CRAB, -1, 0, 0, -1), md(HORSE, 1, 1, 1, -1), md(CRAB, 0, -1, -1, 0), md(SPARROW, 0, 2, 1, -2), 
-					md(CRAB, -1, 0, 0, -1), md(HORSE, -1, 2, -1, -1), md(), md(HORSE, -1, 2));
+					md(CRAB, -1, 0, 0, -1), md(CRAB, 1, 1), md(CRAB, 0, -1, -1, 0), md(SPARROW, -1, 2),
+					md(CRAB, -1, 0, 0, -1), md(CRAB, 1, 1, 1, 0), md(CRAB, 0, -1, -1, 0), md(CRAB, 1, 0, 1, -1),
+					md(CRAB, -1, 0, 0, -1), md(SPARROW, 0, 2, 1, -2), md(CRAB, 0, -1, -1, 0), md(SPARROW, -1, 2, -2, 0), 
+					md(), md(SPARROW, 1, -2, 0, 2));
 		}
 
+		@Test
+		public void abitraryMove() throws HantoException
+		{
+			makeMoves(
+			  md(BUTTERFLY, 0, 0), md(BUTTERFLY, -1, 0),
+			  md(BUTTERFLY, 0, 0, -1, 1), md(BUTTERFLY, -1, 0, 0, 0),
+			  md(BUTTERFLY, -1, 1, 0, 1), md(BUTTERFLY, 0, 0, 1, 0),
+			  md(BUTTERFLY, 0, 1, 1, 1), md(BUTTERFLY, 1, 0, 2, 0),
+			  md(BUTTERFLY, 1, 1, 2, 1), md(BUTTERFLY, 2, 0, 3, 0),
+			  md(BUTTERFLY, 2, 1, 3, 1), md(BUTTERFLY, 3, 0, 4, 0),
+			  md(BUTTERFLY, 3, 1, 3, 0), md(BUTTERFLY, 4, 0, 4, -1),
+			  md(BUTTERFLY, 3, 0, 4, 0), md(BUTTERFLY, 4, -1, 5, -1),
+			  md(BUTTERFLY, 4, 0, 4, -1), md(BUTTERFLY, 5, -1, 4, 0),
+			  md(BUTTERFLY, 4, -1, 5, -1), md(BUTTERFLY, 4, 0, 4, -1),
+			  md(SPARROW, 5, 0), md(BUTTERFLY, 4, -1, 5, -2),
+			  md(SPARROW, 5, 0, 5, -3));
+		}
 	}
 
 	// Helper methods

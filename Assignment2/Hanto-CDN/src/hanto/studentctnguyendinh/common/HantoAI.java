@@ -35,7 +35,7 @@ public class HantoAI {
 			nextMove = selectedMove;
 		}
 		else {
-			// TODO: what to do here?
+			nextMove = new HantoMoveRecord(null, null, null);
 		}
 	}
 	
@@ -58,9 +58,6 @@ public class HantoAI {
 				selectedMove = move;
 			}
 		}
-		
-		// TODO: do some more checkings here
-		
 		return selectedMove;
 	}
 	

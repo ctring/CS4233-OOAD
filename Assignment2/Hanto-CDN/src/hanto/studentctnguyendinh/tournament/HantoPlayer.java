@@ -39,7 +39,7 @@ public class HantoPlayer implements HantoGamePlayer
 	public void startGame(HantoGameID version, HantoPlayerColor myColor,
 			boolean doIMoveFirst)
 	{
-		System.out.println("startGame");
+		//System.out.println("startGame");
 		HantoPlayerColor otherColor = myColor == BLUE ? RED : BLUE;
 		game = (HantoGameBase)HantoGameFactory.getInstance().makeHantoGame(version, 
 				doIMoveFirst ? myColor : otherColor);
@@ -64,7 +64,7 @@ public class HantoPlayer implements HantoGamePlayer
 		} catch (HantoException e){
 			// do nothing
 		}
-		
+		//System.out.println(game.getPrintableBoard());
 		
 		HantoMoveRecord myMove = new HantoMoveRecord(ai.getPiece(), ai.getFrom(), ai.getTo());
 		try {
@@ -76,6 +76,8 @@ public class HantoPlayer implements HantoGamePlayer
 		catch (HantoException e) {
 			System.out.println("HantoAI: " + e.getMessage());
 		}
+		
+		//System.out.println(game.getPrintableBoard());
 		
 		return myMove;
 	}

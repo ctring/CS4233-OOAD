@@ -252,7 +252,4 @@ public abstract class HantoGameBase implements HantoGame {
 		}
 	}
 	
-	public void setGameState(HantoGameState state) {
-		this.gameState = state;
-	}
 }
