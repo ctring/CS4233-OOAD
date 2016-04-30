@@ -58,7 +58,6 @@ public class HantoMain {
 			else { 
 				inputAI();
 			}
-			currentPlayer = currentPlayer == BLUE ? RED : BLUE;
 			try {
 			
 				System.out.print(currentPlayer + " makes move ");
@@ -76,6 +75,7 @@ public class HantoMain {
 				System.out.println("Error: " + e.getMessage());
 				gameOver = true;
 			}
+			currentPlayer = currentPlayer == BLUE ? RED : BLUE;
 		} while (!gameOver);
 		scanner.close();
 	}

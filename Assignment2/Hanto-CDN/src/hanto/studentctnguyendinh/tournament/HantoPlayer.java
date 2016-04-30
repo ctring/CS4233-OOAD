@@ -12,10 +12,12 @@ package hanto.studentctnguyendinh.tournament;
 
 import static hanto.common.HantoPlayerColor.BLUE;
 import static hanto.common.HantoPlayerColor.RED;
+import static hanto.common.MoveResult.OK;
 
 import hanto.common.HantoException;
 import hanto.common.HantoGameID;
 import hanto.common.HantoPlayerColor;
+import hanto.common.MoveResult;
 import hanto.studentctnguyendinh.HantoGameFactory;
 import hanto.studentctnguyendinh.common.HantoAI;
 import hanto.studentctnguyendinh.common.HantoGameBase;
@@ -54,18 +56,25 @@ public class HantoPlayer implements HantoGamePlayer
 	{
 		try {
 			if (opponentsMove != null) {
-				game.makeMove(opponentsMove.getPiece(), opponentsMove.getFrom(), opponentsMove.getTo());
+				MoveResult mr = game.makeMove(opponentsMove.getPiece(), opponentsMove.getFrom(), opponentsMove.getTo());
+				if (mr != OK) {
+					System.out.println(mr);
+				}
 			}
 		} catch (HantoException e){
 			// do nothing
 		}
 		
+		
 		HantoMoveRecord myMove = new HantoMoveRecord(ai.getPiece(), ai.getFrom(), ai.getTo());
 		try {
-			game.makeMove(ai.getPiece(), ai.getFrom(), ai.getTo());
+			MoveResult mr = game.makeMove(ai.getPiece(), ai.getFrom(), ai.getTo());
+			if (mr != OK) {
+				System.out.println(mr);
+			}
 		}
 		catch (HantoException e) {
-			// TODO: do something here
+			System.out.println("HantoAI: " + e.getMessage());
 		}
 		
 		return myMove;

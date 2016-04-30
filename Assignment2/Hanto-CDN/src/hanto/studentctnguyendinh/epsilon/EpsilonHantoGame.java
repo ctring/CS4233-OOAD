@@ -61,8 +61,6 @@ public class EpsilonHantoGame extends HantoGameBase {
 	 */
 	public EpsilonHantoGame(HantoPlayerColor movesFirst) {
 
-		maxNumberOfMove = 40;
-
 		HantoRule[] rules = { new HantoRuleMoveBeforeButterfly(), new HantoRuleOccupiedHex(),
 				new HantoRuleNotAdjacent(), new HantoRuleButterflyInFourMoves(), new HantoRuleAdjacentSameColor() };
 
