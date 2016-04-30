@@ -7,14 +7,16 @@
  *******************************************************************************/
 package hanto.studentctnguyendinh.common;
 
-import static hanto.common.HantoPlayerColor.*;
-import static hanto.common.HantoPieceType.*;
+import static hanto.common.HantoPieceType.BUTTERFLY;
+import static hanto.common.HantoPlayerColor.BLUE;
+import static hanto.common.HantoPlayerColor.RED;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import hanto.common.HantoCoordinate;
 import hanto.common.HantoPiece;
@@ -325,9 +327,12 @@ public class HantoBoard {
 	public float evaluateAIScore(HantoPlayerColor myColor) {
 		HantoCoordinateImpl myButterfly = findButterfly(myColor);
 		HantoCoordinateImpl otherButterfly = findButterfly(myColor == BLUE ? RED : BLUE);
+		
+		Random noise = new Random();
 		return butterfliesSurroundingScore(myButterfly, otherButterfly)
 				+ butterfliesNearnessScore(myColor, myButterfly, otherButterfly)
-				+ piecePresenceScore(myColor);
+				+ piecePresenceScore(myColor) 
+				+ noise.nextFloat();
 	}
 
 	private HantoCoordinateImpl findButterfly(HantoPlayerColor playerColor) {

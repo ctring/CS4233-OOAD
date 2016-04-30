@@ -29,13 +29,22 @@ public class HantoAI {
 		allMoves.addAll(getAllPlacingMoves());
 		HantoMoveRecord selectedMove = null;
 		
-		HantoPlayerColor currentPlayer = gameState.getCurrentPlayer();
-//		Random r = new Random();
-		//selectedMove = allMoves.get(r.nextInt(allMoves.size()));
+		selectedMove = getBestMove(allMoves);
 		
-
-		float maxScore = -Float.MAX_VALUE;		
-		for (HantoMoveRecord move : allMoves) {
+		if (selectedMove != null) {
+			nextMove = selectedMove;
+		}
+		else {
+			// TODO: what to do here?
+		}
+	}
+	
+	private HantoMoveRecord getBestMove(List<HantoMoveRecord> moves) {
+		HantoMoveRecord selectedMove = null;
+		HantoPlayerColor currentPlayer = gameState.getCurrentPlayer();
+		float maxScore = -Float.MAX_VALUE;
+		
+		for (HantoMoveRecord move : moves) {
 			HantoBoard scratch = gameState.cloneBoard();
 			if (move.getFrom() == null) {
 				scratch.putPieceAt(move.getTo(), new HantoPieceImpl(currentPlayer, move.getPiece()));
@@ -52,12 +61,7 @@ public class HantoAI {
 		
 		// TODO: do some more checkings here
 		
-		if (selectedMove != null) {
-			nextMove = selectedMove;
-		}
-		else {
-			// TODO: what to do here?
-		}
+		return selectedMove;
 	}
 	
 	private List<HantoMoveRecord> getAllPlacingMoves() {
