@@ -184,7 +184,7 @@ public class HantoBoard {
 			int parts = 0;
 			for (HantoCoordinateImpl c : adj) {
 				int p = getPartitionAt(c);
-				if (p != 0 && mark[p] == false) {
+				if (p != 0 && !mark[p]) {
 					parts++;
 				}
 				mark[p] = true;
@@ -311,8 +311,6 @@ public class HantoBoard {
 
 	private static final float MY_BUTTERFLY_SURROUNDING_WEIGHT = 2.0f;
 	private static final float OTHER_BUTTERFLY_SURROUNDING_WEIGHT = 5.0f;
-	private static final float MY_NEARNESS_WEIGHT = 1.0f;
-	private static final float OTHER_NEARNESS_WEIGHT = 1.5f;
 	private static final float SPARROW_WEIGHT = 3.0f;
 	private static final float CRAB_WEIGHT = 0.25f;
 	private static final float HORSE_WEIGHT = 0.5f;
@@ -320,9 +318,8 @@ public class HantoBoard {
 
 	/**
 	 * Evaluate how likely it is for a player to win.
-	 * 
-	 * @param player
-	 * @return
+	 * @param myColor color of the player with respect to which the score is computed.
+	 * @return score of the board.
 	 */
 	public float evaluateAIScore(HantoPlayerColor myColor) {
 		HantoCoordinateImpl myButterfly = findButterfly(myColor);

@@ -51,7 +51,7 @@ public class HantoPieceImpl implements HantoPiece {
 	 *            the piece color
 	 * @param type
 	 *            the piece type
-	 * @param validators
+	 * @param validator
 	 *            set of rule validators for this piece
 	 */
 	public HantoPieceImpl(HantoPlayerColor color, HantoPieceType type, HantoMovementRule validator) {
@@ -106,12 +106,12 @@ public class HantoPieceImpl implements HantoPiece {
 	 *            current state of the game.
 	 * @param from
 	 *            starting location of this piece.
+	 * @return a list of reachable coordinates this piece.
 	 */
 	public List<HantoCoordinate> getReachableCoordinates(HantoGameState gameState, HantoCoordinate from) {
 		if (validator != null) {
 			return validator.getReachableCoordinates(gameState, from);
-		}
-		else {
+		} else {
 			return new ArrayList<HantoCoordinate>();
 		}
 	}

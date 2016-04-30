@@ -1,3 +1,10 @@
+/*******************************************************************************
+ * This files was developed for CS4233: Object-Oriented Analysis & Design. The course was
+ * taken at Worcester Polytechnic Institute. All rights reserved. This program and the
+ * accompanying materials are made available under the terms of the Eclipse Public License
+ * v1.0 which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *******************************************************************************/
 package hanto.studentctnguyendinh.common;
 
 import static hanto.common.HantoPieceType.BUTTERFLY;
@@ -9,10 +16,17 @@ import java.util.List;
 import hanto.common.HantoCoordinate;
 import hanto.common.HantoPieceType;
 import hanto.common.HantoPlayerColor;
-import hanto.common.MoveResult;
-import hanto.studentctnguyendinh.common.HantoGameState.HantoPlayerState;
 import hanto.studentctnguyendinh.common.piece.HantoPieceImpl;
 
+/**
+ * HantoAI is a simple AI bot that can be registered to a Hanto game as an observer.
+ * Once attached to a Hanto game, it holds the state object of the game and can be called
+ * to compute the next move for the current player based on the state of the game. 
+ * 
+ * @author Cuong Nguyen
+ * @version April 29, 2016
+ *
+ */
 public class HantoAI {
 	
 	private HantoGameState gameState;
@@ -23,7 +37,10 @@ public class HantoAI {
 		gameState = state;
 	}
 	
-	public void compute(MoveResult moveResult) {
+	/**
+	 * Compute the next move for the current player based on current state of the game.
+	 */
+	public void compute() {
 		
 		List<HantoMoveRecord> allMoves = getAllMovingMoves();
 		allMoves.addAll(getAllPlacingMoves());
@@ -80,7 +97,7 @@ public class HantoAI {
 			placable = board.getAdjacentHexes(currentPlayer);
 		}
 		
-		HantoPlayerState player = gameState.getPlayerState(currentPlayer);
+		HantoGameState.HantoPlayerState player = gameState.getPlayerState(currentPlayer);
 		
 		if (playedMoves <= 1) {
 			for (HantoCoordinate coord : placable) {
@@ -142,7 +159,7 @@ public class HantoAI {
 		 * @param from the source hex
 		 * @param to the source hex
 		 */
-		public HantoMoveRecord(HantoPieceType piece, HantoCoordinate from, HantoCoordinate to)
+		HantoMoveRecord(HantoPieceType piece, HantoCoordinate from, HantoCoordinate to)
 		{
 			this.piece = piece;
 			this.from = from;

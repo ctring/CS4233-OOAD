@@ -12,12 +12,10 @@ package hanto.studentctnguyendinh.tournament;
 
 import static hanto.common.HantoPlayerColor.BLUE;
 import static hanto.common.HantoPlayerColor.RED;
-import static hanto.common.MoveResult.OK;
 
 import hanto.common.HantoException;
 import hanto.common.HantoGameID;
 import hanto.common.HantoPlayerColor;
-import hanto.common.MoveResult;
 import hanto.studentctnguyendinh.HantoGameFactory;
 import hanto.studentctnguyendinh.common.HantoAI;
 import hanto.studentctnguyendinh.common.HantoGameBase;
@@ -56,30 +54,19 @@ public class HantoPlayer implements HantoGamePlayer
 	{
 		try {
 			if (opponentsMove != null) {
-//				MoveResult mr = 
 				game.makeMove(opponentsMove.getPiece(), opponentsMove.getFrom(), opponentsMove.getTo());
-//				if (mr != OK) {
-//					System.out.println(mr);
-//				}
 			}
 		} catch (HantoException e){
-			// do nothing
+			System.out.println("Something wrong with the director?");
 		}
-		//System.out.println(game.getPrintableBoard());
 		
 		HantoMoveRecord myMove = new HantoMoveRecord(ai.getPiece(), ai.getFrom(), ai.getTo());
 		try {
-//			MoveResult mr = 
 			game.makeMove(ai.getPiece(), ai.getFrom(), ai.getTo());
-//			if (mr != OK) {
-//				System.out.println(mr);
-//			}
 		}
 		catch (HantoException e) {
-			System.out.println("HantoAI: " + e.getMessage());
+			System.out.println("NOOO!: " + e.getMessage());
 		}
-		
-		//System.out.println(game.getPrintableBoard());
 		
 		return myMove;
 	}

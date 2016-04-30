@@ -70,17 +70,22 @@ public abstract class HantoGameBase implements HantoGame {
 			gameState.flagGameOver();
 		}
 
-		notifyAI(moveResult);
+		notifyAI();
 		
 		return moveResult;
 	}
 
+	/**
+	 * Execute resignation move.
+	 * @return Result of the move.
+	 * @throws HantoPrematureResignationException
+	 */
 	protected MoveResult resign() throws HantoPrematureResignationException {
 		return gameState.getCurrentPlayer() == BLUE ? RED_WINS : BLUE_WINS;
 	}
 	
 	/**
-	 * Converts input into internal move data.
+	 * Convert input into internal move data.
 	 * 
 	 * @param pieceType
 	 *            type of the piece being played.
@@ -243,12 +248,12 @@ public abstract class HantoGameBase implements HantoGame {
 	public void registerAI(HantoAI ai) {
 		ai.setGameState(gameState);
 		this.ai = ai;
-		notifyAI(OK);
+		notifyAI();
 	}
 	
-	private void notifyAI(MoveResult mr) {
+	private void notifyAI() {
 		if (ai != null) {
-			ai.compute(mr);
+			ai.compute();
 		}
 	}
 	

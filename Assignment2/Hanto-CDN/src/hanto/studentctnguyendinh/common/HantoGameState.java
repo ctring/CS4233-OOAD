@@ -206,7 +206,6 @@ public class HantoGameState {
 		/**
 		 * Create a new player state with a given color and piece quota.
 		 *
-		 * @param color player's color.
 		 * @param pieceQuota
 		 *            quota of the pieces for each player.
 		 */
