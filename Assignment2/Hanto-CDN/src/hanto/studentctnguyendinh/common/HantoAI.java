@@ -5,7 +5,6 @@ import static hanto.common.HantoPieceType.BUTTERFLY;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Random;
 
 import hanto.common.HantoCoordinate;
 import hanto.common.HantoPieceType;
@@ -26,36 +25,30 @@ public class HantoAI {
 	
 	public void compute(MoveResult moveResult) {
 		
-		List<HantoMoveRecord> placingMoves = getAllPlacingMoves();
 		List<HantoMoveRecord> allMoves = getAllMovingMoves();
-		allMoves.addAll(placingMoves);
-		
-//		List<HantoMoveRecord> moves = getAllMovingMoves();
-//		moves.addAll(getAllPlacingMoves());
+		allMoves.addAll(getAllPlacingMoves());
+		HantoMoveRecord selectedMove = null;
 		
 		HantoPlayerColor currentPlayer = gameState.getCurrentPlayer();
-		//HantoGameState.HantoPlayerState currentPlayerState = gameState.getPlayerState(currentPlayer);
-		Random r = new Random();
+//		Random r = new Random();
+		//selectedMove = allMoves.get(r.nextInt(allMoves.size()));
 		
-		//float maxScore = 0;
-		HantoMoveRecord selectedMove = null;
 
-		selectedMove = allMoves.get(r.nextInt(allMoves.size()));
-		
-//		for (HantoMoveRecord move : moves) {
-//			HantoBoard scratch = gameState.cloneBoard();
-//			if (move.getFrom() == null) {
-//				scratch.putPieceAt(move.getTo(), new HantoPieceImpl(currentPlayer, move.getPiece()));
-//			}
-//			else {
-//				scratch.movePiece(move.getFrom(), move.getTo());
-//			}
-//			float score = scratch.evaluateAIScore(currentPlayer);
-//			if (score > maxScore) {
-//				maxScore = score;
-//				selectedMove = move;
-//			}
-//		}
+		float maxScore = -Float.MAX_VALUE;		
+		for (HantoMoveRecord move : allMoves) {
+			HantoBoard scratch = gameState.cloneBoard();
+			if (move.getFrom() == null) {
+				scratch.putPieceAt(move.getTo(), new HantoPieceImpl(currentPlayer, move.getPiece()));
+			}
+			else {
+				scratch.movePiece(move.getFrom(), move.getTo());
+			}
+			float score = scratch.evaluateAIScore(currentPlayer);
+			if (score > maxScore) {
+				maxScore = score;
+				selectedMove = move;
+			}
+		}
 		
 		// TODO: do some more checkings here
 		

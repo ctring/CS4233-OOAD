@@ -8,6 +8,7 @@
 package hanto.studentctnguyendinh.common;
 
 import static hanto.common.HantoPlayerColor.*;
+import static hanto.common.HantoPieceType.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -175,7 +176,7 @@ public class HantoBoard {
 	 */
 	public boolean isContinuousAfter(HantoCoordinate coord) {
 		HantoCoordinateImpl[] adj = new HantoCoordinateImpl(coord).getAdjacentCoordsSet();
-		boolean[] mark = new boolean[] {false, false, false, false, false, false, false};
+		boolean[] mark = new boolean[] { false, false, false, false, false, false, false };
 		boolean isContinuous = true;
 		if (partitions > 1) {
 			int parts = 0;
@@ -231,22 +232,22 @@ public class HantoBoard {
 	}
 
 	/**
-	 * Get a list of hexes that are adjacent to pieces with only the specified player's color,
-	 * or to both player's color.
+	 * Get a list of hexes that are adjacent to pieces with only the specified
+	 * player's color, or to both player's color.
 	 * 
-	 * @param player color of the player, enter null for both players.
+	 * @param player
+	 *            color of the player, enter null for both players.
 	 * @return a list of hexes as described above.
 	 */
 	public List<HantoCoordinate> getAdjacentHexes(HantoPlayerColor player) {
-		
+
 		List<HantoCoordinate> pieces = getPiecesCoordinates(player);
-		List<HantoCoordinate> adj = new ArrayList<>();	
-		
+		List<HantoCoordinate> adj = new ArrayList<>();
+
 		for (HantoCoordinate c : pieces) {
 			HantoCoordinateImpl coord = new HantoCoordinateImpl(c);
 			for (HantoCoordinateImpl adjCoord : coord.getAdjacentCoordsSet()) {
-				if (getPieceAt(adjCoord) == null 
-						&& !adj.contains(adjCoord)
+				if (getPieceAt(adjCoord) == null && !adj.contains(adjCoord)
 						&& coordIsAdjacentToColor(adjCoord, player)) {
 					adj.add(adjCoord);
 				}
@@ -270,15 +271,14 @@ public class HantoBoard {
 
 		boolean adjColor = false;
 		boolean adjNonColor = false;
-		
+
 		for (HantoCoordinateImpl a : adjCoords) {
 			HantoPiece piece = getPieceAt(a);
 			if (piece != null) {
 				if (color != null) {
 					adjColor = adjColor || piece.getColor() == color;
 					adjNonColor = adjNonColor || piece.getColor() != color;
-				}
-				else {
+				} else {
 					return true;
 				}
 			}
@@ -306,15 +306,97 @@ public class HantoBoard {
 		}
 		return coords;
 	}
+
+	private static final float MY_BUTTERFLY_SURROUNDING_WEIGHT = 2.0f;
+	private static final float OTHER_BUTTERFLY_SURROUNDING_WEIGHT = 1.0f;
+	private static final float MY_NEARNESS_WEIGHT = 0.25f;
+	private static final float OTHER_NEARNESS_WEIGHT = 0.25f;
+	private static final float SPARROW_WEIGHT = 1.0f;
+	private static final float CRAB_WEIGHT = 0.25f;
+	private static final float HORSE_WEIGHT = 0.5f;
 	
-	
+
 	/**
 	 * Evaluate how likely it is for a player to win.
+	 * 
 	 * @param player
 	 * @return
 	 */
-	public float evaluateAIScore(HantoPlayerColor player) {
-		return 1;
+	public float evaluateAIScore(HantoPlayerColor myColor) {
+		HantoCoordinateImpl myButterfly = findButterfly(myColor);
+		HantoCoordinateImpl otherButterfly = findButterfly(myColor == BLUE ? RED : BLUE);
+		return butterfliesSurroundingScore(myButterfly, otherButterfly)
+				+ butterfliesNearnessScore(myColor, myButterfly, otherButterfly)
+				+ piecePresenceScore(myColor);
+	}
+
+	private HantoCoordinateImpl findButterfly(HantoPlayerColor playerColor) {
+		for (HantoCoordinateImpl coord : board.keySet()) {
+			HantoPiece p = getPieceAt(coord);
+			if (p != null && p.getType() == BUTTERFLY && p.getColor() == playerColor) {
+				return coord;
+			}
+		}
+		return null;
+	}
+
+	private float butterfliesSurroundingScore(HantoCoordinateImpl myButterfly, HantoCoordinateImpl otherButterfly) {
+		float score = 0;
+		if (myButterfly != null) {
+			for (HantoCoordinateImpl coord : myButterfly.getAdjacentCoordsSet()) {
+				if (getPieceAt(coord) != null) {
+					score -= MY_BUTTERFLY_SURROUNDING_WEIGHT;
+				}
+			}
+		}
+		if (otherButterfly != null) {
+			for (HantoCoordinateImpl coord : otherButterfly.getAdjacentCoordsSet()) {
+				if (getPieceAt(coord) != null) {
+					score += OTHER_BUTTERFLY_SURROUNDING_WEIGHT;
+				}
+			}
+		}
+		return score;
+	}
+
+	private float butterfliesNearnessScore(HantoPlayerColor myColor, HantoCoordinateImpl myButterfly,
+			HantoCoordinateImpl otherButterfly) {
+		float score = 0;
+		if (myButterfly != null) {
+			for (HantoCoordinateImpl coord : board.keySet()) {
+				HantoPiece p = getPieceAt(coord);
+				if (p != null && p.getType() != BUTTERFLY) {
+					if (p.getColor() == myColor) {
+						score += MY_NEARNESS_WEIGHT * myButterfly.getMinimumDistanceTo(coord);
+					} else {
+						score -= OTHER_NEARNESS_WEIGHT * otherButterfly.getMinimumDistanceTo(coord);
+					}
+				}
+			}
+		}
+		return score;
+	}
+
+	private float piecePresenceScore(HantoPlayerColor myColor) {
+		int countSparrow = 0;
+		int countCrab = 0;
+		int countHorse = 0;
+		for (HantoCoordinateImpl coord : board.keySet()) {
+			HantoPiece p = getPieceAt(coord);
+			if (p != null) {
+				switch (p.getType()) {
+				case CRAB: countCrab++;
+				break;
+				case SPARROW: countSparrow++;
+				break;
+				case HORSE: countHorse++;
+				break;
+				default:
+					break;
+				}
+			}
+		}
+		return SPARROW_WEIGHT * countSparrow + CRAB_WEIGHT * countCrab + HORSE_WEIGHT * countHorse;
 	}
 
 	/**
