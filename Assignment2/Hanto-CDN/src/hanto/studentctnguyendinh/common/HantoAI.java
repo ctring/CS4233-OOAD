@@ -1,8 +1,11 @@
 package hanto.studentctnguyendinh.common;
 
+import static hanto.common.HantoPieceType.BUTTERFLY;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 
 import hanto.common.HantoCoordinate;
 import hanto.common.HantoPieceType;
@@ -23,31 +26,36 @@ public class HantoAI {
 	
 	public void compute(MoveResult moveResult) {
 		
-		List<HantoMoveRecord> moves = getAllPlacingMoves();
-		moves.addAll(getAllMovingMoves());
+		List<HantoMoveRecord> placingMoves = getAllPlacingMoves();
+		List<HantoMoveRecord> allMoves = getAllMovingMoves();
+		allMoves.addAll(placingMoves);
 		
 //		List<HantoMoveRecord> moves = getAllMovingMoves();
 //		moves.addAll(getAllPlacingMoves());
 		
 		HantoPlayerColor currentPlayer = gameState.getCurrentPlayer();
+		//HantoGameState.HantoPlayerState currentPlayerState = gameState.getPlayerState(currentPlayer);
+		Random r = new Random();
 		
-		float maxScore = 0;
+		//float maxScore = 0;
 		HantoMoveRecord selectedMove = null;
+
+		selectedMove = allMoves.get(r.nextInt(allMoves.size()));
 		
-		for (HantoMoveRecord move : moves) {
-			HantoBoard scratch = gameState.cloneBoard();
-			if (move.getFrom() == null) {
-				scratch.putPieceAt(move.getTo(), new HantoPieceImpl(currentPlayer, move.getPiece()));
-			}
-			else {
-				scratch.movePiece(move.getFrom(), move.getTo());
-			}
-			float score = scratch.evaluateAIScore(currentPlayer);
-			if (score > maxScore) {
-				maxScore = score;
-				selectedMove = move;
-			}
-		}
+//		for (HantoMoveRecord move : moves) {
+//			HantoBoard scratch = gameState.cloneBoard();
+//			if (move.getFrom() == null) {
+//				scratch.putPieceAt(move.getTo(), new HantoPieceImpl(currentPlayer, move.getPiece()));
+//			}
+//			else {
+//				scratch.movePiece(move.getFrom(), move.getTo());
+//			}
+//			float score = scratch.evaluateAIScore(currentPlayer);
+//			if (score > maxScore) {
+//				maxScore = score;
+//				selectedMove = move;
+//			}
+//		}
 		
 		// TODO: do some more checkings here
 		
@@ -80,10 +88,17 @@ public class HantoAI {
 		
 		HantoPlayerState player = gameState.getPlayerState(currentPlayer);
 		
-		for (HantoPieceType piece: HantoPieceType.values()) {
-			if (player.getNumberOfRemainingPieces(piece) > 0) {
-				for (HantoCoordinate coord : placable) {
-					moves.add(new HantoMoveRecord(piece, null, coord));
+		if (playedMoves <= 1) {
+			for (HantoCoordinate coord : placable) {
+				moves.add(new HantoMoveRecord(BUTTERFLY, null, coord));
+			}	
+		}
+		else {
+			for (HantoPieceType piece: HantoPieceType.values()) {
+				if (player.getNumberOfRemainingPieces(piece) > 0) {
+					for (HantoCoordinate coord : placable) {
+						moves.add(new HantoMoveRecord(piece, null, coord));
+					}
 				}
 			}
 		}
