@@ -56,10 +56,11 @@ public class HantoPlayer implements HantoGamePlayer
 	{
 		try {
 			if (opponentsMove != null) {
-				MoveResult mr = game.makeMove(opponentsMove.getPiece(), opponentsMove.getFrom(), opponentsMove.getTo());
-				if (mr != OK) {
-					System.out.println(mr);
-				}
+//				MoveResult mr = 
+				game.makeMove(opponentsMove.getPiece(), opponentsMove.getFrom(), opponentsMove.getTo());
+//				if (mr != OK) {
+//					System.out.println(mr);
+//				}
 			}
 		} catch (HantoException e){
 			// do nothing
@@ -68,10 +69,11 @@ public class HantoPlayer implements HantoGamePlayer
 		
 		HantoMoveRecord myMove = new HantoMoveRecord(ai.getPiece(), ai.getFrom(), ai.getTo());
 		try {
-			MoveResult mr = game.makeMove(ai.getPiece(), ai.getFrom(), ai.getTo());
-			if (mr != OK) {
-				System.out.println(mr);
-			}
+//			MoveResult mr = 
+			game.makeMove(ai.getPiece(), ai.getFrom(), ai.getTo());
+//			if (mr != OK) {
+//				System.out.println(mr);
+//			}
 		}
 		catch (HantoException e) {
 			System.out.println("HantoAI: " + e.getMessage());

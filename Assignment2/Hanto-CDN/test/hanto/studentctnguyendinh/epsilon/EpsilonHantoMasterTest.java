@@ -38,6 +38,8 @@ import hanto.common.HantoPieceType;
 import hanto.common.HantoPrematureResignationException;
 import hanto.common.MoveResult;
 import hanto.studentctnguyendinh.HantoGameFactory;
+import hanto.studentctnguyendinh.common.HantoAI;
+import hanto.studentctnguyendinh.common.HantoGameBase;
 
 /**
  * Test cases for Beta Hanto.
@@ -588,6 +590,44 @@ public class EpsilonHantoMasterTest {
 			  md(SPARROW, 5, 0), md(BUTTERFLY, 4, -1, 5, -2),
 			  md(SPARROW, 5, 0, 5, -3));
 		}
+		
+		@Test
+		public void testAI() throws HantoException
+		{
+			makeMoves(md(BUTTERFLY, 0, 0), md(BUTTERFLY, 0, 1), md(HORSE, -1, 0), md(SPARROW, 0, 2),
+					md(CRAB, 0, -1), md(CRAB, 0, 3), md(SPARROW, -1, -1), md(CRAB, 0, 4));
+			HantoAI ai = new HantoAI();
+			HantoGameBase base = (HantoGameBase)game;
+			base.registerAI(ai);
+			
+			assertNotNull(ai.getPiece());
+			assertNotNull(ai.getFrom());
+			assertNotNull(ai.getTo());
+		}
+		
+		@Test
+		public void testAI2() throws HantoException
+		{
+			HantoAI ai = new HantoAI();
+			HantoGameBase base = (HantoGameBase)game;
+			base.registerAI(ai);
+			
+			assertNotNull(ai.getPiece());
+			assertNotNull(ai.getTo());
+		}
+		
+		@Test
+		public void testAI3() throws HantoException
+		{
+			makeMoves(md(BUTTERFLY, 0, 0));
+			HantoAI ai = new HantoAI();
+			HantoGameBase base = (HantoGameBase)game;
+			base.registerAI(ai);
+			
+			assertNotNull(ai.getPiece());
+			assertNotNull(ai.getTo());
+		}
+
 	}
 
 	// Helper methods

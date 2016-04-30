@@ -310,10 +310,10 @@ public class HantoBoard {
 	}
 
 	private static final float MY_BUTTERFLY_SURROUNDING_WEIGHT = 2.0f;
-	private static final float OTHER_BUTTERFLY_SURROUNDING_WEIGHT = 1.0f;
-	private static final float MY_NEARNESS_WEIGHT = 0.25f;
-	private static final float OTHER_NEARNESS_WEIGHT = 0.25f;
-	private static final float SPARROW_WEIGHT = 1.0f;
+	private static final float OTHER_BUTTERFLY_SURROUNDING_WEIGHT = 5.0f;
+	private static final float MY_NEARNESS_WEIGHT = 1.0f;
+	private static final float OTHER_NEARNESS_WEIGHT = 1.5f;
+	private static final float SPARROW_WEIGHT = 3.0f;
 	private static final float CRAB_WEIGHT = 0.25f;
 	private static final float HORSE_WEIGHT = 0.5f;
 	
@@ -330,7 +330,7 @@ public class HantoBoard {
 		
 		Random noise = new Random();
 		return butterfliesSurroundingScore(myButterfly, otherButterfly)
-				+ butterfliesNearnessScore(myColor, myButterfly, otherButterfly)
+				//+ butterfliesNearnessScore(myColor, myButterfly, otherButterfly)
 				+ piecePresenceScore(myColor) 
 				+ noise.nextFloat();
 	}
@@ -358,24 +358,6 @@ public class HantoBoard {
 			for (HantoCoordinateImpl coord : otherButterfly.getAdjacentCoordsSet()) {
 				if (getPieceAt(coord) != null) {
 					score += OTHER_BUTTERFLY_SURROUNDING_WEIGHT;
-				}
-			}
-		}
-		return score;
-	}
-
-	private float butterfliesNearnessScore(HantoPlayerColor myColor, HantoCoordinateImpl myButterfly,
-			HantoCoordinateImpl otherButterfly) {
-		float score = 0;
-		if (myButterfly != null) {
-			for (HantoCoordinateImpl coord : board.keySet()) {
-				HantoPiece p = getPieceAt(coord);
-				if (p != null && p.getType() != BUTTERFLY) {
-					if (p.getColor() == myColor) {
-						score += MY_NEARNESS_WEIGHT * myButterfly.getMinimumDistanceTo(coord);
-					} else {
-						score -= OTHER_NEARNESS_WEIGHT * otherButterfly.getMinimumDistanceTo(coord);
-					}
 				}
 			}
 		}

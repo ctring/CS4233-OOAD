@@ -224,10 +224,6 @@ public class HantoGameState {
 		private void setButterflyCoordinate(HantoCoordinate coord) {
 			butterflyCoord = coord;
 		}
-
-		public boolean placedButterfly() {
-			return butterflyCoord != null;
-		}
 		
 		/**
 		 * @param pieceType

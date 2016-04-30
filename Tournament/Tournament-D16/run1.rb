@@ -11,4 +11,9 @@ red_name = blue_name
 red_name = "student" + ARGV[1] if (ARGV.size == 2)
 blue = Player.new(blue_name)
 red = Player.new(red_name)
-runGame(blue, red)
+
+i = 0
+while i < 10 do
+  runGame(blue, red)
+  i += 1
+end
