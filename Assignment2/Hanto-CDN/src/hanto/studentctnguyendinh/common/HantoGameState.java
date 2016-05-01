@@ -31,10 +31,6 @@ public class HantoGameState {
 	private HantoBoard board = new HantoBoard();
 
 	private HantoPlayerColor currentPlayer;
-//	private HantoPlayerColor movesFirst;
-//	private HantoPlayerColor movesSecond;
-
-	//private int currentPlayer = 0; // 0 = first player, 1 = second player
 
 	private int moveCount = 0;
 	private boolean gameOver = false;
@@ -52,9 +48,6 @@ public class HantoGameState {
 	 *            quota for the pieces.
 	 */
 	public HantoGameState(HantoPlayerColor movesFirst, Map<HantoPieceType, Integer> piecesQuota) {
-		
-		//this.movesFirst = movesFirst;
-		//movesSecond = movesFirst == BLUE ? RED : BLUE;
 		currentPlayer = movesFirst;
 		bluePlayerState = new HantoPlayerState(new HashMap<HantoPieceType, Integer>(piecesQuota));
 		redPlayerState = new HantoPlayerState(new HashMap<HantoPieceType, Integer>(piecesQuota));
@@ -96,20 +89,6 @@ public class HantoGameState {
 		if (piece.getType() == BUTTERFLY) {
 			currentPlayerState.setButterflyCoordinate(innerCoord);
 		}
-		
-//		if (piece.getColor() == BLUE) {
-//			int rem = bluePlayerState.getNumberOfRemainingPieces(pieceType);
-//			bluePlayerState.setNumberOfRemainingPieces(pieceType, rem - 1);
-//			if (piece.getType() == BUTTERFLY) {
-//				bluePlayerState.setButterflyCoordinate(innerCoord);
-//			}
-//		} else {
-//			int rem = redPlayerState.getNumberOfRemainingPieces(pieceType);
-//			redPlayerState.setNumberOfRemainingPieces(pieceType, rem - 1);
-//			if (piece.getType() == BUTTERFLY) {
-//				redPlayerState.setButterflyCoordinate(innerCoord);
-//			}
-//		}
 	}
 
 	/**

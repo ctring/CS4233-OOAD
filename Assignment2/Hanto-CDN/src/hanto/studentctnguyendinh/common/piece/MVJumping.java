@@ -37,13 +37,11 @@ public class MVJumping implements HantoMovementRule {
 	
 	private boolean isConnectedLine(HantoGameState gameState, HantoCoordinateImpl from, HantoCoordinateImpl to) {
 		int distance = from.getMinimumDistanceTo(to);
-		//System.out.println(distance);
 		int incX = sign(to.getX() - from.getX());
 		int incY = sign(to.getY() - from.getY());
 		for (int i = 0; i < distance; i++) {
 			int newX = from.getX() + incX * i;
 			int newY = from.getY() + incY * i;
-			//System.out.println(newX + " " + newY);
 			HantoCoordinate newCoord = new HantoCoordinateImpl(newX, newY);
 			if (gameState.getPieceAt(newCoord) == null) {
 				return false;
