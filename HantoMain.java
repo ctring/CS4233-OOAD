@@ -50,6 +50,9 @@ public class HantoMain {
 			}
 			doneReadingFromFile = false;
 		}
+		else {
+			scanner = new Scanner(System.in);
+		}
 		
 		do {
 			if (currentPlayer == BLUE) {

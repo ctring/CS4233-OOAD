@@ -13,7 +13,6 @@ package hanto.studentctnguyendinh;
 import hanto.common.HantoGame;
 import hanto.common.HantoGameID;
 import hanto.common.HantoPlayerColor;
-import hanto.studentctnguyendinh.alpha.AlphaHantoGame;
 import hanto.studentctnguyendinh.beta.BetaHantoGame;
 import hanto.studentctnguyendinh.delta.DeltaHantoGame;
 import hanto.studentctnguyendinh.epsilon.EpsilonHantoGame;
@@ -67,9 +66,6 @@ public class HantoGameFactory {
 	public HantoGame makeHantoGame(HantoGameID gameId, HantoPlayerColor movesFirst) {
 		HantoGame game = null;
 		switch (gameId) {
-		case ALPHA_HANTO:
-			game = new AlphaHantoGame();
-			break;
 		case BETA_HANTO:
 			game = new BetaHantoGame(movesFirst);
 			break;
