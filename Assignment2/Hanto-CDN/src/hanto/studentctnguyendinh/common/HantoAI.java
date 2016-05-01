@@ -29,6 +29,8 @@ import hanto.studentctnguyendinh.common.piece.HantoPieceImpl;
  */
 public class HantoAI {
 	
+	private static final int PLACE_BUTTERFLY_AT = 3;
+	
 	private HantoGameState gameState;
 	
 	private HantoMoveRecord nextMove;
@@ -42,8 +44,11 @@ public class HantoAI {
 	 */
 	public void compute() {
 		
-		List<HantoMoveRecord> allMoves = getAllMovingMoves();
-		allMoves.addAll(getAllPlacingMoves());
+		int playedMoves = gameState.getNumberOfPlayedMoves() / 2;
+		List<HantoMoveRecord> allMoves = getAllPlacingMoves();
+		if (playedMoves >= PLACE_BUTTERFLY_AT) {
+			allMoves.addAll(getAllMovingMoves());
+		}
 		HantoMoveRecord selectedMove = null;
 		
 		selectedMove = getBestMove(allMoves);
@@ -84,12 +89,13 @@ public class HantoAI {
 		HantoBoard board = gameState.cloneBoard();
 		HantoPlayerColor currentPlayer = gameState.getCurrentPlayer();
 		List<HantoCoordinate> placable;
-		int playedMoves = gameState.getNumberOfPlayedMoves();
-		if (playedMoves == 0) {
+		int totalPlayedMoves = gameState.getNumberOfPlayedMoves();
+		int playedMoves = gameState.getNumberOfPlayedMoves() / 2;
+		if (totalPlayedMoves == 0) {
 			placable = new ArrayList<>();
 			placable.add(new HantoCoordinateImpl(0, 0));
 		} 
-		else if (playedMoves == 1) {
+		else if (totalPlayedMoves == 1) {
 			placable = new ArrayList<>(Arrays.asList(
 					new HantoCoordinateImpl(0, 0).getAdjacentCoordsSet()));
 		}
@@ -99,14 +105,14 @@ public class HantoAI {
 		
 		HantoGameState.HantoPlayerState player = gameState.getPlayerState(currentPlayer);
 		
-		if (playedMoves <= 1) {
+		if (playedMoves + 1 == PLACE_BUTTERFLY_AT) {
 			for (HantoCoordinate coord : placable) {
 				moves.add(new HantoMoveRecord(BUTTERFLY, null, coord));
 			}	
 		}
 		else {
 			for (HantoPieceType piece: HantoPieceType.values()) {
-				if (player.getNumberOfRemainingPieces(piece) > 0) {
+				if (piece != BUTTERFLY && player.getNumberOfRemainingPieces(piece) > 0) {
 					for (HantoCoordinate coord : placable) {
 						moves.add(new HantoMoveRecord(piece, null, coord));
 					}

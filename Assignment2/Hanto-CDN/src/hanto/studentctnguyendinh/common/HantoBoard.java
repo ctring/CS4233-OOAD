@@ -309,11 +309,11 @@ public class HantoBoard {
 		return coords;
 	}
 
-	private static final float MY_BUTTERFLY_SURROUNDING_WEIGHT = 2.0f;
+	private static final float MY_BUTTERFLY_SURROUNDING_WEIGHT = 3.0f;
 	private static final float OTHER_BUTTERFLY_SURROUNDING_WEIGHT = 5.0f;
 	private static final float SPARROW_WEIGHT = 3.0f;
 	private static final float CRAB_WEIGHT = 0.25f;
-	private static final float HORSE_WEIGHT = 0.5f;
+	private static final float HORSE_WEIGHT = 0.25f;
 	
 
 	/**

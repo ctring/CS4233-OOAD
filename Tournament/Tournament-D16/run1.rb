@@ -13,7 +13,7 @@ blue = Player.new(blue_name)
 red = Player.new(red_name)
 
 i = 0
-while i < 10 do
+while i < 50 do
   runGame(blue, red)
   i += 1
 end
